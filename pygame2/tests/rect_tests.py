@@ -1,0 +1,393 @@
+"""
+rect_tests.py
+
+"""
+
+from unittest import skip, TestCase
+from collections import namedtuple
+from logging import getLogger
+
+from pygame2.rect import Rect
+
+logger = getLogger()
+
+
+class RectTests(TestCase):
+
+    def setUp(self):
+        self.r = Rect(11, 12, 13, 14)
+
+    def test_iter(self):
+        expected = [self.r.left, self.r.top,
+                    self.r.width, self.r.height]
+        expected.reverse()
+        for i in self.r:
+            self.assertEquals(expected.pop(), i)
+        self.assertEquals(len(expected), 0)
+
+    @skip("TODO: should rect index testing wrap?")
+    def test_index(self):
+        """can index the rect as a list, index wraps like a normal list"""
+        rekt = [self.r[i] for i in range(len(self.r))]
+        self.assertEqual(rekt, [self.r.left, self.r.top,
+                                self.r.width, self.r.height])
+        self.assertEqual(self.r[4], self.r[0])
+        self.assertEqual(self.r[5], self.r[1])
+        self.assertEqual(self.r[6], self.r[2])
+        self.assertEqual(self.r[7], self.r[3])
+
+    def test_equality(self):
+        r0 = Rect(10, 11, 12, 13)
+        r1 = Rect(10, 11, 12, 13)
+        r2 = Rect(0, 0, 0, 0)
+        assert(r0 == r1)
+        assert(not r0 == r2)
+
+    def test_init_4_args(self):
+        r = Rect(10, 11, 12, 13)
+        self.assertEquals(r.left, 10)
+        self.assertEquals(r.top, 11)
+        self.assertEquals(r.width, 12)
+        self.assertEquals(r.height, 13)
+
+    def test_init_2_args(self):
+        r = Rect((10, 11), (12, 13))
+        self.assertEquals(r.left, 10)
+        self.assertEquals(r.top, 11)
+        self.assertEquals(r.width, 12)
+        self.assertEquals(r.height, 13)
+
+    def test_init_object(self):
+        RectLike = namedtuple("RectLike", "left, top, width, height")
+        r = Rect(RectLike(10, 11, 12, 13))
+        self.assertEquals(r.left, 10)
+        self.assertEquals(r.top, 11)
+        self.assertEquals(r.width, 12)
+        self.assertEquals(r.height, 13)
+
+    def test_init_bad_args(self):
+        with self.assertRaisesRegexp(ValueError, "Invalid"):
+            Rect(1, 2, 3)
+
+    def test_get_x(self):
+        self.assertEquals(self.r.x, 11)
+
+    def test_get_y(self):
+        self.assertEquals(self.r.y, 12)
+
+    def test_get_right(self):
+        self.assertEquals(self.r.right, 24)
+
+    def test_get_bottom(self):
+        self.assertEquals(self.r.bottom, 26)
+
+    def test_get_topleft(self):
+        self.assertEquals((11, 12), self.r.topleft)
+
+    def test_get_bottomleft(self):
+        self.assertEquals((11, 26), self.r.bottomleft)
+
+    def test_get_topright(self):
+        self.assertEquals((24, 12), self.r.topright)
+
+    def test_get_bottomright(self):
+        self.assertEquals((24, 26), self.r.bottomright)
+
+    def test_get_centerx(self):
+        self.assertEquals(17, self.r.centerx)
+
+    def test_get_centery(self):
+        self.assertEquals(19, self.r.centery)
+
+    def test_get_center(self):
+        self.assertEquals((17, 19), self.r.center)
+
+    def test_get_midtop(self):
+        self.assertEquals((17, 12), self.r.midtop)
+
+    def test_get_midleft(self):
+        self.assertEquals((11, 19), self.r.midleft)
+
+    def test_get_midbottom(self):
+        self.assertEquals((17, 26), self.r.midbottom)
+
+    def test_get_midright(self):
+        self.assertEquals((24, 19), self.r.midright)
+
+    def test_get_size(self):
+        self.assertEquals((13, 14), self.r.size)
+
+    def test_get_width(self):
+        self.assertEquals(13, self.r.w)
+
+    def test_get_height(self):
+        self.assertEquals(14, self.r.height)
+
+    def test_set_x(self):
+        self.r.x = 12
+        self.assertEquals(self.r.x, 12)
+
+    def test_set_y(self):
+        self.r.y = 13
+        self.assertEquals(self.r.y, 13)
+
+    def test_set_right(self):
+        self.r.right = 28
+        self.assertEquals(self.r.right, 28)
+
+    def test_set_bottom(self):
+        self.r.bottom = 27
+        self.assertEquals(self.r.bottom, 27)
+
+    def test_set_topleft(self):
+        self.r.topleft = (13, 14)
+        self.assertEquals((13, 14), self.r.topleft)
+
+    def test_set_bottomleft(self):
+        self.r.bottomleft = (12, 27)
+        self.assertEquals((12, 27), self.r.bottomleft)
+
+    def test_set_topright(self):
+        self.r.topright = (25, 13)
+        self.assertEquals((25, 13), self.r.topright)
+
+    def test_set_bottomright(self):
+        self.r.bottomright = 25, 27
+        self.assertEquals((25, 27), self.r.bottomright)
+
+    def test_set_centerx(self):
+        self.r.centerx = 18
+        self.assertEquals(18, self.r.centerx)
+
+    def test_set_centery(self):
+        self.r.centery = 20
+        self.assertEquals(20, self.r.centery)
+
+    def test_set_center(self):
+        self.r.center = (18, 20)
+        self.assertEquals((18, 20), self.r.center)
+
+    def test_set_midtop(self):
+        self.r.midtop = (18, 19)
+        self.assertEquals((18, 19), self.r.midtop)
+
+    def test_set_midleft(self):
+        self.r.midleft = (12, 20)
+        self.assertEquals((12, 20), self.r.midleft)
+
+    def test_set_midbottom(self):
+        self.r.midbottom = (18, 27)
+        self.assertEquals((18, 27), self.r.midbottom)
+
+    def test_set_midright(self):
+        self.r.midright = (25, 20)
+        self.assertEquals((25, 20), self.r.midright)
+
+    def test_set_size(self):
+        self.r.size = (14, 15)
+        self.assertEquals((14, 15), self.r.size)
+
+    def test_set_w(self):
+        self.r.w = 14
+        self.assertEquals(14, self.r.w)
+
+    def test_set_h(self):
+        self.r.h = 15
+        self.assertEquals(15, self.r.h)
+
+    def test_copy(self):
+        r2 = self.r.copy()
+        self.assertEquals(r2.topleft, self.r.topleft)
+        self.assertEquals(r2.size, self.r.size)
+
+    def test_move(self):
+        x, y = self.r.topleft
+        self.assertEquals((x + 10, y - 10), self.r.move(10, -10).topleft)
+
+    def test_move_ip(self):
+        x, y = self.r.topleft
+        self.r.move_ip(10, -10)
+        self.assertEquals((x + 10, y - 10), self.r.topleft)
+
+    def test_clamp_too_big(self):
+        r1 = Rect(50, 50, 50, 50)
+        r2 = Rect(0, 0, 100, 100)
+        center = r2.clamp(r1).center
+        self.assertEquals(r1.center, center)
+
+    def test_clamp_from_above(self):
+        r1 = Rect(0, 0, 25, 25)
+        r2 = Rect(0, 100, 100, 100)
+        r3 = r1.clamp(r2)
+        logger.debug(r1)
+        logger.debug(r3)
+        self.assertEquals(r3.topleft, (0, r2.top))
+
+    def test_clamp_from_below(self):
+        # equal
+        r1 = Rect(0, 200, 25, 25)
+        r2 = Rect(0, 100, 100, 100)
+        r3 = r1.clamp(r2)
+        logger.debug(r1)
+        logger.debug(r3)
+        self.assertEquals(r3.bottomleft, (0, r2.bottom))
+
+        # greater
+        r1 = Rect(0, 201, 25, 25)
+        r2 = Rect(0, 100, 100, 100)
+        r3 = r1.clamp(r2)
+        logger.debug(r1)
+        logger.debug(r3)
+        self.assertEquals(r3.bottomleft, (0, r2.bottom))
+
+    # "clamp from the left, clamp from the right you're the only rect
+    # in sight!" -- Jimmy Buffet
+
+    def test_clamp_from_the_left(self):
+        r1 = Rect(0, 0, 25, 25)
+        r2 = Rect(100, 0, 100, 100)
+        r3 = r1.clamp(r2)
+        logger.debug(r1)
+        logger.debug(r3)
+        self.assertEquals(r3.topleft, (r2.left, 0))
+
+    def test_clamp_from_the_right(self):
+        r1 = Rect(101, 0, 25, 25)
+        r2 = Rect(0, 0, 100, 100)
+        r3 = r1.clamp(r2)
+        logger.debug(r1)
+        logger.debug(r3)
+        self.assertEquals(r3.topright, (r2.right, 0))
+
+    def test_inflate(self):
+        r = self.r.inflate(5, 5)
+        self.assertEqual(r.center, self.r.center)
+        self.assertEqual(r.size, (self.r.width + 5, self.r.height + 5))
+
+    def test_clip(self):
+        # bigger
+        r1 = Rect(0, 0, 125, 125)
+        r2 = Rect(25, 25, 100, 100)
+        self.assertEquals(r1.clip(r2).topleft, r2.topleft)
+        self.assertEquals(r1.clip(r2).bottomright, r2.bottomright)
+
+        # smaller
+        r1 = Rect(0, 0, 75, 75)
+        r2 = Rect(25, 25, 100, 100)
+        self.assertEquals(r1.clip(r2).topleft, r2.topleft)
+        self.assertEquals(r1.clip(r2).bottomright, r2.size)
+
+    def test_union(self):
+        r1 = Rect(0, 0, 50, 50)
+        r2 = Rect(25, 25, 50, 50)
+        r3 = r1.union(r2)
+        self.assertEquals(r3.topleft, (0, 0))
+        self.assertEquals(r3.bottomright, (75, 75))
+
+    def test_unionall(self):
+        r1 = Rect(0, 0, 50, 50)
+        r2 = Rect(25, 25, 50, 50)
+        r3 = Rect(50, 50, 50, 50)
+        r4 = r1.unionall([r1, r2, r3])
+        self.assertEquals(r4.topleft, (0, 0))
+        self.assertEquals(r4.bottomright, (100, 100))
+
+    def test_fit_wider(self):
+        r1 = Rect(0, 0, 50, 50)
+        r2 = Rect(0, 0, 75, 20)
+        r3 = r1.fit(r2)
+        logger.info(r3)
+        self.assertEquals(r3.topleft, (27.5, 0))
+        self.assertEquals(r3.size, (20.0, 20.0))
+
+    def test_normalize(self):
+        r1 = Rect(0, 0, -10, -10)
+        r1.normalize()
+        self.assertEquals(r1.topleft, (-10, -10))
+        self.assertEquals(r1.size, (10, 10))
+
+        r2 = Rect(0, 0, 10, 10)
+        r2.normalize()
+        self.assertEquals(r2.topleft, (0, 0))
+        self.assertEquals(r2.size, (10, 10))
+
+    def test_contains(self):
+        r1 = Rect(0, 0, 10, 10)
+        r2 = Rect(5, 5, 3, 3)
+        self.assertTrue(r1.contains(r2))
+        self.assertFalse(r2.contains(r1))
+
+    def test_collidepoint(self):
+        r1 = Rect(0, 0, 15, 15)
+        self.assertTrue(r1.collidepoint((10, 10)))
+        self.assertFalse(r1.collidepoint((16, 10)))
+        self.assertTrue(r1.collidepoint(10, 10))
+        self.assertFalse(r1.collidepoint(16, 10))
+        self.assertTrue(r1.collidepoint(10, 11, 12))
+
+    def test_colliderect(self):
+        r1 = Rect(0, 0, 10, 10)
+        r2 = Rect(5, 5, 10, 10)
+        r3 = Rect(20, 20, 10, 10)
+        self.assertTrue(r1.colliderect(r2))
+        self.assertTrue(r2.colliderect(r1))
+        self.assertFalse(r1.colliderect(r3))
+        self.assertFalse(r3.colliderect(r2))
+
+    def test_collidelist(self):
+        r1 = Rect(0, 0, 10, 10)
+        r2 = Rect(5, 5, 10, 10)
+        r3 = Rect(20, 20, 10, 10)
+        r4 = Rect(25, 25, 10, 10)
+        r5 = Rect(100, 100, 100, 100)
+        rects = [r4, r3, r2]
+        self.assertEquals(2, r1.collidelist(rects))
+        self.assertEquals(-1, r5.collidelist(rects))
+
+    def test_collidelistall(self):
+        r1 = Rect(0, 0, 10, 10)
+        r2 = Rect(5, 5, 10, 10)
+        r3 = Rect(8, 8, 10, 10)
+        r4 = Rect(25, 25, 10, 10)
+        r5 = Rect(9, 9, 100, 100)
+        rects = [r4, r3, r2, r5]
+        self.assertEquals(r1.collidelistall(rects), [1, 2, 3])
+
+    @skip("TODO: this test gives inconsistent results")
+    def test_collidedict(self):
+        r1 = Rect(0, 0, 10, 10)
+        r2 = Rect(5, 5, 10, 10)
+        r3 = Rect(8, 8, 10, 10)
+        r4 = Rect(25, 25, 10, 10)
+        r5 = Rect(100, 100, 100, 100)
+        rects = {"first": r1,
+                 "second": r2,
+                 "third": r3,
+                 "fourth": r4}
+        self.assertEquals(r1.collidedict(rects), ("second", r2))
+        self.assertEquals(r5.collidedict(rects), None)
+        self.assertEquals(r1.collidedict(dict()), None)
+
+    def test_collidedictall(self):
+        r1 = Rect(0, 0, 10, 10)
+        r2 = Rect(5, 5, 10, 10)
+        r3 = Rect(8, 8, 10, 10)
+        r4 = Rect(25, 25, 10, 10)
+        rects = {"first": r1,
+                 "second": r2,
+                 "third": r3,
+                 "fourth": r4}
+
+        expected = [("first", r1), ("second", r2), ("third", r3)]
+
+        result = r1.collidedictall(rects)
+        for pair in expected:
+            self.assertIn(pair, result)
+        self.assertNotIn(("fourth", r4), result)
+
+    def test_not_equal(self):
+        r1 = Rect(0, 0, 0, 0)
+        r2 = Rect(1, 1, 1, 1)
+        r3 = Rect(0, 0, 0, 0)
+        self.assertEqual(r1, r3)
+        self.assertNotEqual(r1, r2)

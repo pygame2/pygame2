@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created by diasvg.py -->
+<svg width="27.638cm" height="15.800cm" viewBox="1.450 0.700 29.088 16.500"
+ xmlns="http://www.w3.org/2000/svg"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+<rect x="12.800" y="1.050" width="8.393" height="1.400" fill="#FFFFFF" stroke="none" stroke-width="0"/>
+<rect x="12.800" y="1.050" width="8.393" height="1.400" fill="none" stroke="#000000" stroke-width="0.100" />
+<text x="16.996" y="2.000"  fill="#000000" text-anchor="middle" font-size="1.00" font-family="sans" font-style="normal" font-weight="700">
+pygame2.window</text>
+<rect x="12.800" y="2.450" width="8.393" height="4.200" fill="#FFFFFF" stroke="none" stroke-width="0"/>
+<rect x="12.800" y="2.450" width="8.393" height="4.200" fill="none" stroke="#000000" stroke-width="0.100" />
+<text x="12.950" y="3.150"  fill="#000000" text-anchor="start" font-size="0.80" font-family="monospace" font-style="normal" font-weight="400">
++size</text>
+<text x="12.950" y="3.950"  fill="#000000" text-anchor="start" font-size="0.80" font-family="monospace" font-style="normal" font-weight="400">
++caption</text>
+<text x="12.950" y="4.750"  fill="#000000" text-anchor="start" font-size="0.80" font-family="monospace" font-style="normal" font-weight="400">
++(init)</text>
+<text x="12.950" y="5.550"  fill="#000000" text-anchor="start" font-size="0.80" font-family="monospace" font-style="normal" font-weight="400">
++flip</text>
+<text x="12.950" y="6.350"  fill="#000000" text-anchor="start" font-size="0.80" font-family="monospace" font-style="normal" font-weight="400">
++create_renderer</text>
+<rect x="12.800" y="6.650" width="8.393" height="0.400" fill="#FFFFFF" stroke="none" stroke-width="0"/>
+<rect x="12.800" y="6.650" width="8.393" height="0.400" fill="none" stroke="#000000" stroke-width="0.100" />
+<rect x="1.500" y="0.750" width="8.152" height="1.400" fill="#FFFFFF" stroke="none" stroke-width="0"/>
+<rect x="1.500" y="0.750" width="8.152" height="1.400" fill="none" stroke="#000000" stroke-width="0.100" />
+<text x="5.576" y="1.700"  fill="#000000" text-anchor="middle" font-size="1.00" font-family="sans" font-style="normal" font-weight="700">
+pygame2.display</text>
+<rect x="1.500" y="2.150" width="8.152" height="1.800" fill="#FFFFFF" stroke="none" stroke-width="0"/>
+<rect x="1.500" y="2.150" width="8.152" height="1.800" fill="none" stroke="#000000" stroke-width="0.100" />
+<text x="1.650" y="2.850"  fill="#000000" text-anchor="start" font-size="0.80" font-family="monospace" font-style="normal" font-weight="400">
++here be dragons</text>
+<text x="1.650" y="3.650"  fill="#000000" text-anchor="start" font-size="0.80" font-family="monospace" font-style="normal" font-weight="400">
++CreateWindow</text>
+<rect x="1.500" y="3.950" width="8.152" height="0.400" fill="#FFFFFF" stroke="none" stroke-width="0"/>
+<rect x="1.500" y="3.950" width="8.152" height="0.400" fill="none" stroke="#000000" stroke-width="0.100" />
+<rect x="7.250" y="11.250" width="10.433" height="1.400" fill="#FFFFFF" stroke="none" stroke-width="0"/>
+<rect x="7.250" y="11.250" width="10.433" height="1.400" fill="none" stroke="#000000" stroke-width="0.100" />
+<text x="12.466" y="12.200"  fill="#000000" text-anchor="middle" font-size="1.00" font-family="sans" font-style="normal" font-weight="700">
+pygame2.SpriteGroup</text>
+<rect x="7.250" y="12.650" width="10.433" height="3.400" fill="#FFFFFF" stroke="none" stroke-width="0"/>
+<rect x="7.250" y="12.650" width="10.433" height="3.400" fill="none" stroke="#000000" stroke-width="0.100" />
+<text x="7.400" y="13.350"  fill="#000000" text-anchor="start" font-size="0.80" font-family="monospace" font-style="normal" font-weight="400">
++CreateRenderer</text>
+<text x="7.400" y="14.150"  fill="#000000" text-anchor="start" font-size="0.80" font-family="monospace" font-style="normal" font-weight="400">
++SetRenderColor</text>
+<text x="7.400" y="14.950"  fill="#000000" text-anchor="start" font-size="0.80" font-family="monospace" font-style="normal" font-weight="400">
++RenderClear</text>
+<text x="7.400" y="15.750"  fill="#000000" text-anchor="start" font-size="0.80" font-family="monospace" font-style="normal" font-weight="400">
++RenderPresent</text>
+<rect x="7.250" y="16.050" width="10.433" height="0.400" fill="#FFFFFF" stroke="none" stroke-width="0"/>
+<rect x="7.250" y="16.050" width="10.433" height="0.400" fill="none" stroke="#000000" stroke-width="0.100" />
+<rect x="1.550" y="7.200" width="5.120" height="1.400" fill="#FFFFFF" stroke="none" stroke-width="0"/>
+<rect x="1.550" y="7.200" width="5.120" height="1.400" fill="none" stroke="#000000" stroke-width="0.100" />
+<text x="4.110" y="8.150"  fill="#000000" text-anchor="middle" font-size="1.00" font-family="sans" font-style="normal" font-weight="700">
+Texture</text>
+<rect x="1.550" y="8.600" width="5.120" height="1.000" fill="#FFFFFF" stroke="none" stroke-width="0"/>
+<rect x="1.550" y="8.600" width="5.120" height="1.000" fill="none" stroke="#000000" stroke-width="0.100" />
+<text x="1.700" y="9.300"  fill="#000000" text-anchor="start" font-size="0.80" font-family="monospace" font-style="normal" font-weight="400">
++update_data</text>
+<rect x="1.550" y="9.600" width="5.120" height="0.400" fill="#FFFFFF" stroke="none" stroke-width="0"/>
+<rect x="1.550" y="9.600" width="5.120" height="0.400" fill="none" stroke="#000000" stroke-width="0.100" />
+<polyline fill="none" stroke="#000000" stroke-width="0.100" stroke-dasharray="0.40,0.40" points="12.750,4.050 11.426,4.050 11.426,2.550 10.038,2.550 "/>
+<polyline fill="none" stroke="#000000" stroke-width="0.100"  points="10.670,2.300 9.870,2.550 10.670,2.800 "/>
+<polyline fill="none" stroke="#000000" stroke-width="0.100" stroke-dasharray="0.40,0.40" points="4.110,7.150 4.110,5.975 5.576,5.975 5.576,4.736 "/>
+<polyline fill="none" stroke="#000000" stroke-width="0.100"  points="5.826,5.368 5.576,4.568 5.326,5.368 "/>
+<rect x="21.450" y="8.600" width="7.588" height="1.400" fill="#FFFFFF" stroke="none" stroke-width="0"/>
+<rect x="21.450" y="8.600" width="7.588" height="1.400" fill="none" stroke="#000000" stroke-width="0.100" />
+<text x="25.244" y="9.550"  fill="#000000" text-anchor="middle" font-size="1.00" font-family="sans" font-style="normal" font-weight="700">
+pygame2.sprite</text>
+<rect x="21.450" y="10.000" width="7.588" height="1.800" fill="#FFFFFF" stroke="none" stroke-width="0"/>
+<rect x="21.450" y="10.000" width="7.588" height="1.800" fill="none" stroke="#000000" stroke-width="0.100" />
+<text x="21.600" y="10.700"  fill="#000000" text-anchor="start" font-size="0.80" font-family="monospace" font-style="normal" font-weight="400">
++Surface</text>
+<text x="21.600" y="11.500"  fill="#000000" text-anchor="start" font-size="0.80" font-family="monospace" font-style="normal" font-weight="400">
++Rect/Vertex</text>
+<rect x="21.450" y="11.800" width="7.588" height="0.400" fill="#FFFFFF" stroke="none" stroke-width="0"/>
+<rect x="21.450" y="11.800" width="7.588" height="0.400" fill="none" stroke="#000000" stroke-width="0.100" />
+<rect x="22.650" y="2.550" width="5.890" height="1.400" fill="#FFFFFF" stroke="none" stroke-width="0"/>
+<rect x="22.650" y="2.550" width="5.890" height="1.400" fill="none" stroke="#000000" stroke-width="0.100" />
+<text x="25.595" y="3.500"  fill="#000000" text-anchor="middle" font-size="1.00" font-family="sans" font-style="normal" font-weight="700">
+Surface</text>
+<rect x="22.650" y="3.950" width="5.890" height="1.000" fill="#FFFFFF" stroke="none" stroke-width="0"/>
+<rect x="22.650" y="3.950" width="5.890" height="1.000" fill="none" stroke="#000000" stroke-width="0.100" />
+<text x="22.800" y="4.650"  fill="#000000" text-anchor="start" font-size="0.80" font-family="monospace" font-style="normal" font-weight="400">
++upload_to_gpu</text>
+<rect x="22.650" y="4.950" width="5.890" height="0.400" fill="#FFFFFF" stroke="none" stroke-width="0"/>
+<rect x="22.650" y="4.950" width="5.890" height="0.400" fill="none" stroke="#000000" stroke-width="0.100" />
+<polyline fill="none" stroke="#000000" stroke-width="0.100" stroke-dasharray="0.40,0.40" points="12.466,11.200 12.466,9.350 16.996,9.350 16.996,7.436 "/>
+<polyline fill="none" stroke="#000000" stroke-width="0.100"  points="17.246,8.068 16.996,7.268 16.746,8.068 "/>
+<polyline fill="none" stroke="#000000" stroke-width="0.100" stroke-dasharray="0.40,0.40" points="17.733,13.850 19.366,13.850 19.366,10.400 21.064,10.400 "/>
+<polyline fill="none" stroke="#000000" stroke-width="0.100"  points="20.432,10.650 21.232,10.400 20.432,10.150 "/>
+</svg>

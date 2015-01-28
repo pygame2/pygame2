@@ -1,0 +1,5025 @@
+
+newbuffer.c,2192
+#define BUFOBJ_FILLED 48,1791
+#define BUFOBJ_MEMFREE 49,1820
+#define BUFOBJ_MUTABLE 50,1850
+typedef struct buffer_object_t 55,2009
+    Py_buffer *view_p;view_p57,2060
+    int flags;58,2083
+} BufferObject;59,2098
+Module_AddSsize_tConstant(62,2126
+check_view_get(77,2443
+check_view_set(89,2719
+check_value(108,3195
+#define INT_CHECK(119,3428
+#define INT_AS_PY_SSIZE_T(120,3485
+#define INT_CHECK(122,3541
+#define INT_AS_PY_SSIZE_T(123,3580
+set_void_ptr(127,3650
+set_py_ssize_t(154,4207
+Buffer_Reset(179,4793
+buffer_new(204,5337
+buffer_init(216,5597
+buffer_dealloc(286,7609
+buffer_traverse(294,7749
+buffer_get_buffer(303,7959
+buffer_release_buffer(339,9037
+static struct PyMethodDef buffer_methods[buffer_methods369,9873
+buffer_get_obj(378,10237
+buffer_set_obj(391,10506
+buffer_get_buf(416,11005
+buffer_set_buf(428,11260
+buffer_get_len(437,11505
+buffer_set_len(446,11700
+buffer_get_readonly(455,11947
+buffer_set_readonly(464,12155
+buffer_get_format(483,12574
+buffer_set_format(495,12838
+buffer_get_ndim(510,13167
+buffer_set_ndim(519,13361
+buffer_get_shape(534,13696
+buffer_set_shape(546,13957
+buffer_get_strides(561,14286
+buffer_set_strides(573,14553
+buffer_get_suboffsets(588,14886
+buffer_set_suboffsets(600,15162
+buffer_get_itemsize(615,15501
+buffer_set_itemsize(624,15706
+buffer_get_internal(633,15963
+buffer_set_internal(645,16233
+static PyGetSetDef buffer_getset[buffer_getset653,16470
+buffer_bool(681,17511
+static PyNumberMethods buffer_as_number 686,17581
+#define BUFFER_TYPE_FULLNAME 742,20513
+#define BUFFER_TPFLAGS 743,20564
+static PyTypeObject Py_buffer_Type 746,20678
+BufferSubtype_New(790,22618
+Buffer_New(819,23254
+mixin__get_buffer(825,23406
+mixin__release_buffer(832,23560
+static PyMethodDef mixin_methods[mixin_methods837,23638
+mixin_getbuffer(846,23963
+mixin_releasebuffer(872,24694
+static PyBufferProcs mixin_bufferprocs 893,25169
+#define MIXIN_TPFLAGS 905,25394
+#define MIXIN_TPFLAGS 908,25500
+#define BUFFER_MIXIN_TYPE_FULLNAME 912,25579
+static PyTypeObject BufferMixin_Type 914,25639
+/*DOC*/ static char newbuffer_doc[newbuffer_doc964,27896
+MODINIT_DEFINE(967,28008
+#define bufferproxy_docs 989,28432
+
+bitmask.c,632
+#define MIN(32,1205
+#define MAX(33,1247
+#define GILLIES37,1379
+static INLINE unsigned int bitcount(39,1396
+bitmask_t *bitmask_create(bitmask_create88,2930
+void bitmask_free(100,3182
+void bitmask_clear(105,3230
+void bitmask_fill(110,3343
+void bitmask_invert(130,3989
+unsigned int bitmask_count(149,4627
+int bitmask_overlap(161,4869
+static INLINE int firstsetbit(245,7270
+int bitmask_overlap_pos(257,7488
+int bitmask_overlap_area(379,11021
+void bitmask_overlap_mask(463,13351
+void bitmask_draw(632,18541
+void bitmask_erase(790,23042
+bitmask_t *bitmask_scale(bitmask_scale933,27026
+void bitmask_convolve(980,27799
+
+scrap_mac.c,199
+mac_scrap_call 23,924
+_scrap_init 43,1422
+_scrap_get_scrap 49,1536
+_scrap_put_scrap 55,1654
+_scrap_lost_scrap 61,1772
+_scrap_get_types 67,1892
+_scrap_contains 73,2015
+_scrap_set_mode 79,2137
+
+font.h,430
+#undef HAVE_SNPRINTF 25,946
+#define FONT_INIT_CHECK(31,1075
+#define PYGAMEAPI_FONT_FIRSTSLOT 37,1210
+#define PYGAMEAPI_FONT_NUMSLOTS 38,1245
+  TTF_Font* font;41,1312
+  PyObject* weakreflist;42,1330
+} PyFontObject;43,1355
+#define PyFont_AsFont(44,1371
+#define PyFont_Check(47,1456
+#define PyFont_Type 48,1529
+#define PyFont_New 49,1583
+#define import_pygame_font(52,1683
+static void* PyFONT_C_API[PyFONT_C_API55,1767
+
+mixer.h,732
+#define MIXER_INIT_CHECK(29,964
+#define PYGAMEAPI_MIXER_FIRSTSLOT 35,1104
+#define PYGAMEAPI_MIXER_NUMSLOTS 36,1140
+  Mix_Chunk *chunk;chunk39,1208
+  Uint8 *mem;mem40,1228
+  PyObject *weakreflist;weakreflist41,1242
+} PySoundObject;42,1267
+  int chan;45,1317
+} PyChannelObject;46,1329
+#define PySound_AsChunk(47,1348
+#define PyChannel_AsInt(48,1404
+#define PySound_Check(51,1495
+#define PySound_Type 52,1570
+#define PySound_New 53,1626
+#define PySound_Play 54,1692
+#define PyChannel_Check(55,1769
+#define PyChannel_Type 56,1846
+#define PyChannel_New 57,1904
+#define PyMixer_AutoInit 58,1965
+#define PyMixer_AutoQuit 59,2046
+#define import_pygame_mixer(61,2107
+static void* PyMIXER_C_API[PyMIXER_C_API64,2195
+
+camera_v4l2.c,512
+char** v4l2_list_cameras 28,933
+int v4l2_pixelformat 69,1916
+int v4l2_get_control 86,2324
+int v4l2_set_control 102,2647
+PyObject* v4l2_read_raw 119,3029
+int v4l2_xioctl 157,4145
+int v4l2_process_image 171,4563
+int v4l2_query_buffer 284,9341
+int v4l2_read_frame 312,10036
+int v4l2_stop_capturing 343,10938
+int v4l2_start_capturing 358,11296
+int v4l2_uninit_device 390,12130
+int v4l2_init_mmap 407,12525
+int v4l2_init_device 479,14751
+int v4l2_close_device 577,18495
+int v4l2_open_device 592,18804
+
+gfxdraw.c,862
+#define PYGAME_SDLGFXPRIM_INTERNAL31,1154
+static PyMethodDef _gfxdraw_methods[_gfxdraw_methods63,2851
+#define ASSERT_VIDEO_INIT(89,4690
+Sint16FromObj 92,4779
+Sint16FromSeqIndex 112,5177
+_gfx_pixelcolor 126,5466
+_gfx_hlinecolor 158,6242
+_gfx_vlinecolor 190,7035
+_gfx_rectanglecolor 223,7843
+_gfx_boxcolor 265,8950
+_gfx_linecolor 306,10032
+_gfx_circlecolor 339,10853
+_gfx_arccolor 371,11644
+_gfx_aacirclecolor 404,12475
+_gfx_filledcirclecolor 437,13286
+_gfx_ellipsecolor 470,14113
+_gfx_aaellipsecolor 503,14937
+_gfx_filledellipsecolor 536,15769
+_gfx_piecolor 570,16626
+_gfx_trigoncolor 603,17457
+_gfx_aatrigoncolor 637,18322
+_gfx_filledtrigoncolor 670,19187
+_gfx_polygoncolor 703,20069
+_gfx_aapolygoncolor 790,22125
+_gfx_filledpolygoncolor 877,24189
+_gfx_texturedpolygon 965,26282
+_gfx_beziercolor 1063,28789
+MODINIT_DEFINE(1151,30932
+
+bufferproxy.c,2325
+#define PY_SSIZE_T_CLEAN30,1226
+#define PYGAMEAPI_BUFPROXY_INTERNAL31,1251
+#define BUFPROXY_MY_ENDIAN 39,1427
+#define BUFPROXY_OTHER_ENDIAN 40,1458
+#define BUFPROXY_MY_ENDIAN 42,1498
+#define BUFPROXY_OTHER_ENDIAN 43,1529
+#define PROXY_MODNAME 46,1571
+#define PROXY_TYPE_NAME 47,1607
+#define PROXY_TYPE_FULLNAME 48,1645
+#define PyBUF_PG_VIEW 51,1716
+#define PyBUF_PG_VIEW_RO 52,1752
+#define PyBUF_PG_VIEW 54,1800
+#define PyBUF_PG_VIEW_RO 55,1853
+typedef struct PgBufproxyObject_s 58,1920
+    PyObject *obj;obj60,1974
+    Pg_buffer *pg_view_p;pg_view_p61,2055
+    Py_ssize_t segcount;63,2157
+    Py_ssize_t seglen;64,2238
+    getbufferproc get_buffer;66,2326
+    PyObject *dict;dict67,2407
+    PyObject *weakrefs;weakrefs68,2488
+} PgBufproxyObject;69,2569
+_IsFortranContiguous(80,2914
+_IsCContiguous(101,3416
+PyBuffer_IsContiguous(122,3899
+_get_buffer_from_dict(138,4292
+_release_buffer_from_dict(195,6036
+_proxy_subtype_new(232,6974
+_proxy_get_view(248,7338
+_proxy_release_view(271,8020
+_proxy_zombie_get_buffer(282,8252
+proxy_new(299,8778
+proxy_dealloc(318,9237
+proxy_traverse(338,9752
+proxy_get_arraystruct(354,10163
+proxy_get_arrayinterface(370,10492
+proxy_get_parent(386,10815
+proxy_get___dict__(400,11091
+proxy_get_raw(413,11349
+proxy_get_length(435,11896
+proxy_repr(455,12284
+proxy_write(474,12712
+#define ARG_FORMAT 483,12963
+#define ARG_FORMAT 485,12995
+#undef ARG_FORMAT492,13265
+static struct PyMethodDef proxy_methods[proxy_methods524,14217
+static PyGetSetDef proxy_getsets[proxy_getsets533,14439
+proxy_getbuffer(552,15061
+proxy_releasebuffer(585,16005
+_is_byte_view(596,16235
+proxy_getreadbuf(610,16888
+proxy_getwritebuf(647,18064
+proxy_getsegcount(665,18499
+#define PROXY_BUFFERPROCS 692,19104
+static PyBufferProcs proxy_bufferprocs 694,19152
+#define PROXY_BUFFERPROCS 724,19690
+#define PROXY_TPFLAGS 728,19754
+#define PROXY_TPFLAGS 732,19887
+static PyTypeObject PgBufproxy_Type 736,19987
+get_read_buffer(783,21973
+get_write_buffer(813,22863
+get_segcount(843,23761
+static PyMethodDef bufferproxy_methods[bufferproxy_methods864,24324
+PgBufproxy_New(879,24821
+PgBufproxy_GetParent(894,25282
+PgBufproxy_Trip(906,25645
+/*DOC*/ static char bufferproxy_doc[bufferproxy_doc917,25998
+MODINIT_DEFINE(919,26062
+#define bufferproxy_docs 947,26630
+
+_gmovie.h,7620
+#define _GMOVIE_H_31,1073
+#define MAX_VIDEOQ_SIZE 52,1499
+#define MAX_AUDIOQ_SIZE 53,1540
+#define MAX_SUBTITLEQ_SIZE 54,1580
+#define AV_SYNC_THRESHOLD 57,1691
+#define AV_NOSYNC_THRESHOLD 59,1770
+#define THREADFREE 62,1845
+    #define DECLAREGIL 66,1945
+    #define GRABGIL 67,1995
+    #define RELEASEGIL 68,2088
+    #define DECLAREGIL70,2171
+    #define GRABGIL71,2194
+    #define RELEASEGIL72,2214
+AVPacket flush_pkt;76,2305
+#define VIDEO_PICTURE_QUEUE_SIZE 79,2386
+#define SUBPICTURE_QUEUE_SIZE 80,2421
+#define RGB24 83,2536
+#define RGBA 84,2552
+    #define RGBSTEP 87,2579
+    #define RGBSTEP 89,2607
+#define BPP 92,2637
+#define PYG_MEDIA_TYPE_VIDEO 95,2653
+#define PYG_MEDIA_TYPE_AUDIO 96,2701
+#define PYG_MEDIA_TYPE_SUBTITLE 97,2749
+    typedef struct TimeSampleNode139,3610
+        int64_t sample;141,3650
+        struct TimeSampleNode *next;next142,3674
+    }TimeSampleNode;TimeSampleNode143,3711
+    typedef struct ImageScaleStats144,3732
+        double mean;146,3773
+        int64_t max;147,3794
+        int64_t min;148,3815
+        double stdev;149,3836
+        double median;150,3858
+        double firstqu;151,3881
+        double thirdqu;152,3905
+        double serror;153,3929
+        int64_t n_samples;154,3952
+        struct TimeSampleNode *first;first155,3979
+        struct TimeSampleNode *last;last156,4017
+    }ImageScaleStats;ImageScaleStats157,4054
+    #define DECLARE_ALIGNED(161,4210
+    #define DECLARE_ASM_CONST(162,4284
+    #define DECLARE_ALIGNED(164,4388
+    #define DECLARE_ASM_CONST(165,4462
+    #define DECLARE_ALIGNED(167,4588
+    #define DECLARE_ASM_CONST(168,4653
+    #define DECLARE_ALIGNED(172,4851
+    #define DECLARE_ASM_CONST(173,4895
+#define SCALEBITS 176,4960
+#define ONE_HALF 177,4981
+#define FIX(178,5022
+#define RGB_TO_Y_CCIR(180,5078
+#define RGB_TO_U_CCIR(184,5263
+#define RGB_TO_V_CCIR(188,5478
+#define _ALPHA_BLEND(192,5691
+#define RGBA_IN(195,5792
+#define YUVA_IN(204,5979
+#define YUVA_OUT(213,6202
+typedef struct PacketQueue221,6402
+    AVPacketList *first_pkt,first_pkt223,6431
+    AVPacketList *first_pkt, *last_pkt;last_pkt223,6431
+    int nb_packets;224,6471
+    int size;225,6491
+    int abort_request;226,6505
+    SDL_mutex *mutex;mutex227,6528
+PacketQueue;229,6552
+typedef struct VidPicture234,6764
+    SDL_Overlay *dest_overlay;dest_overlay236,6792
+    SDL_Surface *dest_surface;dest_surface237,6880
+    SDL_Rect    dest_rect;238,7008
+    int         width;239,7094
+    int         height;240,7148
+    int         xleft;241,7172
+    int         ytop;242,7247
+    int         overlay;243,7321
+    int         ready;244,7392
+    double      pts;245,7534
+VidPicture;247,7612
+typedef struct SubPicture250,7631
+    double pts;252,7659
+    AVSubtitle sub;253,7675
+} SubPicture;254,7695
+    AV_SYNC_AUDIO_MASTER,257,7723
+    AV_SYNC_VIDEO_MASTER,258,7770
+    AV_SYNC_SUB_MASTER,259,7796
+    AV_SYNC_EXTERNAL_CLOCK,260,7820
+typedef struct PyMovie263,7891
+    SDL_Thread      *parse_tid;parse_tid267,7968
+    int              abort_request;268,8048
+    int              paused;269,8139
+    int              last_paused;270,8241
+    int              working;271,8351
+    char             filename[filename272,8381
+    char            *_backend;_backend273,8418
+    int              overlay;274,8475
+    int              playing;275,8561
+    int              height;276,8591
+    int              width;277,8620
+    int              ytop;278,8648
+    int              xleft;279,8709
+    int              loops;280,8737
+    int              resize_h;281,8810
+    int              resize_w;282,8921
+    int              replay;283,8952
+    AVInputFormat   *iformat;iformat284,9046
+    SDL_mutex       *dest_mutex;dest_mutex285,9104
+    int              av_sync_type;286,9185
+    AVFormatContext *ic;ic287,9257
+    int              stop;288,9355
+    SDL_Surface     *canon_surf;canon_surf289,9427
+    PyThreadState   *_tstate;_tstate290,9574
+    int finished;291,9709
+    int skip_frame;292,9727
+    CommandQueue *commands;commands295,9778
+    int seekCommandType;296,9806
+    int pauseCommandType;297,9831
+    int stopCommandType;298,9857
+    int resizeCommandType;299,9882
+    int shiftCommandType;300,9909
+    int surfaceCommandType;301,9935
+    int diff_co;302,9963
+    int      seek_req;305,10011
+    int      seek_flags;306,10034
+    int64_t  seek_pos;307,10059
+    int64_t  start_time;308,10082
+    double  external_clock;311,10164
+    int64_t external_clock_time;312,10218
+    double      audio_clock;315,10283
+    AVStream   *audio_st;audio_st316,10312
+    PacketQueue audioq;317,10363
+    DECLARE_ALIGNED(319,10493
+    uint8_t *audio_buf;audio_buf320,10577
+    AVPacket audio_pkt;321,10628
+    uint8_t *audio_pkt_data;audio_pkt_data322,10674
+    int      audio_pkt_size;323,10725
+    int64_t  audio_pts;324,10776
+    enum SampleFormat audio_src_fmt;326,10848
+    int               audio_stream;328,10923
+    int               audio_disable;329,10959
+    SDL_mutex        *audio_mutex;audio_mutex330,10996
+    SDL_Thread       *audio_tid;audio_tid331,11031
+    int               channel;332,11064
+    int               audio_paused;333,11095
+    double     frame_timer;336,11173
+    double     frame_last_pts;337,11201
+    double     frame_last_delay;338,11232
+    double     frame_delay;339,11265
+    double     video_clock;340,11338
+    AVStream  *video_st;video_st341,11401
+    double     video_current_pts;342,11426
+    double     video_current_pts_time;344,11578
+    double     timing;345,11617
+    double     last_showtime;346,11640
+    double     pts;347,11670
+    int        video_stream;348,11690
+    int        video_disable;349,11719
+    VidPicture pictq[pictq351,11815
+    int pictq_size,352,11863
+    int pictq_size, pictq_windex,352,11863
+    int pictq_size, pictq_windex, pictq_rindex;352,11863
+    SDL_Thread *video_tid;video_tid355,11981
+    PacketQueue videoq;357,12009
+    SDL_mutex  *videoq_mutex;videoq_mutex358,12033
+    SDL_cond   *videoq_cond;videoq_cond359,12063
+    struct SwsContext *img_convert_ctx;img_convert_ctx360,12092
+    int sub_stream;363,12156
+    int sub_stream_changed;364,12176
+    AVStream *sub_st;sub_st365,12204
+    PacketQueue subq;366,12226
+    SubPicture subpq[subpq367,12248
+    int subpq_rindex,368,12293
+    int subpq_rindex, subpq_windex,368,12293
+    int subpq_rindex, subpq_windex, subpq_size;368,12293
+    SDL_mutex *subpq_mutex;subpq_mutex369,12341
+    int subtitle_disable;370,12369
+    ImageScaleStats *istats;istats373,12417
+PyMovie;377,12456
+typedef struct PyMovieInfo379,12466
+    double duration;383,12547
+    int width;384,12576
+    int height;385,12598
+    int sample_rate;386,12621
+    int channels;387,12649
+    char *vid_codec;vid_codec388,12674
+    char *aud_codec;aud_codec389,12702
+    char *filename;filename390,12730
+    double aspect_ratio;391,12757
+} PyMovieInfo;392,12789
+typedef struct seekCommand397,12832
+    int64_t pos;400,12878
+    int rel;401,12895
+} seekCommand;402,12908
+typedef struct pauseCommand405,12925
+} pauseCommand;408,12972
+typedef struct stopCommand410,12989
+} stopCommand;413,13035
+typedef struct resizeCommand415,13051
+    int h;418,13099
+    int w;419,13110
+} resizeCommand;420,13121
+typedef struct shiftCommand422,13139
+    int barrier;425,13186
+    int ytop;426,13203
+    int xleft;427,13217
+} shiftCommand;428,13232
+typedef struct surfaceCommand430,13249
+    SDL_Surface *surface;surface433,13298
+} surfaceCommand;434,13324
+
+_surface.h,26
+#define _SURFACE_H25,887
+
+_numericsndarray.c,179
+sndarray_samples 30,977
+sndarray_array 79,2230
+sndarray_make_sound 94,2555
+static PyMethodDef sndarray_builtins[sndarray_builtins218,6664
+void init_numericsndarray 228,6994
+
+draw.c,1380
+#define trunc(32,1050
+#define FRAC(33,1109
+#define INVFRAC(34,1145
+static PyObject* aaline(53,2449
+static PyObject* line(118,4321
+static PyObject* aalines(185,6276
+static PyObject* lines(274,9117
+static PyObject* arc(366,12006
+static PyObject* ellipse(422,13990
+static PyObject* circle(479,16006
+static PyObject* polygon(529,17740
+static PyObject* rect(620,20485
+static int clip_and_draw_aaline(651,21314
+static int clip_and_draw_line(659,21608
+static int clip_and_draw_line_width(672,22058
+#define LEFT_EDGE 735,23941
+#define RIGHT_EDGE 736,23965
+#define BOTTOM_EDGE 737,23989
+#define TOP_EDGE 738,24013
+#define INSIDE(739,24037
+#define REJECT(740,24062
+#define ACCEPT(741,24088
+static int encode(743,24118
+static int encodeFloat(753,24382
+static int clipaaline(763,24655
+static int clipline(822,26305
+static int set_at(882,27878
+#define DRAWPIX32(923,29251
+static void drawaaline(943,30004
+static void drawline(1055,33840
+static void drawhorzline(1114,35570
+static void drawhorzlineclip(1161,36758
+static void drawvertline(1184,37340
+static void drawvertlineclip(1234,38544
+static void draw_arc(1251,39021
+static void draw_ellipse(1291,40125
+static void draw_fillellipse(1403,43273
+static int compare_int(1478,45356
+static void draw_fillpoly(1483,45464
+static PyMethodDef _draw_methods[_draw_methods1549,47066
+MODINIT_DEFINE 1565,47682
+
+font.c,1311
+#define PYGAMEAPI_FONT_INTERNAL27,865
+#define FONT_HAVE_RWOPS 38,1129
+#define FONT_HAVE_RWOPS 40,1161
+#define RAISE_TEXT_TYPE_ERROR(44,1203
+#define RAISE_TEXT_TYPE_ERROR(47,1306
+#define IS_UCS_2(55,1540
+#define IS_UCS_2(57,1583
+static PyTypeObject PyFont_Type;60,1613
+#define PyFont_Check(62,1687
+static int font_initialized 64,1743
+static const char font_defaultname[font_defaultname65,1776
+static const char pkgdatamodule_name[pkgdatamodule_name66,1835
+static const char resourcefunc_name[resourcefunc_name67,1894
+utf_8_needs_UCS_4(73,1969
+font_resource 90,2320
+font_autoquit 150,3590
+font_autoinit 161,3723
+fontmodule_quit 176,4002
+fontmodule_init 184,4100
+get_init 200,4430
+font_get_height 207,4550
+font_get_descent 214,4699
+font_get_ascent 221,4850
+font_get_linesize 228,4999
+font_get_bold 235,5152
+font_set_bold 242,5325
+font_get_italic 261,5708
+font_set_italic 268,5885
+font_get_underline 287,6273
+font_set_underline 295,6464
+font_render(314,6861
+font_size(454,11043
+font_metrics(493,11986
+static PyMethodDef font_methods[font_methods563,13868
+font_dealloc 593,15027
+font_init(606,15311
+static PyTypeObject PyFont_Type 737,18743
+get_default_font 781,20388
+static PyMethodDef _font_methods[_font_methods786,20472
+PyFont_New 801,21022
+MODINIT_DEFINE 815,21324
+
+_gcommand.c,154
+void addCommand(32,1153
+Command *getCommand(getCommand59,1669
+inline int hasCommand(82,2121
+void flushCommands(89,2215
+int registerCommand(107,2661
+
+math.c,5701
+#define PYGAMEAPI_MATH_INTERNAL30,1108
+#define NO_PYGAME_C_API31,1140
+#define M_PI 43,1408
+#define VECTOR_EPSILON 46,1452
+#define VECTOR_MAX_SIZE 47,1482
+#define STRING_BUF_SIZE 48,1510
+#define SWIZZLE_ERR_NO_ERR 49,1540
+#define SWIZZLE_ERR_DOUBLE_IDX 50,1577
+#define SWIZZLE_ERR_EXTRACTION_ERR 51,1614
+#define OP_ADD 53,1652
+#define OP_SUB 55,1710
+#define OP_MUL 57,1768
+#define OP_DIV 59,1826
+#define OP_FLOOR_DIV 61,1884
+#define OP_MOD 63,1942
+#define OP_INPLACE 64,1968
+#define OP_ARG_REVERSE 65,1994
+#define OP_ARG_UNKNOWN 66,2020
+#define OP_ARG_VECTOR 67,2046
+#define OP_ARG_NUMBER 68,2072
+static PyTypeObject PyVector2_Type;70,2099
+static PyTypeObject PyVector3_Type;71,2135
+static PyTypeObject PyVectorElementwiseProxy_Type;72,2171
+static PyTypeObject PyVectorIter_Type;73,2222
+#define PyVector2_Check(75,2262
+#define PyVector3_Check(76,2321
+#define PyVector_Check(77,2380
+#define vector_elementwiseproxy_Check(78,2449
+#define DEG2RAD(81,2544
+#define RAD2DEG(82,2591
+    double *coords;coords87,2674
+    unsigned int dim;88,2716
+    double epsilon;89,2770
+} PyVector;90,2828
+    long it_index;94,2876
+    PyVector *vec;vec95,2895
+} vectoriter;96,2914
+    PyVector *vec;vec100,2964
+} vector_elementwiseproxy;101,2983
+static int swizzling_enabled 231,10544
+RealNumber_Check(239,10688
+PySequence_GetItem_AsDouble(247,10832
+PySequence_AsVectorCoords(265,11228
+PyVectorCompatible_Check(288,11811
+_scalar_product(333,12703
+get_double_from_unicode_slice(344,12922
+_vector_find_string_helper(368,13600
+_vector_coords_from_string(409,14852
+static PyMemberDef vector_members[vector_members451,16381
+PyVector_NEW(459,16569
+vector_dealloc(494,17326
+vector_generic_math(510,17603
+vector_add(620,20820
+vector_inplace_add(625,20929
+vector_sub(630,21070
+vector_inplace_sub(635,21179
+vector_mul(640,21320
+vector_inplace_mul(645,21429
+vector_div(650,21570
+vector_inplace_div(655,21690
+vector_floor_div(660,21831
+vector_inplace_floor_div(665,21963
+vector_neg(671,22117
+vector_pos(684,22389
+vector_nonzero(694,22622
+static PyNumberMethods vector_as_number 705,22795
+vector_len(764,25762
+vector_GetItem(770,25846
+vector_SetItem(780,26103
+vector_GetSlice(799,26568
+vector_SetSlice(829,27297
+static PySequenceMethods vector_as_sequence 861,28012
+vector_subscript 878,28871
+vector_ass_subscript 941,30696
+static PyMappingMethods vector_as_mapping 1005,32656
+vector_set_component 1014,32900
+vector_getx 1032,33324
+vector_setx 1038,33432
+vector_gety 1044,33565
+vector_sety 1050,33673
+vector_getz 1056,33806
+vector_setz 1062,33914
+vector_getw 1069,34080
+vector_setw 1075,34188
+vector_richcompare(1084,34331
+vector_length(1148,35785
+vector_length_squared(1156,36019
+vector_normalize(1164,36255
+vector_normalize_ip(1181,36593
+vector_is_normalized(1201,37010
+vector_dot(1212,37306
+vector_scale_to_length(1225,37757
+vector_slerp(1251,38369
+vector_lerp(1322,40846
+_vector_reflect_helper(1352,41647
+vector_reflect(1384,42604
+vector_reflect_ip(1399,42967
+_vector_distance_helper(1412,43326
+vector_distance_to(1430,43787
+vector_distance_squared_to(1439,44056
+_vector_check_snprintf_success(1449,44321
+vector_repr(1463,44779
+vector_str(1488,45625
+vector_getAttr_swizzle(1521,46826
+vector_setAttr_swizzle(1585,48894
+vector_readbuffer(1668,51593
+vector_writebuffer(1680,51893
+vector_segcount(1692,52194
+vector_getbuffer(1701,52349
+vector_releasebuffer(1718,52706
+static PyBufferProcs vector_as_buffer 1724,52790
+vector2_new(1740,53256
+vector2_init(1759,53686
+_vector2_rotate_helper(1824,55495
+vector2_rotate(1871,57066
+vector2_rotate_ip(1890,57528
+vector2_cross(1908,57908
+vector2_angle_to(1926,58392
+vector2_as_polar(1946,58907
+vector2_from_polar(1955,59154
+static PyMethodDef vector2_methods[vector2_methods1969,59446
+static PyGetSetDef vector2_getsets[vector2_getsets2035,61393
+static PyTypeObject PyVector2_Type 2046,61722
+vector3_new(2133,64881
+vector3_init(2151,65310
+_vector3_rotate_helper(2229,67356
+vector3_rotate(2327,72050
+vector3_rotate_ip(2356,72865
+vector3_rotate_x(2383,73583
+vector3_rotate_x_ip(2407,74210
+vector3_rotate_y(2427,74765
+vector3_rotate_y_ip(2452,75394
+vector3_rotate_z(2472,75950
+vector3_rotate_z_ip(2497,76578
+vector3_cross(2518,77134
+vector3_angle_to(2563,78431
+vector3_as_spherical(2588,79311
+vector3_from_spherical(2601,79701
+static PyMethodDef vector3_methods[vector3_methods2618,80135
+static PyGetSetDef vector3_getsets[vector3_getsets2701,82651
+static PyTypeObject PyVector3_Type 2712,83046
+vectoriter_dealloc(2799,86173
+vectoriter_next(2806,86278
+vectoriter_len(2825,86668
+static PyMethodDef vectoriter_methods[vectoriter_methods2838,86934
+static PyTypeObject PyVectorIter_Type 2844,87087
+vector_iter(2877,88531
+vector_elementwiseproxy_dealloc(2914,89007
+vector_elementwiseproxy_richcompare(2921,89138
+vector_elementwiseproxy_generic_math(3096,94065
+vector_elementwiseproxy_add(3285,100505
+vector_elementwiseproxy_sub(3290,100648
+vector_elementwiseproxy_mul(3295,100791
+vector_elementwiseproxy_div(3300,100934
+vector_elementwiseproxy_floor_div(3305,101077
+vector_elementwiseproxy_mod(3310,101232
+vector_elementwiseproxy_pow(3316,101376
+vector_elementwiseproxy_abs(3414,104634
+vector_elementwiseproxy_neg(3427,104958
+vector_elementwiseproxy_pos(3433,105074
+vector_elementwiseproxy_nonzero(3439,105183
+static PyNumberMethods vector_elementwiseproxy_as_number 3444,105289
+static PyTypeObject PyVectorElementwiseProxy_Type 3499,108254
+vector_elementwise(3572,111249
+math_enable_swizzling(3596,111677
+math_disable_swizzling(3603,111785
+static PyMethodDef _math_methods[_math_methods3609,111876
+MODINIT_DEFINE 3625,112249
+
+_gsound.h,949
+#define _GSOUND_H_31,1073
+typedef struct BufferNode40,1276
+    uint8_t *buf;buf42,1304
+    int      len;43,1322
+    int64_t  pts;44,1340
+                *next;next46,1380
+BufferNode;48,1405
+typedef struct BufferQueue53,1585
+    BufferNode *first,first55,1614
+    BufferNode *first, *last;last55,1614
+    int size;56,1644
+    SDL_mutex *mutex;mutex57,1658
+BufferQueue;59,1682
+typedef struct AudioInfo62,1772
+    double      audio_clock;64,1799
+    double      old_clock;65,1872
+    int         channels;66,1939
+    int         sample_rate;67,2056
+    int         current_frame_size;68,2097
+    int         pts;69,2138
+    int         playing;70,2188
+    int         channel;71,2263
+    int         ended;72,2340
+    int            paused;73,2438
+    BufferQueue queue;74,2465
+    SDL_mutex   *mutex;mutex75,2524
+    int restart;77,2578
+    double time_base;78,2595
+AudioInfo;80,2619
+AudioInfo *ainfo;ainfo83,2708
+
+event.c,1415
+#define PYGAMEAPI_EVENT_INTERNAL26,861
+#define USEROBJECT_CHECK1 41,1209
+#define USEROBJECT_CHECK2 42,1246
+typedef struct UserEventObject44,1284
+    struct UserEventObject* next;46,1317
+    PyObject* object;47,1351
+} UserEventObject;48,1373
+static UserEventObject* user_event_objects 50,1393
+user_event_addobject 54,1509
+user_event_getobject 72,1941
+user_event_cleanup 99,2558
+static int PyEvent_FillUserEvent 116,2902
+static PyTypeObject PyEvent_Type;129,3244
+#define PyEvent_Check(132,3369
+name_from_eventtype 135,3440
+insobj 180,4592
+our_unichr 192,4785
+our_empty_ustr 208,5159
+our_unichr 232,5669
+our_empty_ustr 238,5746
+dict_from_event 246,5852
+event_dealloc 377,10899
+event_str 385,11041
+event_nonzero 427,11945
+static PyNumberMethods event_as_number 432,12024
+#define OFF(462,13111
+static PyMemberDef event_members[event_members464,13154
+event_richcompare(476,13438
+static PyTypeObject PyEvent_Type 509,14381
+PyEvent_New 556,16422
+PyEvent_New2 577,16794
+Event 595,17152
+event_name 623,17743
+set_grab 634,17945
+get_grab 650,18239
+pygame_pump 660,18437
+pygame_wait 668,18572
+pygame_poll 686,18902
+event_clear 698,19117
+event_get 744,20313
+event_peek 803,21766
+event_post 853,23083
+CheckEventInRange(883,23736
+set_allowed 889,23829
+set_blocked 929,25008
+get_blocked 969,26187
+static PyMethodDef _event_methods[_event_methods1007,27363
+MODINIT_DEFINE 1030,28438
+
+pypm.c,25800
+#define PY_SSIZE_T_CLEAN3,62
+  #define PY_LONG_LONG 10,285
+  #define DL_EXPORT(13,343
+  #define METH_COEXIST 16,407
+  #define PyDict_CheckExact(17,432
+  typedef int Py_ssize_t;20,533
+  #define PY_SSIZE_T_MAX 21,559
+  #define PY_SSIZE_T_MIN 22,592
+  #define PY_FORMAT_SIZE_T 23,625
+  #define PyInt_FromSsize_t(24,655
+  #define PyInt_AsSsize_t(25,704
+  #define PyNumber_Index(26,751
+  #define PyIndex_Check(27,798
+  #define Py_REFCNT(30,886
+  #define Py_TYPE(31,941
+  #define Py_SIZE(32,994
+  #define PyVarObject_HEAD_INIT(33,1050
+  #define PyType_Modified(35,1137
+       void *buf;buf38,1186
+       PyObject *obj;obj39,1204
+       Py_ssize_t len;40,1226
+       Py_ssize_t itemsize;41,1249
+       int readonly;42,1277
+       int ndim;43,1298
+       char *format;format44,1315
+       Py_ssize_t *shape;shape45,1336
+       Py_ssize_t *strides;strides46,1362
+       Py_ssize_t *suboffsets;suboffsets47,1390
+       void *internal;internal48,1421
+  } Py_buffer;49,1444
+  #define PyBUF_SIMPLE 51,1460
+  #define PyBUF_WRITABLE 52,1485
+  #define PyBUF_FORMAT 53,1517
+  #define PyBUF_ND 54,1547
+  #define PyBUF_STRIDES 55,1573
+  #define PyBUF_C_CONTIGUOUS 56,1617
+  #define PyBUF_F_CONTIGUOUS 57,1671
+  #define PyBUF_ANY_CONTIGUOUS 58,1725
+  #define PyBUF_INDIRECT 59,1781
+  #define __Pyx_BUILTIN_MODULE_NAME 63,1864
+  #define __Pyx_BUILTIN_MODULE_NAME 65,1920
+  #define Py_TPFLAGS_CHECKTYPES 68,2000
+  #define Py_TPFLAGS_HAVE_INDEX 69,2034
+  #define Py_TPFLAGS_HAVE_NEWBUFFER 72,2136
+  #define PyBaseString_Type 75,2207
+  #define PyString_Type 76,2261
+  #define PyString_CheckExact 77,2313
+  #define PyInt_Type 78,2371
+  #define PyInt_Check(79,2422
+  #define PyInt_CheckExact(80,2478
+  #define PyInt_FromString 81,2539
+  #define PyInt_FromUnicode 82,2596
+  #define PyInt_FromLong 83,2654
+  #define PyInt_FromSize_t 84,2709
+  #define PyInt_FromSsize_t 85,2766
+  #define PyInt_AsLong 86,2824
+  #define PyInt_AS_LONG 87,2877
+  #define PyInt_AsSsize_t 88,2931
+  #define PyInt_AsUnsignedLongMask 89,2987
+  #define PyInt_AsUnsignedLongLongMask 90,3052
+  #define __Pyx_PyNumber_Divide(91,3121
+  #define __Pyx_PyNumber_Divide(93,3197
+  #define PyBytes_Type 94,3263
+  #define PyMethod_New(97,3349
+    #define __stdcall101,3489
+    #define __cdecl104,3538
+    #define __fastcall107,3588
+  #define _USE_MATH_DEFINES110,3626
+  #define __Pyx_GetAttrString(113,3693
+  #define __Pyx_SetAttrString(114,3772
+  #define __Pyx_DelAttrString(115,3855
+  #define __Pyx_GetAttrString(117,3940
+  #define __Pyx_SetAttrString(118,4009
+  #define __Pyx_DelAttrString(119,4082
+  #define __Pyx_NAMESTR(122,4190
+  #define __Pyx_DOCSTR(123,4231
+  #define __Pyx_NAMESTR(125,4278
+  #define __Pyx_DOCSTR(126,4309
+#define __PYX_EXTERN_C 129,4366
+#define __PYX_EXTERN_C 131,4406
+#define __PYX_HAVE_API__pypm134,4461
+#define __PYX_USE_C99_COMPLEX 137,4534
+#define INLINE 141,4602
+#define INLINE 143,4641
+#define INLINE145,4671
+typedef struct {PyObject **p;p148,4694
+typedef struct {PyObject **p; char *s;s148,4694
+typedef struct {PyObject **p; char *s; long n;148,4694
+typedef struct {PyObject **p; char *s; long n; char is_unicode;148,4694
+typedef struct {PyObject **p; char *s; long n; char is_unicode; char intern;148,4694
+typedef struct {PyObject **p; char *s; long n; char is_unicode; char intern; char is_identifier;148,4694
+typedef struct {PyObject **p; char *s; long n; char is_unicode; char intern; char is_identifier;} __Pyx_StringTabEntry;148,4694
+static int __pyx_skip_dispatch 152,4827
+#define __Pyx_PyBytes_FromString 158,4929
+#define __Pyx_PyBytes_FromStringAndSize 159,4991
+#define __Pyx_PyBytes_AsString 160,5060
+#define __Pyx_PyBytes_FromString 162,5126
+#define __Pyx_PyBytes_FromStringAndSize 163,5187
+#define __Pyx_PyBytes_AsString 164,5255
+#define __Pyx_PyBool_FromLong(167,5322
+#define T_PYSSIZET 173,5594
+#define T_PYSSIZET 175,5646
+#define T_PYSSIZET 179,5794
+#define T_SIZET 188,6095
+#define T_SIZET 192,6252
+#define __pyx_PyFloat_AsDouble(203,6693
+#define likely(209,6915
+#define unlikely(210,6962
+#define likely(212,7038
+#define unlikely(213,7062
+#define likely(216,7137
+#define unlikely(217,7161
+static PyObject *__pyx_m;__pyx_m220,7208
+static PyObject *__pyx_b;__pyx_b221,7234
+static PyObject *__pyx_empty_tuple;__pyx_empty_tuple222,7260
+static int __pyx_lineno;223,7296
+static int __pyx_clineno 224,7321
+static const char * __pyx_cfilenm=225,7351
+static const char *__pyx_filename;__pyx_filename226,7396
+static const char **__pyx_f;__pyx_f227,7431
+  void (*INCREF)INCREF232,7502
+  void (*DECREF)DECREF233,7543
+  void (*GOTREF)GOTREF234,7584
+  void (*GIVEREF)GIVEREF235,7625
+  void* (*NewContext)NewContext236,7667
+  void (*FinishContext)FinishContext237,7721
+} __Pyx_RefnannyAPIStruct;238,7754
+static __Pyx_RefnannyAPIStruct *__Pyx_Refnanny __Pyx_Refnanny239,7781
+#define __Pyx_ImportRefcountAPI(240,7836
+#define __Pyx_INCREF(241,7958
+#define __Pyx_DECREF(242,8046
+#define __Pyx_GOTREF(243,8134
+#define __Pyx_GIVEREF(244,8222
+#define __Pyx_XDECREF(245,8312
+#define __Pyx_SetupRefcountContext(246,8376
+#define __Pyx_FinishRefcountContext(247,8495
+#define __Pyx_INCREF(249,8586
+#define __Pyx_DECREF(250,8623
+#define __Pyx_GOTREF(251,8660
+#define __Pyx_GIVEREF(252,8684
+#define __Pyx_XDECREF(253,8709
+#define __Pyx_SetupRefcountContext(254,8748
+#define __Pyx_FinishRefcountContext(255,8789
+#define __Pyx_XGIVEREF(257,8856
+#define __Pyx_XGOTREF(258,8922
+static INLINE PyObject *__Pyx_GetItemInt_Generic(__Pyx_GetItemInt_Generic269,9428
+#define __Pyx_GetItemInt_List(278,9615
+static INLINE PyObject *__Pyx_GetItemInt_List_Fast(__Pyx_GetItemInt_List_Fast282,9911
+#define __Pyx_GetItemInt_Tuple(298,10494
+static INLINE PyObject *__Pyx_GetItemInt_Tuple_Fast(__Pyx_GetItemInt_Tuple_Fast302,10792
+#define __Pyx_GetItemInt(319,11382
+static INLINE PyObject *__Pyx_GetItemInt_Fast(__Pyx_GetItemInt_Fast323,11668
+static PyObject* __pyx_print 346,12488
+static PyObject* __pyx_print_kwargs 347,12522
+static INLINE PyObject* __Pyx_PyObject_Append(366,13223
+struct __pyx_obj_4pypm_Output 428,15073
+  int device;430,15121
+  PmStream *midi;midi431,15135
+  int debug;432,15153
+  int _aborted;433,15166
+struct __pyx_obj_4pypm_Input 444,15357
+  int device;446,15404
+  PmStream *midi;midi447,15418
+  int debug;448,15436
+static PyTypeObject *__pyx_ptype_4pypm_Output __pyx_ptype_4pypm_Output452,15489
+static PyTypeObject *__pyx_ptype_4pypm_Input __pyx_ptype_4pypm_Input453,15540
+#define __Pyx_MODULE_NAME 454,15590
+int __pyx_module_is_main_pypm 455,15623
+static char __pyx_k_3[__pyx_k_3458,15688
+static PyObject *__pyx_int_0x1;__pyx_int_0x1459,15723
+static PyObject *__pyx_int_0x2;__pyx_int_0x2460,15755
+static PyObject *__pyx_int_0x4;__pyx_int_0x4461,15787
+static PyObject *__pyx_int_0x8;__pyx_int_0x8462,15819
+static PyObject *__pyx_int_0x10;__pyx_int_0x10463,15851
+static PyObject *__pyx_int_0x20;__pyx_int_0x20464,15884
+static PyObject *__pyx_int_0x30;__pyx_int_0x30465,15917
+static PyObject *__pyx_int_0x40;__pyx_int_0x40466,15950
+static PyObject *__pyx_int_0x7F;__pyx_int_0x7F467,15983
+static PyObject *__pyx_int_0x80;__pyx_int_0x80468,16016
+static PyObject *__pyx_int_0x100;__pyx_int_0x100469,16049
+static PyObject *__pyx_int_0x200;__pyx_int_0x200470,16083
+static PyObject *__pyx_int_0x300;__pyx_int_0x300471,16117
+static PyObject *__pyx_int_0x400;__pyx_int_0x400472,16151
+static PyObject *__pyx_int_0x800;__pyx_int_0x800473,16185
+static PyObject *__pyx_int_0x1000;__pyx_int_0x1000474,16219
+static PyObject *__pyx_int_0x2000;__pyx_int_0x2000475,16254
+static PyObject *__pyx_int_0x4000;__pyx_int_0x4000476,16289
+static PyObject *__pyx_int_0x8000;__pyx_int_0x8000477,16324
+static PyObject *__pyx_int_0x10000;__pyx_int_0x10000478,16359
+static PyObject *__pyx_int_0;__pyx_int_0479,16395
+static PyObject *__pyx_int_1;__pyx_int_1480,16425
+static PyObject *__pyx_int_4096;__pyx_int_4096481,16455
+static PyObject *__pyx_int_0xFF;__pyx_int_0xFF482,16488
+static PyObject *__pyx_int_16;__pyx_int_16483,16521
+static PyObject *__pyx_int_0xFF0000;__pyx_int_0xFF0000484,16552
+static PyObject *__pyx_int_8;__pyx_int_8485,16589
+static PyObject *__pyx_int_0xFF00;__pyx_int_0xFF00486,16619
+static PyObject *__pyx_int_1024;__pyx_int_1024487,16654
+static char __pyx_k___main__[__pyx_k___main__488,16687
+static PyObject *__pyx_kp___main__;__pyx_kp___main__489,16732
+static char __pyx_k___init__[__pyx_k___init__490,16768
+static PyObject *__pyx_kp___init__;__pyx_kp___init__491,16813
+static char __pyx_k___dealloc__[__pyx_k___dealloc__492,16849
+static PyObject *__pyx_kp___dealloc__;__pyx_kp___dealloc__493,16900
+static char __pyx_k__check_open[__pyx_k__check_open494,16939
+static PyObject *__pyx_kp__check_open;__pyx_kp__check_open495,16990
+static char __pyx_k_Close[__pyx_k_Close496,17029
+static PyObject *__pyx_kp_Close;__pyx_kp_Close497,17068
+static char __pyx_k_Abort[__pyx_k_Abort498,17101
+static PyObject *__pyx_kp_Abort;__pyx_kp_Abort499,17140
+static char __pyx_k_Write[__pyx_k_Write500,17173
+static PyObject *__pyx_kp_Write;__pyx_kp_Write501,17212
+static char __pyx_k_WriteShort[__pyx_k_WriteShort502,17245
+static PyObject *__pyx_kp_WriteShort;__pyx_kp_WriteShort503,17294
+static char __pyx_k_WriteSysEx[__pyx_k_WriteSysEx504,17332
+static PyObject *__pyx_kp_WriteSysEx;__pyx_kp_WriteSysEx505,17381
+static char __pyx_k_SetFilter[__pyx_k_SetFilter506,17419
+static PyObject *__pyx_kp_SetFilter;__pyx_kp_SetFilter507,17466
+static char __pyx_k_SetChannelMask[__pyx_k_SetChannelMask508,17503
+static PyObject *__pyx_kp_SetChannelMask;__pyx_kp_SetChannelMask509,17560
+static char __pyx_k_Poll[__pyx_k_Poll510,17602
+static PyObject *__pyx_kp_Poll;__pyx_kp_Poll511,17639
+static char __pyx_k_Read[__pyx_k_Read512,17671
+static PyObject *__pyx_kp_Read;__pyx_kp_Read513,17708
+static char __pyx_k_device_no[__pyx_k_device_no514,17740
+static PyObject *__pyx_kp_device_no;__pyx_kp_device_no515,17787
+static char __pyx_k_err[__pyx_k_err516,17824
+static PyObject *__pyx_kp_err;__pyx_kp_err517,17859
+static char __pyx_k_chan[__pyx_k_chan518,17890
+static PyObject *__pyx_kp_chan;__pyx_kp_chan519,17927
+static char __pyx_k_output_device[__pyx_k_output_device520,17959
+static PyObject *__pyx_kp_output_device;__pyx_kp_output_device521,18014
+static char __pyx_k_latency[__pyx_k_latency522,18055
+static PyObject *__pyx_kp_latency;__pyx_kp_latency523,18098
+static char __pyx_k_data[__pyx_k_data524,18133
+static PyObject *__pyx_kp_data;__pyx_kp_data525,18170
+static char __pyx_k_status[__pyx_k_status526,18202
+static PyObject *__pyx_kp_status;__pyx_kp_status527,18243
+static char __pyx_k_1[__pyx_k_1528,18277
+static PyObject *__pyx_kp_1;__pyx_kp_1529,18312
+static char __pyx_k_2[__pyx_k_2530,18341
+static PyObject *__pyx_kp_2;__pyx_kp_2531,18376
+static char __pyx_k_when[__pyx_k_when532,18405
+static PyObject *__pyx_kp_when;__pyx_kp_when533,18442
+static char __pyx_k_msg[__pyx_k_msg534,18474
+static PyObject *__pyx_kp_msg;__pyx_kp_msg535,18509
+static char __pyx_k_input_device[__pyx_k_input_device536,18540
+static PyObject *__pyx_kp_input_device;__pyx_kp_input_device537,18593
+static char __pyx_k_buffersize[__pyx_k_buffersize538,18633
+static PyObject *__pyx_kp_buffersize;__pyx_kp_buffersize539,18682
+static char __pyx_k_filters[__pyx_k_filters540,18720
+static PyObject *__pyx_kp_filters;__pyx_kp_filters541,18763
+static char __pyx_k_mask[__pyx_k_mask542,18798
+static PyObject *__pyx_kp_mask;__pyx_kp_mask543,18835
+static char __pyx_k_max_events[__pyx_k_max_events544,18867
+static PyObject *__pyx_kp_max_events;__pyx_kp_max_events545,18916
+static char __pyx_k___version__[__pyx_k___version__546,18954
+static PyObject *__pyx_kp___version__;__pyx_kp___version__547,19005
+static char __pyx_k_array[__pyx_k_array548,19044
+static PyObject *__pyx_kp_array;__pyx_kp_array549,19083
+static char __pyx_k_FILT_ACTIVE[__pyx_k_FILT_ACTIVE550,19116
+static PyObject *__pyx_kp_FILT_ACTIVE;__pyx_kp_FILT_ACTIVE551,19167
+static char __pyx_k_FILT_SYSEX[__pyx_k_FILT_SYSEX552,19206
+static PyObject *__pyx_kp_FILT_SYSEX;__pyx_kp_FILT_SYSEX553,19255
+static char __pyx_k_FILT_CLOCK[__pyx_k_FILT_CLOCK554,19293
+static PyObject *__pyx_kp_FILT_CLOCK;__pyx_kp_FILT_CLOCK555,19342
+static char __pyx_k_FILT_PLAY[__pyx_k_FILT_PLAY556,19380
+static PyObject *__pyx_kp_FILT_PLAY;__pyx_kp_FILT_PLAY557,19427
+static char __pyx_k_4[__pyx_k_4558,19464
+static PyObject *__pyx_kp_4;__pyx_kp_4559,19501
+static char __pyx_k_FILT_TICK[__pyx_k_FILT_TICK560,19530
+static PyObject *__pyx_kp_FILT_TICK;__pyx_kp_FILT_TICK561,19577
+static char __pyx_k_FILT_FD[__pyx_k_FILT_FD562,19614
+static PyObject *__pyx_kp_FILT_FD;__pyx_kp_FILT_FD563,19657
+static char __pyx_k_FILT_UNDEFINED[__pyx_k_FILT_UNDEFINED564,19692
+static PyObject *__pyx_kp_FILT_UNDEFINED;__pyx_kp_FILT_UNDEFINED565,19749
+static char __pyx_k_FILT_RESET[__pyx_k_FILT_RESET566,19791
+static PyObject *__pyx_kp_FILT_RESET;__pyx_kp_FILT_RESET567,19840
+static char __pyx_k_FILT_REALTIME[__pyx_k_FILT_REALTIME568,19878
+static PyObject *__pyx_kp_FILT_REALTIME;__pyx_kp_FILT_REALTIME569,19933
+static char __pyx_k_FILT_NOTE[__pyx_k_FILT_NOTE570,19974
+static PyObject *__pyx_kp_FILT_NOTE;__pyx_kp_FILT_NOTE571,20021
+static char __pyx_k_5[__pyx_k_5572,20058
+static PyObject *__pyx_kp_5;__pyx_kp_5573,20111
+static char __pyx_k_6[__pyx_k_6574,20140
+static PyObject *__pyx_kp_6;__pyx_kp_6575,20190
+static char __pyx_k_FILT_AFTERTOUCH[__pyx_k_FILT_AFTERTOUCH576,20219
+static PyObject *__pyx_kp_FILT_AFTERTOUCH;__pyx_kp_FILT_AFTERTOUCH577,20278
+static char __pyx_k_FILT_PROGRAM[__pyx_k_FILT_PROGRAM578,20321
+static PyObject *__pyx_kp_FILT_PROGRAM;__pyx_kp_FILT_PROGRAM579,20374
+static char __pyx_k_FILT_CONTROL[__pyx_k_FILT_CONTROL580,20414
+static PyObject *__pyx_kp_FILT_CONTROL;__pyx_kp_FILT_CONTROL581,20467
+static char __pyx_k_FILT_PITCHBEND[__pyx_k_FILT_PITCHBEND582,20507
+static PyObject *__pyx_kp_FILT_PITCHBEND;__pyx_kp_FILT_PITCHBEND583,20564
+static char __pyx_k_FILT_MTC[__pyx_k_FILT_MTC584,20606
+static PyObject *__pyx_kp_FILT_MTC;__pyx_kp_FILT_MTC585,20651
+static char __pyx_k_FILT_SONG_POSITION[__pyx_k_FILT_SONG_POSITION586,20687
+static PyObject *__pyx_kp_FILT_SONG_POSITION;__pyx_kp_FILT_SONG_POSITION587,20752
+static char __pyx_k_FILT_SONG_SELECT[__pyx_k_FILT_SONG_SELECT588,20798
+static PyObject *__pyx_kp_FILT_SONG_SELECT;__pyx_kp_FILT_SONG_SELECT589,20859
+static char __pyx_k_FILT_TUNE[__pyx_k_FILT_TUNE590,20903
+static PyObject *__pyx_kp_FILT_TUNE;__pyx_kp_FILT_TUNE591,20950
+static char __pyx_k_FALSE[__pyx_k_FALSE592,20987
+static PyObject *__pyx_kp_FALSE;__pyx_kp_FALSE593,21026
+static char __pyx_k_TRUE[__pyx_k_TRUE594,21059
+static PyObject *__pyx_kp_TRUE;__pyx_kp_TRUE595,21096
+static char __pyx_k_Exception[__pyx_k_Exception596,21128
+static PyObject *__pyx_kp_Exception;__pyx_kp_Exception597,21175
+static char __pyx_k_IndexError[__pyx_k_IndexError598,21212
+static PyObject *__pyx_kp_IndexError;__pyx_kp_IndexError599,21261
+static char __pyx_k_enumerate[__pyx_k_enumerate600,21299
+static PyObject *__pyx_kp_enumerate;__pyx_kp_enumerate601,21346
+static char __pyx_k_ValueError[__pyx_k_ValueError602,21383
+static PyObject *__pyx_kp_ValueError;__pyx_kp_ValueError603,21432
+static char __pyx_k_range[__pyx_k_range604,21470
+static PyObject *__pyx_kp_range;__pyx_kp_range605,21509
+static char __pyx_k_18[__pyx_k_18606,21542
+static PyObject *__pyx_kp_18;__pyx_kp_18607,21574
+static char __pyx_k_tostring[__pyx_k_tostring608,21604
+static PyObject *__pyx_kp_tostring;__pyx_kp_tostring609,21649
+static char __pyx_k_append[__pyx_k_append610,21685
+static PyObject *__pyx_kp_append;__pyx_kp_append611,21726
+static PyObject *__pyx_kp_3;__pyx_kp_3612,21760
+static PyObject *__pyx_builtin_Exception;__pyx_builtin_Exception613,21789
+static PyObject *__pyx_builtin_IndexError;__pyx_builtin_IndexError614,21831
+static PyObject *__pyx_builtin_enumerate;__pyx_builtin_enumerate615,21874
+static PyObject *__pyx_builtin_ValueError;__pyx_builtin_ValueError616,21916
+static PyObject *__pyx_builtin_range;__pyx_builtin_range617,21959
+static PyObject *__pyx_kp_7;__pyx_kp_7618,21997
+static PyObject *__pyx_kp_8;__pyx_kp_8619,22026
+static char __pyx_k_7[__pyx_k_7620,22055
+static char __pyx_k_8[__pyx_k_8621,22104
+static PyObject *__pyx_kp_9;__pyx_kp_9622,22173
+static char __pyx_k_9[__pyx_k_9623,22202
+static PyObject *__pyx_kp_10;__pyx_kp_10624,22283
+static PyObject *__pyx_kp_11;__pyx_kp_11625,22313
+static char __pyx_k_10[__pyx_k_10626,22343
+static char __pyx_k_11[__pyx_k_11627,22395
+static PyObject *__pyx_kp_12;__pyx_kp_12628,22478
+static PyObject *__pyx_kp_13;__pyx_kp_13629,22508
+static PyObject *__pyx_kp_14;__pyx_kp_14630,22538
+static PyObject *__pyx_kp_15;__pyx_kp_15631,22568
+static PyObject *__pyx_kp_16;__pyx_kp_16632,22598
+static char __pyx_k_12[__pyx_k_12633,22628
+static char __pyx_k_13[__pyx_k_13634,22693
+static char __pyx_k_14[__pyx_k_14635,22748
+static char __pyx_k_15[__pyx_k_15636,22820
+static char __pyx_k_16[__pyx_k_16637,22863
+static PyObject *__pyx_kp_17;__pyx_kp_17638,22917
+static char __pyx_k_17[__pyx_k_17639,22947
+static PyObject *__pyx_kp_19;__pyx_kp_19640,23001
+static char __pyx_k_19[__pyx_k_19641,23031
+static PyObject *__pyx_kp_20;__pyx_kp_20642,23080
+static char __pyx_k_20[__pyx_k_20643,23110
+static PyObject *__pyx_kp_21;__pyx_kp_21644,23190
+static char __pyx_k_21[__pyx_k_21645,23220
+static PyObject *__pyx_kp_22;__pyx_kp_22646,23271
+static PyObject *__pyx_kp_23;__pyx_kp_23647,23301
+static char __pyx_k_22[__pyx_k_22648,23331
+static char __pyx_k_23[__pyx_k_23649,23392
+static char __pyx_doc_4pypm_Initialize[__pyx_doc_4pypm_Initialize660,23705
+static PyObject *__pyx_pf_4pypm_Initialize(__pyx_pf_4pypm_Initialize661,23899
+static char __pyx_doc_4pypm_Terminate[__pyx_doc_4pypm_Terminate699,24986
+static PyObject *__pyx_pf_4pypm_Terminate(__pyx_pf_4pypm_Terminate700,25235
+static char __pyx_doc_4pypm_GetDefaultInputDeviceID[__pyx_doc_4pypm_GetDefaultInputDeviceID729,26049
+static PyObject *__pyx_pf_4pypm_GetDefaultInputDeviceID(__pyx_pf_4pypm_GetDefaultInputDeviceID730,26260
+static char __pyx_doc_4pypm_GetDefaultOutputDeviceID[__pyx_doc_4pypm_GetDefaultOutputDeviceID771,27603
+static PyObject *__pyx_pf_4pypm_GetDefaultOutputDeviceID(__pyx_pf_4pypm_GetDefaultOutputDeviceID772,27816
+static char __pyx_doc_4pypm_CountDevices[__pyx_doc_4pypm_CountDevices813,29139
+static PyObject *__pyx_pf_4pypm_CountDevices(__pyx_pf_4pypm_CountDevices814,29247
+static char __pyx_doc_4pypm_GetDeviceInfo[__pyx_doc_4pypm_GetDeviceInfo855,30590
+static PyObject *__pyx_pf_4pypm_GetDeviceInfo(__pyx_pf_4pypm_GetDeviceInfo856,31008
+static char __pyx_doc_4pypm_Time[__pyx_doc_4pypm_Time958,35132
+static PyObject *__pyx_pf_4pypm_Time(__pyx_pf_4pypm_Time959,35225
+static char __pyx_doc_4pypm_GetErrorText[__pyx_doc_4pypm_GetErrorText1000,36500
+static PyObject *__pyx_pf_4pypm_GetErrorText(__pyx_pf_4pypm_GetErrorText1001,36614
+static char __pyx_doc_4pypm_Channel[__pyx_doc_4pypm_Channel1044,38162
+static PyObject *__pyx_pf_4pypm_Channel(__pyx_pf_4pypm_Channel1045,38758
+static char __pyx_doc_4pypm_6Output___init__[__pyx_doc_4pypm_6Output___init__1091,40489
+static int __pyx_pf_4pypm_6Output___init__(1092,40580
+static char __pyx_doc_4pypm_6Output___dealloc__[__pyx_doc_4pypm_6Output___dealloc__1359,51535
+static void __pyx_pf_4pypm_6Output___dealloc__(1360,51654
+static char __pyx_doc_4pypm_6Output__check_open[__pyx_doc_4pypm_6Output__check_open1464,55516
+static PyObject *__pyx_pf_4pypm_6Output__check_open(__pyx_pf_4pypm_6Output__check_open1465,55727
+static char __pyx_doc_4pypm_6Output_Close[__pyx_doc_4pypm_6Output_Close1559,59477
+static PyObject *__pyx_pf_4pypm_6Output_Close(__pyx_pf_4pypm_6Output_Close1560,59803
+static char __pyx_doc_4pypm_6Output_Abort[__pyx_doc_4pypm_6Output_Abort1666,63366
+static PyObject *__pyx_pf_4pypm_6Output_Abort(__pyx_pf_4pypm_6Output_Abort1667,63779
+static char __pyx_doc_4pypm_6Output_Write[__pyx_doc_4pypm_6Output_Write1773,67388
+static PyObject *__pyx_pf_4pypm_6Output_Write(__pyx_pf_4pypm_6Output_Write1774,68324
+static char __pyx_doc_4pypm_6Output_WriteShort[__pyx_doc_4pypm_6Output_WriteShort2218,92145
+static PyObject *__pyx_pf_4pypm_6Output_WriteShort(__pyx_pf_4pypm_6Output_WriteShort2219,92762
+static char __pyx_doc_4pypm_6Output_WriteSysEx[__pyx_doc_4pypm_6Output_WriteSysEx2445,102986
+static PyObject *__pyx_pf_4pypm_6Output_WriteSysEx(__pyx_pf_4pypm_6Output_WriteSysEx2446,103504
+static char __pyx_doc_4pypm_5Input___init__[__pyx_doc_4pypm_5Input___init__2673,113809
+static int __pyx_pf_4pypm_5Input___init__(2674,113898
+static char __pyx_doc_4pypm_5Input___dealloc__[__pyx_doc_4pypm_5Input___dealloc__2845,120974
+static void __pyx_pf_4pypm_5Input___dealloc__(2846,121092
+static char __pyx_doc_4pypm_5Input__check_open[__pyx_doc_4pypm_5Input__check_open2950,124943
+static PyObject *__pyx_pf_4pypm_5Input__check_open(__pyx_pf_4pypm_5Input__check_open2951,125153
+static char __pyx_doc_4pypm_5Input_Close[__pyx_doc_4pypm_5Input_Close3012,127361
+static PyObject *__pyx_pf_4pypm_5Input_Close(__pyx_pf_4pypm_5Input_Close3013,127655
+static char __pyx_doc_4pypm_5Input_SetFilter[__pyx_doc_4pypm_5Input_SetFilter3132,131626
+static PyObject *__pyx_pf_4pypm_5Input_SetFilter(__pyx_pf_4pypm_5Input_SetFilter3133,132606
+static char __pyx_doc_4pypm_5Input_SetChannelMask[__pyx_doc_4pypm_5Input_SetChannelMask3278,138869
+static PyObject *__pyx_pf_4pypm_5Input_SetChannelMask(__pyx_pf_4pypm_5Input_SetChannelMask3279,139635
+static char __pyx_doc_4pypm_5Input_Poll[__pyx_doc_4pypm_5Input_Poll3368,143410
+static PyObject *__pyx_pf_4pypm_5Input_Poll(__pyx_pf_4pypm_5Input_Poll3369,143584
+static char __pyx_doc_4pypm_5Input_Read[__pyx_doc_4pypm_5Input_Read3470,147515
+static PyObject *__pyx_pf_4pypm_5Input_Read(__pyx_pf_4pypm_5Input_Read3471,147934
+static PyObject *__pyx_tp_new_4pypm_Output(__pyx_tp_new_4pypm_Output3799,164533
+static void __pyx_tp_dealloc_4pypm_Output(3805,164694
+static struct PyMethodDef __pyx_methods_4pypm_Output[__pyx_methods_4pypm_Output3818,165035
+static PyNumberMethods __pyx_tp_as_number_Output 3828,165960
+static PySequenceMethods __pyx_tp_as_sequence_Output 3886,167194
+static PyMappingMethods __pyx_tp_as_mapping_Output 3899,167465
+static PyBufferProcs __pyx_tp_as_buffer_Output 3905,167591
+PyTypeObject __pyx_type_4pypm_Output 3926,168029
+static PyObject *__pyx_tp_new_4pypm_Input(__pyx_tp_new_4pypm_Input3974,169548
+static void __pyx_tp_dealloc_4pypm_Input(3980,169708
+static struct PyMethodDef __pyx_methods_4pypm_Input[__pyx_methods_4pypm_Input3993,170047
+static PyNumberMethods __pyx_tp_as_number_Input 4003,170922
+static PySequenceMethods __pyx_tp_as_sequence_Input 4061,172155
+static PyMappingMethods __pyx_tp_as_mapping_Input 4074,172425
+static PyBufferProcs __pyx_tp_as_buffer_Input 4080,172550
+PyTypeObject __pyx_type_4pypm_Input 4101,172987
+static struct PyMethodDef __pyx_methods[__pyx_methods4149,174401
+static struct PyModuleDef __pyx_moduledef 4165,175752
+static __Pyx_StringTabEntry __pyx_string_tab[__pyx_string_tab4178,176036
+static int __Pyx_InitCachedBuiltins(4260,181873
+static int __Pyx_InitGlobals(4271,182958
+PyMODINIT_FUNC initpypm(4309,188174
+static const char *__pyx_filenames[__pyx_filenames4619,201464
+static void __pyx_init_filenames(4625,201551
+static void __Pyx_RaiseDoubleKeywordsError(4629,201624
+static void __Pyx_RaiseArgtupleInvalid(4642,202014
+static int __Pyx_ParseOptionalKeywords(4672,202831
+static PyObject *__Pyx_Import(__Pyx_Import4752,205722
+static PyObject *__Pyx_GetStdout(__Pyx_GetStdout4786,206627
+static int __Pyx_Print(4794,206822
+static int __Pyx_Print(4828,207759
+static int __Pyx_PrintOne(4864,208741
+static int __Pyx_PrintOne(4884,209282
+static PyObject *__Pyx_GetName(__Pyx_GetName4898,209574
+static void __Pyx_Raise(4906,209791
+static INLINE void __Pyx_ErrRestore(4970,211814
+static INLINE void __Pyx_ErrFetch(5002,212918
+static INLINE void __Pyx_RaiseNeedMoreValuesError(5014,213255
+static INLINE void __Pyx_RaiseTooManyValuesError(5024,213607
+static PyObject *__Pyx_UnpackItem(__Pyx_UnpackItem5028,213735
+static int __Pyx_EndUnpack(5038,213984
+static INLINE int __Pyx_StrEq(5051,214259
+static INLINE unsigned char __Pyx_PyInt_AsUnsignedChar(5056,214405
+static INLINE unsigned short __Pyx_PyInt_AsUnsignedShort(5076,215222
+static INLINE unsigned int __Pyx_PyInt_AsUnsignedInt(5096,216050
+static INLINE char __Pyx_PyInt_AsChar(5116,216856
+static INLINE short __Pyx_PyInt_AsShort(5131,217357
+static INLINE int __Pyx_PyInt_AsInt(5146,217867
+static INLINE signed char __Pyx_PyInt_AsSignedChar(5161,218359
+static INLINE signed short __Pyx_PyInt_AsSignedShort(5176,218928
+static INLINE signed int __Pyx_PyInt_AsSignedInt(5191,219506
+static INLINE unsigned long __Pyx_PyInt_AsUnsignedLong(5206,220066
+static INLINE unsigned PY_LONG_LONG __Pyx_PyInt_AsUnsignedLongLong(5235,221069
+static INLINE long __Pyx_PyInt_AsLong(5264,222148
+static INLINE PY_LONG_LONG __Pyx_PyInt_AsLongLong(5283,222668
+static INLINE signed long __Pyx_PyInt_AsSignedLong(5302,223232
+static INLINE signed PY_LONG_LONG __Pyx_PyInt_AsSignedLongLong(5321,223792
+static void __Pyx_AddTraceback(5344,224466
+static int __Pyx_InitStrings(5418,226950
+static INLINE int __Pyx_PyObject_IsTrue(5446,227841
+static INLINE PyObject* __Pyx_PyNumber_Int(5452,228021
+static INLINE Py_ssize_t __Pyx_PyIndex_AsSsize_t(5498,229071
+static INLINE PyObject * __Pyx_PyInt_FromSize_t(5507,229273
+static INLINE size_t __Pyx_PyInt_AsSize_t(5521,229687
+
+display.c,1246
+#define PYGAMEAPI_DISPLAY_INTERNAL26,863
+static PyTypeObject PyVidInfo_Type;33,994
+static PyObject* DisplaySurfaceObject 36,1135
+static int icon_was_set 37,1181
+static char* icon_defaultname 40,1234
+static char* pkgdatamodule_name 41,1285
+static char* imagemodule_name 42,1337
+static char* resourcefunc_name 43,1385
+static char* load_basicfunc_name 44,1433
+display_resource 47,1500
+display_autoquit 119,3253
+display_autoinit 132,3506
+quit 139,3652
+init 148,3787
+get_init 159,4003
+get_active 165,4114
+vidinfo_dealloc 172,4251
+vidinfo_getattr 178,4331
+vidinfo_str 237,6637
+static PyTypeObject PyVidInfo_Type 277,8185
+PyVidInfo_New 298,8879
+get_driver 315,9239
+get_wm_info 327,9441
+Info 406,11738
+get_surface 417,11905
+gl_set_attribute 427,12083
+gl_get_attribute 445,12516
+set_mode 462,12873
+mode_ok 558,15543
+list_modes 575,15927
+flip 616,16857
+screencroprect 641,17425
+update 658,17901
+set_palette 768,20773
+set_gamma 833,22619
+convert_to_uint16 850,22944
+set_gamma_ramp 889,23858
+set_caption 934,24745
+get_caption 949,25038
+do_set_icon 962,25275
+set_icon 970,25439
+iconify 982,25750
+toggle_fullscreen 992,25918
+static PyMethodDef _display_methods[_display_methods1006,26224
+MODINIT_DEFINE 1056,28385
+
+_numericsurfarray.c,454
+pixels3d 30,976
+pixels2d 102,3248
+pixels_alpha 142,4521
+array2d 191,6074
+array3d 292,9044
+array_alpha 433,13640
+array_colorkey 538,16675
+map_array 653,20050
+#define COPYMACRO_2D(784,24502
+#define COPYMACRO_2D_24(793,25034
+#define COPYMACRO_3D(810,26151
+#define COPYMACRO_3D_24(823,26983
+blit_array 837,27821
+make_surface 1060,35016
+static PyMethodDef surfarray_builtins[surfarray_builtins1122,36576
+void init_numericsurfarray 1144,37650
+
+scale2x.c,119
+#define MAX(36,1263
+#define MIN(37,1309
+#define READINT24(40,1357
+#define WRITEINT24(41,1417
+void scale2x(49,1676
+
+cdrom.c,976
+#define PYGAMEAPI_CDROM_INTERNAL23,830
+#define CDROM_MAXDRIVES 28,933
+static SDL_CD* cdrom_drivedata[cdrom_drivedata29,960
+static PyTypeObject PyCD_Type;30,1018
+#define PyCD_Check(32,1084
+cdrom_autoquit 35,1148
+cdrom_autoinit 51,1494
+cdrom_quit 63,1771
+cdrom_init 70,1864
+get_init 85,2153
+cd_dealloc 91,2259
+CD 97,2334
+get_count 109,2529
+cd_init 116,2651
+cd_quit 131,2992
+cd_get_init 145,3245
+cd_play 152,3390
+cd_pause 215,5027
+cd_resume 234,5427
+cd_stop 253,5829
+cd_eject 272,6227
+cd_get_empty 292,6628
+cd_get_busy 308,6979
+cd_get_paused 324,7327
+cd_get_current 341,7677
+cd_get_numtracks 361,8118
+cd_get_id 376,8442
+cd_get_name 383,8560
+cd_get_track_audio 391,8717
+cd_get_track_length 414,9299
+cd_get_track_start 440,9989
+cd_get_all 463,10576
+static PyMethodDef cd_methods[cd_methods499,11716
+static PyTypeObject PyCD_Type 532,13215
+PyCD_New 575,15065
+static PyMethodDef _cdrom_methods[_cdrom_methods593,15391
+MODINIT_DEFINE 606,15940
+
+music.c,1080
+#define PYGAMEAPI_MUSIC_INTERNAL26,865
+#define ver(32,987
+#define _version_ 34,1104
+#define MIXMUSIC_HAVE_STARTPOSN 38,1268
+#define MIXMUSIC_HAVE_STARTPOSN 40,1308
+#define MIXMUSIC_HAVE_RWOPS 45,1424
+#define MIXMUSIC_HAVE_RWOPS 47,1460
+#undef ver50,1498
+#undef _version_51,1509
+static Mix_Music* current_music 53,1527
+static Mix_Music* queue_music 54,1567
+static int endmusic_event 55,1605
+static Uint64 music_pos 56,1646
+static long music_pos_time 57,1675
+static int music_frequency 58,1708
+static Uint16 music_format 59,1740
+static int music_channels 60,1772
+mixmusic_callback 63,1816
+endmusic_callback 73,1998
+music_play 101,2627
+music_get_busy 143,3870
+music_fadeout 150,3998
+music_stop 168,4325
+music_pause 182,4541
+music_unpause 191,4661
+music_rewind 200,4784
+music_set_volume 209,4906
+music_get_volume 223,5156
+music_set_pos 233,5337
+music_get_pos 252,5776
+music_set_endevent 271,6208
+music_get_endevent 282,6435
+music_load(288,6537
+music_queue(352,7999
+static PyMethodDef _music_methods[_music_methods410,9342
+MODINIT_DEFINE 444,10782
+
+scrap_win.c,426
+#define CF_DIBV5 25,1011
+static HWND SDL_Window;28,1039
+#define MAX_CHUNK_SIZE 29,1063
+static UINT _format_MIME_PLAIN;31,1095
+_convert_format 41,1331
+_convert_internal_type 53,1639
+_lookup_clipboard_format 77,2321
+_create_dib_buffer 122,3396
+pygame_scrap_init 155,4388
+pygame_scrap_lost 178,4904
+pygame_scrap_put 189,5130
+pygame_scrap_get 244,6511
+pygame_scrap_get_types 328,8629
+pygame_scrap_contains 417,10621
+
+scrap_x11.c,963
+static Display *SDL_Display;SDL_Display24,931
+static Window SDL_Window;25,960
+static Atom _atom_UTF8;30,1077
+static Atom _atom_TEXT;31,1101
+static Atom _atom_COMPOUND;32,1125
+static Atom _atom_MIME_PLAIN;33,1153
+static Atom _atom_MIME_UTF8;34,1183
+static Atom _atom_TARGETS;35,1212
+static Atom _atom_TIMESTAMP;36,1239
+static Atom _atom_SDL;37,1268
+static Atom _atom_BMP;38,1291
+static Atom _atom_CLIPBOARD;39,1314
+static Time _cliptime 42,1379
+static Time _selectiontime 43,1416
+#define MAX_CHUNK_SIZE(46,1510
+#define GET_CLIPATOM(52,1838
+_convert_format 74,2716
+_init_atom_types 87,3008
+_atom_to_string 110,3968
+_add_clip_data 132,4422
+_clipboard_filter 155,5108
+_set_targets 290,9087
+_set_data 337,10501
+_get_scrap_owner 377,11545
+_get_data_as 419,12729
+pygame_scrap_init 634,18706
+pygame_scrap_lost 689,20276
+pygame_scrap_put 708,20641
+pygame_scrap_get 794,23044
+pygame_scrap_contains 806,23362
+pygame_scrap_get_types 820,23594
+
+_gcommand.h,448
+#define _GCOMMAND_H_31,1075
+typedef struct Command57,2344
+    int type;59,2369
+    struct Command *next;next60,2383
+} Command;61,2409
+#define FULL_COMMAND 63,2421
+typedef struct CommandQueue67,2486
+    int size;69,2516
+    SDL_mutex *q_mutex;q_mutex70,2530
+    Command *first;first71,2554
+    Command *last;last72,2574
+    int registry[registry73,2593
+    int reg_ix;74,2617
+} CommandQueue;75,2633
+#define ALLOC_COMMAND(85,2937
+
+surface.h,1595
+#define SURFACE_H25,886
+#undef _POSIX_C_SOURCE29,965
+#define PYGAME_BLEND_ADD 35,1034
+#define PYGAME_BLEND_SUB 36,1064
+#define PYGAME_BLEND_MULT 37,1094
+#define PYGAME_BLEND_MIN 38,1124
+#define PYGAME_BLEND_MAX 39,1154
+#define PYGAME_BLEND_RGB_ADD 41,1185
+#define PYGAME_BLEND_RGB_SUB 42,1219
+#define PYGAME_BLEND_RGB_MULT 43,1253
+#define PYGAME_BLEND_RGB_MIN 44,1287
+#define PYGAME_BLEND_RGB_MAX 45,1321
+#define PYGAME_BLEND_RGBA_ADD 47,1356
+#define PYGAME_BLEND_RGBA_SUB 48,1391
+#define PYGAME_BLEND_RGBA_MULT 49,1426
+#define PYGAME_BLEND_RGBA_MIN 50,1461
+#define PYGAME_BLEND_RGBA_MAX 51,1496
+#define PYGAME_BLEND_PREMULTIPLIED 52,1532
+#define GET_PIXEL_24(59,1614
+#define GET_PIXEL_24(61,1680
+#define GET_PIXEL(64,1748
+#define GET_PIXELVALS(81,2535
+#define GET_PIXELVALS_1(98,3622
+#define SET_OFFSETS_24(111,3907
+#define SET_OFFSETS_32(124,4486
+#define SET_OFFSETS_24(140,5226
+#define SET_OFFSETS_32(153,5805
+#define CREATE_PIXEL(171,6548
+#define LOOP_UNROLLED4(191,7481
+#define REPEAT_3(203,7913
+#define REPEAT_4(208,7999
+#define BLEND_ADD(215,8111
+#define BLEND_SUB(220,8336
+#define BLEND_MULT(225,8554
+#define BLEND_MIN(230,8756
+#define BLEND_MAX(235,8942
+#define BLEND_RGBA_ADD(245,9133
+#define BLEND_RGBA_SUB(251,9421
+#define BLEND_RGBA_MULT(257,9701
+#define BLEND_RGBA_MIN(263,9961
+#define BLEND_RGBA_MAX(269,10204
+#define ALPHA_BLEND_COMP(291,10698
+#define ALPHA_BLEND_COMP(293,10777
+#define ALPHA_BLEND(296,10863
+#define ALPHA_BLEND_PREMULTIPLIED_COMP(314,11743
+#define ALPHA_BLEND_PREMULTIPLIED(316,11824
+#define ALPHA_BLEND(325,12311
+
+base.c,2889
+#define NO_PYGAME_C_API22,829
+#define PYGAMEAPI_BASE_INTERNAL23,853
+#define WIN32_LEAN_AND_MEAN38,1178
+#define VC_EXTRALEAN39,1206
+QDGlobals qd;46,1381
+#define PAI_MY_ENDIAN 51,1446
+#define PAI_OTHER_ENDIAN 52,1472
+#define BUF_OTHER_ENDIAN 53,1501
+#define PAI_MY_ENDIAN 55,1536
+#define PAI_OTHER_ENDIAN 56,1562
+#define BUF_OTHER_ENDIAN 57,1591
+#define BUF_MY_ENDIAN 59,1627
+#define INT_CHECK(62,1662
+#define INT_CHECK(64,1705
+typedef struct capsule_interface_s 68,1798
+    PyArrayInterface inter;69,1835
+    Py_intptr_t imem[imem70,1863
+} CapsuleInterface;71,1888
+typedef struct view_internals_s 74,1969
+    char format[format75,2003
+    Py_ssize_t imem[imem76,2057
+} ViewInternals;77,2081
+static PyObject* PgExc_BufferError 80,2123
+static PyObject* quitfunctions 83,2217
+static int sdl_was_init 84,2256
+_IsFortranContiguous(144,4911
+_IsCContiguous(165,5413
+PyBuffer_IsContiguous(186,5896
+CheckSDLVersions 202,6289
+PyGame_RegisterQuit 224,6966
+register_quit 242,7316
+init 256,7578
+atexit_quit 313,9080
+get_sdl_version 328,9410
+get_sdl_byteorder 337,9587
+quit 343,9688
+_quit 350,9761
+IntFromObj 384,10476
+IntFromObjIndex 397,10712
+TwoIntsFromObj 411,10979
+FloatFromObj 426,11369
+FloatFromObjIndex 440,11585
+TwoFloatsFromObj 454,11858
+UintFromObj 469,12260
+UintFromObjIndex 485,12569
+RGBAFromObj 499,12841
+get_error 534,13690
+set_error 540,13783
+PyGame_Video_AutoQuit 559,14078
+PyGame_Video_AutoInit 566,14205
+GetArrayStruct 607,15222
+ArrayStructAsDict 645,16257
+PgBuffer_AsArrayInterface 674,17255
+PgBuffer_AsArrayStruct 685,17673
+_new_capsuleinterface 706,18109
+_capsule_PyMem_Free 744,19250
+_as_arrayinter_flags 751,19365
+view_get_typestr_obj 769,19853
+view_get_shape_obj 778,20123
+view_get_strides_obj 799,20590
+view_get_data_obj 820,21061
+_as_arrayinter_typekind 828,21271
+_as_arrayinter_byteorder 870,21936
+_shape_as_tuple 904,22570
+_typekind_as_str 925,23061
+_strides_as_tuple 937,23499
+_data_as_tuple 958,24004
+get_array_interface 968,24278
+PgObject_GetBuffer 983,24579
+PgBuffer_Release 1120,27913
+_release_buffer_generic 1127,28077
+_release_buffer_array 1136,28226
+_buffer_is_byteswapped 1147,28500
+GetArrayInterface 1163,28805
+PgArrayStruct_AsBuffer 1186,29462
+_arraystruct_as_buffer 1199,29846
+static int _arraystruct_to_format 1294,33029
+PgDict_AsBuffer 1429,36466
+_pyshape_check(1458,37315
+_pytypestr_check(1479,37866
+_pydata_check(1509,38669
+_pystrides_check 1538,39420
+_is_inttuple 1549,39675
+_pyvalues_as_buffer(1569,40013
+_pyinttuple_as_ssize_arr 1688,43863
+_pytypestr_as_format 1703,44191
+pygame_parachute 1882,48479
+static int fatal_signals[fatal_signals1921,49216
+static int parachute_installed 1936,49387
+install_parachute 1938,49435
+uninstall_parachute 1973,50396
+do_segfault 1996,50887
+static PyMethodDef _base_methods[_base_methods2004,51017
+MODINIT_DEFINE(2023,51873
+
+_camera.h,25
+#define _CAMERA_H21,771
+
+mouse.c,288
+mouse_set_pos 32,977
+mouse_get_pos 46,1271
+mouse_get_rel 57,1438
+mouse_get_pressed 68,1613
+mouse_set_visible 87,2097
+mouse_get_focused 100,2356
+mouse_set_cursor 107,2513
+mouse_get_cursor 172,4308
+static PyMethodDef _mouse_methods[_mouse_methods209,5213
+MODINIT_DEFINE 230,6015
+
+bitmask.h,470
+#define BITMASK_H22,950
+#  define INLINE 35,1221
+#   define INLINE 38,1270
+#   define INLINE40,1305
+#define BITMASK_W 45,1348
+#define BITMASK_W_LEN 46,1384
+#define BITMASK_W_MASK 47,1435
+#define BITMASK_N(48,1478
+typedef struct bitmask50,1522
+  int w,52,1547
+  int w,h;52,1547
+  BITMASK_W bits[bits53,1558
+} bitmask_t;54,1579
+static INLINE int bitmask_getbit(79,2240
+static INLINE void bitmask_setbit(85,2423
+static INLINE void bitmask_clearbit(91,2590
+
+key.c,243
+key_set_repeat 32,981
+key_get_repeat 53,1380
+key_get_pressed 75,1678
+key_name 107,2308
+key_get_mods 118,2502
+key_set_mods 126,2628
+key_get_focused 140,2853
+static PyMethodDef _key_methods[_key_methods147,2992
+MODINIT_DEFINE 163,3628
+
+pgopengl.h,155
+#define PGOPENGL_H2,25
+#define GL_APIENTRY 9,202
+#define GL_APIENTRY11,238
+typedef void (GL_APIENTRY *GL_glReadPixels_Func)GL_glReadPixels_Func14,266
+
+scrap_qnx.c,269
+static unsigned short InputGroup;22,907
+#define MAX_CHUNK_SIZE 23,941
+_convert_format 33,1170
+pygame_scrap_init 48,1383
+pygame_scrap_lost 70,1837
+pygame_scrap_put 81,2062
+pygame_get_scrap 153,3924
+pygame_scrap_get_types 240,6220
+pygame_scrap_contains 246,6276
+
+rwobject.c,1126
+#define NO_PYGAME_C_API26,878
+#define PYGAMEAPI_RWOBJECT_INTERNAL27,902
+#define ExcClassType_Check(36,1148
+#define PyExc_BaseException 37,1195
+#define ExcClassType_Check(39,1245
+    PyObject* read;44,1316
+    PyObject* write;45,1336
+    PyObject* seek;46,1357
+    PyObject* tell;47,1377
+    PyObject* close;48,1397
+} RWHelper;49,1418
+static const char default_encoding[default_encoding53,1553
+static const char default_errors[default_errors54,1610
+is_exception_class(70,2267
+fetch_object_methods 103,3056
+RWopsEncodeString(156,4600
+RWopsEncodeFilePath(222,6536
+RWopsFromFileObject(251,7487
+RWopsFromObject(289,8325
+RWopsCheckObject 312,8824
+rw_seek 319,8908
+rw_read 347,9557
+rw_write 375,10135
+rw_close 392,10501
+RWopsFromFileObjectThreaded(417,11061
+RWopsCheckObjectThreaded 453,11912
+rw_seek_th 464,12071
+rw_read_th 507,12951
+rw_write_th 548,13730
+rw_close_th 578,14292
+rwobject_encode_string(614,15005
+rwobject_encode_file_path(635,15669
+static PyMethodDef _rwobject_methods[_rwobject_methods652,16158
+/*DOC*/ static char _rwobject_doc[_rwobject_doc661,16485
+MODINIT_DEFINE 664,16556
+
+pixelarray.c,2226
+#define PYGAMEAPI_PIXELARRAY_INTERNAL21,796
+#define PyIndex_Check(29,963
+static char FormatUint8[FormatUint832,999
+static char FormatUint16[FormatUint1633,1032
+static char FormatUint24[FormatUint2434,1067
+static char FormatUint32[FormatUint3235,1102
+typedef struct _pixelarray_t 45,1488
+    PyObject *dict;dict47,1537
+    PyObject *weakrefs;weakrefs48,1591
+    PyObject *surface;surface49,1649
+    Py_ssize_t shape[shape50,1716
+    Py_ssize_t strides[strides51,1784
+    Uint8  *pixels;pixels52,1844
+    struct _pixelarray_t *parent;parent53,1897
+} PyPixelArray;55,2002
+static PyTypeObject PyPixelArray_Type;118,4932
+#define PyPixelArray_Check(119,4971
+#define SURFACE_EQUALS(122,5061
+array_is_contiguous(126,5170
+static PyMethodDef _pxarray_methods[_pxarray_methods147,5663
+Text_ConcatAndDel(164,6260
+#define Text_ConcatAndDel 179,6594
+static PyGetSetDef _pxarray_getsets[_pxarray_getsets185,6703
+static PySequenceMethods _pxarray_sequence 206,7670
+static PyMappingMethods _pxarray_mapping 223,8366
+static PyBufferProcs _pxarray_bufferprocs 232,8618
+#define PXARRAY_BUFFERPROCS 243,8770
+#define PXARRAY_BUFFERPROCS 246,8827
+#define PXARRAY_TPFLAGS 250,8920
+#define PXARRAY_TPFLAGS 254,9055
+static PyTypeObject PyPixelArray_Type 259,9158
+_pxarray_new_internal(312,11453
+_pxarray_new(363,12830
+_pxarray_dealloc(396,13741
+_pxarray_traverse(417,14189
+_pxarray_get_dict(435,14534
+_pxarray_get_surface(454,14854
+_pxarray_get_itemsize(465,15056
+_pxarray_get_shape(476,15298
+_pxarray_get_strides(488,15567
+_pxarray_get_ndim(500,15841
+_pxarray_get_arraystruct(510,16048
+_pxarray_get_arrayinterface(524,16339
+_pxarray_get_pixelsaddress(542,16751
+_pxarray_getbuffer(554,17041
+_pxarray_repr(656,20153
+_pxarray_subscript_internal(807,24762
+_array_slice_internal(867,26599
+_pxarray_length(889,27170
+_pxarray_item(898,27278
+_array_assign_array(914,27754
+_array_assign_sequence(1079,32918
+_array_assign_slice(1198,36293
+_pxarray_ass_item(1298,38824
+_pxarray_ass_slice(1411,42065
+_pxarray_contains(1451,43042
+_get_subslice(1551,45581
+_pxarray_subscript(1611,47170
+_pxarray_ass_subscript(1732,50814
+static PyObject* PyPixelArray_New(1898,56011
+MODINIT_DEFINE(1928,56898
+
+constants.c,1125
+#define NO_PYGAME_C_API22,859
+#define ADD_ERROR 28,987
+#define DEC_CONST(29,1045
+#define DEC_CONSTK(31,1138
+#define DEC_CONSTN(33,1231
+#define DEC_CONSTS(35,1319
+#define ADD_STRING_CONST(38,1410
+static PyMethodDef _constant_methods[_constant_methods42,1503
+/*DOC*/ static char _constants_doc[_constants_doc47,1561
+MODINIT_DEFINE(50,1665
+#define SCRAP_TEXT 169,4382
+#define SCRAP_BMP 170,4419
+#define SCRAP_PPM 171,4454
+#define SCRAP_PBM 172,4489
+#define PYGAME_BLEND_RGB_ADD 184,4824
+#define PYGAME_BLEND_RGB_SUB 185,4858
+#define PYGAME_BLEND_RGB_MULT 186,4892
+#define PYGAME_BLEND_RGB_MIN 187,4926
+#define PYGAME_BLEND_RGB_MAX 188,4960
+#define PYGAME_BLEND_ADD 190,4995
+#define PYGAME_BLEND_SUB 191,5042
+#define PYGAME_BLEND_MULT 192,5089
+#define PYGAME_BLEND_MIN 193,5137
+#define PYGAME_BLEND_MAX 194,5184
+#define PYGAME_BLEND_RGBA_ADD 196,5232
+#define PYGAME_BLEND_RGBA_SUB 197,5267
+#define PYGAME_BLEND_RGBA_MULT 198,5302
+#define PYGAME_BLEND_RGBA_MIN 199,5337
+#define PYGAME_BLEND_RGBA_MAX 200,5372
+#define PYGAME_BLEND_PREMULTIPLIED 202,5409
+#define PYGAME_USEREVENT_DROPFILE 413,10773
+
+pygame.h,25
+#define PYGAME_H30,1199
+
+pgbufferproxy.h,593
+#define PYGAMEAPI_BUFPROXY_NUMSLOTS 29,996
+#define PYGAMEAPI_BUFPROXY_FIRSTSLOT 30,1034
+static void *PgBUFPROXY_C_API[PgBUFPROXY_C_API33,1146
+typedef PyObject *(*_pgbufproxy_new_t)_pgbufproxy_new_t35,1207
+typedef PyObject *(*_pgbufproxy_get_obj_t)_pgbufproxy_get_obj_t36,1274
+typedef int (*_pgbufproxy_trip_t)_pgbufproxy_trip_t37,1330
+#define PgBufproxy_Type 39,1378
+#define PgBufproxy_New 40,1440
+#define PgBufproxy_GetParent 41,1505
+#define PgBufproxy_Trip 43,1586
+#define PgBufproxy_Check(44,1653
+#define import_pygame_bufferproxy(45,1717
+#define PG_BUFPROXY_HEADER50,1887
+
+freetype.h,2064
+#define _PYGAME_FREETYPE_H_21,814
+#define PGFT_PYGAME1_COMPAT23,843
+#define HAVE_PYGAME_SDL_VIDEO24,871
+#define HAVE_PYGAME_SDL_RWOPS25,901
+#   define IS_PYTHON_331,983
+#define FT_STYLE_NORMAL 45,1298
+#define FT_STYLE_STRONG 46,1331
+#define FT_STYLE_OBLIQUE 47,1364
+#define FT_STYLE_UNDERLINE 48,1397
+#define FT_STYLE_WIDE 49,1430
+#define FT_STYLE_DEFAULT 50,1463
+#define FT_BBOX_EXACT 53,1522
+#define FT_BBOX_EXACT_GRIDFIT 54,1578
+#define FT_BBOX_PIXEL 55,1632
+#define FT_BBOX_PIXEL_GRIDFIT 56,1687
+#define FT_RFLAG_NONE 59,1763
+#define FT_RFLAG_ANTIALIAS 60,1806
+#define FT_RFLAG_AUTOHINT 61,1854
+#define FT_RFLAG_VERTICAL 62,1902
+#define FT_RFLAG_HINTED 63,1950
+#define FT_RFLAG_KERNING 64,1998
+#define FT_RFLAG_TRANSFORM 65,2046
+#define FT_RFLAG_PAD 66,2094
+#define FT_RFLAG_ORIGIN 67,2142
+#define FT_RFLAG_UCS4 68,2190
+#define FT_RFLAG_USE_BITMAP_STRIKES 69,2238
+#define FT_RFLAG_DEFAULTS 70,2286
+#define FT_RENDER_NEWBYTEARRAY 75,2480
+#define FT_RENDER_NEWSURFACE 76,2520
+#define FT_RENDER_EXISTINGSURFACE 77,2560
+typedef struct _scale_s 83,2746
+    FT_UInt x,84,2772
+    FT_UInt x, y;84,2772
+} Scale_t;85,2790
+typedef FT_Angle Angle_t;86,2801
+    FT_Long font_index;91,2869
+    FT_Open_Args open_args;92,2893
+} PgFontId;93,2921
+    PgFontId id;97,2969
+    PyObject *path;path98,2986
+    int is_scalable;99,3006
+    Scale_t face_size;101,3028
+    FT_Int16 style;102,3051
+    FT_Int16 render_flags;103,3071
+    double strength;104,3098
+    double underline_adjustment;105,3119
+    FT_UInt resolution;106,3152
+    Angle_t rotation;107,3176
+    FT_Matrix transform;108,3198
+    FT_Byte fgcolor[fgcolor109,3223
+    struct fontinternals_ *_internals;_internals111,3248
+} PgFontObject;112,3287
+#define PgFont_IS_ALIVE(114,3304
+#define PYGAMEAPI_FREETYPE_FIRSTSLOT 120,3522
+#define PYGAMEAPI_FREETYPE_NUMSLOTS 121,3561
+#define PgFont_Check(125,3634
+#define PgFont_Type 126,3711
+#define PgFont_New 127,3769
+#define import_pygame_freetype(129,3845
+static void *PgFREETYPE_C_API[PgFREETYPE_C_API132,3945
+
+mask.h,339
+#define PYGAMEAPI_MASK_FIRSTSLOT 4,42
+#define PYGAMEAPI_MASK_NUMSLOTS 5,77
+#define PYGAMEAPI_LOCAL_ENTRY 6,111
+  bitmask_t *mask;mask10,191
+} PyMaskObject;11,210
+#define PyMask_AsBitmap(13,227
+#define PyMask_Type 17,315
+#define PyMask_Check(18,373
+#define import_pygame_mask(20,429
+static void* PyMASK_C_API[PyMASK_C_API23,513
+
+_gmovie.c,1333
+#undef main 35,1121
+void packet_queue_init(39,1216
+void packet_queue_flush(50,1423
+void packet_queue_end(72,1843
+int packet_queue_put(91,2268
+void packet_queue_abort(125,2925
+int packet_queue_get(137,3164
+void blend_subrect(185,4073
+void free_subpicture(397,10106
+void inline get_width(415,10499
+void inline get_height(428,10780
+void get_height_width(441,11005
+inline void jamPixels(447,11132
+void WritePicture2Surface(463,11826
+int video_display(495,13086
+int video_image_display(513,13459
+int video_open(621,16937
+void video_refresh_timer(747,21461
+int queue_picture(824,24243
+void update_video_clock(945,27726
+double get_audio_clock(971,28396
+double get_video_clock(977,28508
+double get_external_clock(994,28832
+double get_master_clock(1003,29060
+void registerCommands(1028,29587
+void stream_seek(1039,30019
+void stream_pause(1048,30240
+int audio_thread(1054,30370
+int stream_component_open(1202,34366
+int stream_component_start(1262,35611
+void stream_component_end(1343,37497
+void stream_component_close(1426,39251
+void stream_open(1510,40861
+int initialize_context(1659,44458
+int initialize_codec(1723,45907
+void stream_close(1816,48060
+void stream_cycle_channel(1893,49708
+int decoder_wrapper(1942,50990
+int decoder(2041,54144
+int video_render(2513,69446
+int subtitle_render(2597,71732
+
+ffmovie.c,1255
+#define MIN(30,1025
+static int Global_abort_all 34,1080
+static int Global_num_active 35,1113
+static void print_error(38,1149
+static void packet_queue_init(64,1926
+static void packet_queue_end(71,2082
+static int packet_queue_put(83,2347
+static void packet_queue_abort(110,2891
+static int packet_queue_get(122,3125
+static void video_display(161,3904
+static double get_audio_clock(174,4224
+static double get_master_clock(192,4705
+static void video_refresh_timer(200,4879
+static int queue_picture(255,6867
+static void update_video_clock(294,8095
+static int video_read_packet(319,8889
+static int synchronize_audio(377,10912
+static int audio_decode_frame(447,13537
+void sdl_audio_callback(500,15457
+static void ffmovie_cleanup(532,16494
+static int decode_thread(569,17348
+static int audiostream_init(628,19153
+static int videostream_init(677,20726
+static int ffmovie_initialized 702,21311
+FFMovie *ffmovie_open(ffmovie_open705,21349
+void ffmovie_close(771,23070
+void ffmovie_play(782,23298
+void ffmovie_stop(786,23360
+void ffmovie_pause(792,23516
+int ffmovie_finished(800,23657
+void ffmovie_setdisplay(805,23735
+void ffmovie_setvolume(875,25731
+void ffmovie_abortall(884,25921
+FFMovie *ffmovie_reopen(ffmovie_reopen893,26068
+
+_pygame.h,9090
+#define _PYGAME_H24,878
+#undef HAVE_SNPRINTF 61,2654
+#  define alloca 70,2877
+#undef _POSIX_C_SOURCE77,2997
+#define PG_HAVE_CAPSULE 84,3154
+#define PG_HAVE_CAPSULE 86,3186
+#define PG_HAVE_COBJECT 89,3245
+#define PG_HAVE_COBJECT 91,3277
+#define PyCapsule_New(94,3331
+#define PyCapsule_GetPointer(95,3398
+#define PyCapsule_CheckExact(96,3460
+typedef struct bufferinfo 103,3658
+    void *buf;buf104,3686
+    PyObject *obj;obj105,3701
+    Py_ssize_t len;106,3720
+    Py_ssize_t itemsize;107,3740
+    int readonly;108,3765
+    int ndim;109,3783
+    char *format;format110,3797
+    Py_ssize_t *shape;shape111,3815
+    Py_ssize_t *strides;strides112,3838
+    Py_ssize_t *suboffsets;suboffsets113,3863
+    void *internal;internal114,3891
+} Py_buffer;115,3911
+#define PyBUF_SIMPLE 118,3957
+#define PyBUF_WRITABLE 119,3980
+#define PyBUF_WRITEABLE 121,4070
+#define PyBUF_FORMAT 122,4109
+#define PyBUF_ND 123,4137
+#define PyBUF_STRIDES 124,4161
+#define PyBUF_C_CONTIGUOUS 125,4203
+#define PyBUF_F_CONTIGUOUS 126,4255
+#define PyBUF_ANY_CONTIGUOUS 127,4307
+#define PyBUF_INDIRECT 128,4361
+#define PyBUF_CONTIG 130,4410
+#define PyBUF_CONTIG_RO 131,4459
+#define PyBUF_STRIDED 133,4495
+#define PyBUF_STRIDED_RO 134,4550
+#define PyBUF_RECORDS 136,4592
+#define PyBUF_RECORDS_RO 137,4662
+#define PyBUF_FULL 139,4719
+#define PyBUF_FULL_RO 140,4787
+#define PyBUF_READ 143,4843
+#define PyBUF_WRITE 144,4869
+#define PyBUF_SHADOW 145,4895
+typedef int (*getbufferproc)getbufferproc147,4923
+typedef void (*releasebufferproc)releasebufferproc148,4983
+#define PyBUF_PYGAME 153,5159
+#define PyBUF_HAS_FLAG(156,5195
+typedef void (*pybuffer_releaseproc)pybuffer_releaseproc164,5505
+typedef struct pg_bufferinfo_s 166,5557
+    Py_buffer view;167,5590
+    PyObject *consumer;consumer168,5610
+    pybuffer_releaseproc release_buffer;169,5684
+} Pg_buffer;170,5725
+#undef HAVE_SIGNAL_H176,5852
+#undef HAVE_SNPRINTF180,5908
+#define WIN32185,6018
+#define MODPREFIX 191,6084
+#define IMPPREFIX 193,6138
+#undef MODPREFIX196,6188
+#undef IMPPREFIX197,6205
+#define MODPREFIX 199,6307
+#define IMPPREFIX 200,6335
+#define RAISE(206,6429
+#  define Py_RETURN_NONE 209,6545
+#  define Py_RETURN_TRUE 210,6605
+#  define Py_RETURN_FALSE 211,6665
+typedef int Py_ssize_t;216,6827
+#define PY_SSIZE_T_MAX 217,6851
+#define PY_SSIZE_T_MIN 218,6882
+typedef inquiry lenfunc;219,6913
+typedef intargfunc ssizeargfunc;220,6938
+typedef intobjargproc ssizeobjargproc;221,6971
+typedef intintargfunc ssizessizeargfunc;222,7010
+typedef intintobjargproc ssizessizeobjargproc;223,7051
+typedef getreadbufferproc readbufferproc;224,7098
+typedef getwritebufferproc writebufferproc;225,7140
+typedef getsegcountproc segcountproc;226,7184
+typedef getcharbufferproc charbufferproc;227,7222
+#define PyType_Init(230,7272
+#define PYGAMEAPI_LOCAL_ENTRY 231,7326
+#define MIN(234,7385
+#define MAX(238,7446
+#define ABS(242,7508
+#define VIDEO_INIT_CHECK(246,7587
+#define CDROM_INIT_CHECK(250,7805
+#define JOYSTICK_INIT_CHECK(254,8023
+#define VIEW_CONTIGUOUS 259,8255
+#define VIEW_C_ORDER 260,8284
+#define VIEW_F_ORDER 261,8313
+#define PYGAMEAPI_BASE_FIRSTSLOT 263,8343
+#define PYGAMEAPI_BASE_NUMSLOTS 264,8378
+#define PyExc_SDLError 266,8445
+#define PyGame_RegisterQuit 268,8521
+#define IntFromObj 271,8670
+#define IntFromObjIndex 274,8820
+#define TwoIntsFromObj 277,8975
+#define FloatFromObj 280,9131
+#define FloatFromObjIndex 283,9283
+#define TwoFloatsFromObj 287,9481
+#define UintFromObj 291,9647
+#define UintFromObjIndex 294,9800
+#define PyGame_Video_AutoQuit 298,9998
+#define PyGame_Video_AutoInit 301,10139
+#define RGBAFromObj 304,10279
+#define PgBuffer_AsArrayInterface 307,10432
+#define PgBuffer_AsArrayStruct 310,10585
+#define PgObject_GetBuffer 314,10784
+#define PgBuffer_Release 318,10983
+#define PgDict_AsBuffer 322,11182
+#define PgExc_BufferError 326,11381
+#define import_pygame_base(329,11517
+#define PYGAMEAPI_RECT_FIRSTSLOT 334,11599
+#define PYGAMEAPI_RECT_NUMSLOTS 336,11722
+    int x,339,11774
+    int x, y;339,11774
+    int w,340,11788
+    int w, h;340,11788
+}GAME_Rect;GAME_Rect341,11802
+    GAME_Rect r;345,11850
+    PyObject *weakreflist;weakreflist346,11867
+} PyRectObject;347,11894
+#define PyRect_AsRect(349,11911
+#define PyRect_Check(351,11992
+#define PyRect_Type 353,12098
+#define PyRect_New 354,12179
+#define PyRect_New4 356,12328
+#define GameRect_FromObject 358,12483
+#define import_pygame_rect(362,12681
+#define PYGAMEAPI_CDROM_FIRSTSLOT 367,12764
+#define PYGAMEAPI_CDROM_NUMSLOTS 369,12887
+    int id;373,12958
+} PyCDObject;374,12970
+#define PyCD_AsID(376,12985
+#define PyCD_Check(378,13062
+#define PyCD_Type 380,13217
+#define PyCD_New 381,13297
+#define import_pygame_cd(384,13442
+#define PYGAMEAPI_JOYSTICK_FIRSTSLOT 389,13528
+#define PYGAMEAPI_JOYSTICK_NUMSLOTS 391,13626
+    int id;395,13700
+} PyJoystickObject;396,13712
+#define PyJoystick_AsID(398,13733
+#define PyJoystick_Check(401,13826
+#define PyJoystick_Type 405,14028
+#define PyJoystick_New 407,14171
+#define import_pygame_joystick(410,14319
+#define PYGAMEAPI_DISPLAY_FIRSTSLOT 415,14416
+#define PYGAMEAPI_DISPLAY_NUMSLOTS 417,14519
+    SDL_VideoInfo info;420,14591
+} PyVidInfoObject;421,14615
+#define PyVidInfo_AsVidInfo(423,14635
+#define PyVidInfo_Check(425,14731
+#define PyVidInfo_Type 429,14932
+#define PyVidInfo_New 431,15074
+#define import_pygame_display(434,15242
+#define PYGAMEAPI_SURFACE_FIRSTSLOT 439,15336
+#define PYGAMEAPI_SURFACE_NUMSLOTS 441,15465
+    SDL_Surface* surf;444,15537
+    struct SubSurface_Data* subsurface;445,15560
+    PyObject *weakreflist;weakreflist447,15690
+    PyObject *locklist;locklist448,15717
+    PyObject *dependency;dependency449,15741
+} PySurfaceObject;450,15767
+#define PySurface_AsSurface(451,15786
+#define PySurface_Check(453,15882
+#define PySurface_Type 456,16082
+#define PySurface_New 458,16224
+#define PySurface_Blit 461,16424
+#define import_pygame_surface(465,16625
+#define PYGAMEAPI_SURFLOCK_FIRSTSLOT 474,16992
+#define PYGAMEAPI_SURFLOCK_NUMSLOTS 476,17121
+struct SubSurface_Data477,17159
+    PyObject* owner;479,17184
+    int pixeloffset;480,17205
+    int offsetx,481,17226
+    int offsetx, offsety;481,17226
+    PyObject *surface;surface487,17291
+    PyObject *lockobj;lockobj488,17314
+    PyObject *weakrefs;weakrefs489,17337
+} PyLifetimeLock;490,17361
+#define PyLifetimeLock_Check(493,17416
+#define PySurface_Prep(496,17588
+#define PySurface_Unprep(501,17874
+#define PySurface_Lock 506,18160
+#define PySurface_Unlock 508,18307
+#define PySurface_LockBy 510,18454
+#define PySurface_UnlockBy 513,18658
+#define PySurface_LockLifetime 516,18862
+#define PYGAMEAPI_EVENT_FIRSTSLOT 523,19087
+#define PYGAMEAPI_EVENT_NUMSLOTS 525,19226
+    int type;529,19297
+    PyObject* dict;530,19311
+} PyEventObject;531,19331
+#define PyEvent_Check(534,19382
+#define PyEvent_Type 536,19537
+#define PyEvent_New 538,19626
+#define PyEvent_New2 540,19725
+#define PyEvent_FillUserEvent 542,19880
+#define import_pygame_event(545,20046
+#define PYGAMEAPI_RWOBJECT_FIRSTSLOT 551,20212
+#define PYGAMEAPI_RWOBJECT_NUMSLOTS 553,20337
+#define RWopsFromObject 555,20411
+#define RWopsCheckObject 557,20517
+#define RWopsFromFileObjectThreaded 559,20664
+#define RWopsCheckObjectThreaded 561,20822
+#define RWopsEncodeFilePath 563,20970
+#define RWopsEncodeString 566,21101
+#define RWopsFromFileObject 569,21256
+#define import_pygame_rwobject(571,21406
+#define RWopsFromPython 574,21514
+#define RWopsCheckPython 575,21554
+#define RWopsFromPythonThreaded 576,21596
+#define RWopsCheckPythonThreaded 577,21656
+#define PYGAMEAPI_PIXELARRAY_FIRSTSLOT 581,21739
+#define PYGAMEAPI_PIXELARRAY_NUMSLOTS 583,21877
+#define PyPixelArray_Check(585,21955
+#define PyPixelArray_New 588,22158
+#define import_pygame_pixelarray(590,22303
+#define PYGAMEAPI_COLOR_FIRSTSLOT 594,22439
+#define PYGAMEAPI_COLOR_NUMSLOTS 596,22582
+#define PyColor_Check(598,22650
+#define PyColor_Type 601,22851
+#define PyColor_New 602,22928
+#define PyColor_NewLength 604,23077
+#define RGBAFromColorObj 607,23234
+#define import_pygame_color(609,23387
+#define PYGAMEAPI_MATH_FIRSTSLOT 614,23503
+#define PYGAMEAPI_MATH_NUMSLOTS 616,23635
+#define PyVector2_Check(618,23701
+#define PyVector3_Check(621,23903
+#define import_pygame_math(628,24244
+#define PG_CAPSULE_NAME(631,24344
+#define _IMPORT_PYGAME_MODULE(633,24412
+#define IMPORT_PYGAME_MODULE(657,26081
+#define PYGAMEAPI_TOTALSLOTS 659,26215
+void* PyGAME_C_API[PyGAME_C_API663,26367
+#define encapsulate_api(670,26510
+#define encapsulate_api(673,26609
+#define PYGAME_EXPORT 679,26798
+#define PYGAME_EXPORT681,26845
+#define Py_RETURN_NONE 689,27014
+#define Py_RETURN_TRUE 690,27076
+#define Py_RETURN_FALSE 691,27138
+#define intptr_t 694,27221
+#define PySlice_GetIndicesEx(697,27280
+#define PyBool_FromLong(699,27353
+#undef PyObject_NEW704,27539
+#define PyObject_NEW 705,27559
+#undef PyMem_MALLOC706,27593
+#define PyMem_MALLOC 707,27613
+#undef PyObject_DEL708,27647
+#define PyObject_DEL 709,27667
+
+scrap.h,291
+#undef _POSIX_C_SOURCE24,974
+#define PYGAME_SCRAP_TEXT 34,1137
+#define PYGAME_SCRAP_BMP 35,1176
+#define PYGAME_SCRAP_PPM 36,1213
+#define PYGAME_SCRAP_PBM 37,1250
+    SCRAP_CLIPBOARD,48,1544
+    SCRAP_SELECTION 49,1565
+} ScrapClipType;50,1627
+#define PYGAME_SCRAP_INIT_CHECK(55,1689
+
+mixer.c,3276
+#define PYGAMEAPI_MIXER_INTERNAL26,865
+#define PyBUF_HAS_FLAG(32,987
+typedef Uint32 PG_sample_format_t;38,1220
+const PG_sample_format_t PG_SAMPLE_SIGNED 39,1255
+const PG_sample_format_t PG_SAMPLE_NATIVE_ENDIAN 40,1309
+const PG_sample_format_t PG_SAMPLE_LITTLE_ENDIAN 42,1406
+const PG_sample_format_t PG_SAMPLE_BIG_ENDIAN 43,1467
+const PG_sample_format_t PG_SAMPLE_LITTLE_ENDIAN 45,1524
+const PG_sample_format_t PG_SAMPLE_BIG_ENDIAN 46,1578
+const PG_sample_format_t PG_SAMPLE_CHAR_SIGN 48,1643
+#define PG_SAMPLE_SIZE(49,1721
+#define PG_IS_SAMPLE_SIGNED(50,1766
+#define PG_IS_SAMPLE_NATIVE_ENDIAN(51,1829
+#define PG_IS_SAMPLE_LITTLE_ENDIAN(52,1906
+#define PG_IS_SAMPLE_BIG_ENDIAN(54,2011
+#define PYGAME_MIXER_DEFAULT_FREQUENCY 61,2315
+#define PYGAME_MIXER_DEFAULT_SIZE 62,2360
+#define PYGAME_MIXER_DEFAULT_CHANNELS 63,2398
+#define PYGAME_MIXER_DEFAULT_CHUNKSIZE 64,2438
+static PyTypeObject PySound_Type;66,2483
+static PyTypeObject PyChannel_Type;67,2517
+#define PySound_Check(70,2634
+#define PyChannel_Check(71,2689
+static int request_frequency 76,2860
+static int request_size 77,2923
+static int request_stereo 78,2976
+static int request_chunksize 79,3035
+struct ChannelData83,3172
+    PyObject* sound;85,3193
+    PyObject* queue;86,3214
+    int endevent;87,3235
+static struct ChannelData *channeldata channeldata89,3256
+static int numchanneldata 90,3303
+Mix_Music** current_music;92,3335
+Mix_Music** queue_music;93,3362
+_format_itemsize(96,3399
+_format_view_to_audio(123,3888
+endsound_callback 238,6704
+autoquit(271,7679
+_init 315,8643
+autoinit 418,11301
+quit 429,11557
+init 436,11638
+get_init 459,12270
+pre_init 477,12766
+snd_play 507,13627
+snd_get_num_channels 542,14660
+snd_fadeout 550,14854
+snd_stop 564,15145
+snd_set_volume 573,15322
+snd_get_volume 588,15622
+snd_get_length 599,15855
+snd_get_raw 617,16319
+snd_get_arraystruct 628,16569
+snd_get_arrayinterface 643,16890
+snd_get_samples_address(658,17208
+PyMethodDef sound_methods[sound_methods671,17529
+static PyGetSetDef sound_getset[sound_getset689,18260
+snd_buffer_iteminfo(702,18634
+snd_getbuffer(742,19580
+snd_releasebuffer(795,21088
+static PyBufferProcs sound_as_buffer[sound_as_buffer805,21261
+#define sound_as_buffer 819,21447
+sound_dealloc 825,21548
+static PyTypeObject PySound_Type 837,21867
+chan_play 885,23713
+chan_queue 918,24750
+chan_get_busy 947,25501
+chan_fadeout 956,25679
+chan_stop 970,25966
+chan_pause 980,26140
+chan_unpause 990,26309
+chan_set_volume 1000,26481
+chan_get_volume 1057,28013
+chan_get_sound 1070,28247
+chan_get_queue(1084,28493
+chan_set_endevent 1098,28738
+chan_get_endevent 1111,29022
+static PyMethodDef channel_methods[channel_methods1118,29170
+static void channel_dealloc 1148,30346
+static PyTypeObject PyChannel_Type 1154,30422
+get_num_channels 1199,32303
+set_num_channels 1206,32433
+set_reserved 1231,33077
+get_busy 1244,33317
+Channel 1253,33486
+mixer_find_channel 1265,33690
+mixer_fadeout 1284,34071
+mixer_stop 1297,34306
+mixer_pause 1306,34428
+mixer_unpause 1315,34545
+_chunk_from_buf(1324,34659
+_chunk_from_array(1345,35088
+sound_init(1493,39456
+static PyMethodDef _mixer_methods[_mixer_methods1695,45530
+PySound_New 1725,46965
+PyChannel_New 1743,47342
+MODINIT_DEFINE 1758,47703
+
+alphablit.c,1021
+#define NO_PYGAME_C_API25,903
+    int              width;31,1026
+    int              height;32,1054
+    Uint8           *s_pixels;s_pixels33,1083
+    int              s_pxskip;34,1114
+    int              s_skip;35,1145
+    Uint8           *d_pixels;d_pixels36,1174
+    int              d_pxskip;37,1205
+    int              d_skip;38,1236
+    SDL_PixelFormat *src;src39,1265
+    SDL_PixelFormat *dst;dst40,1291
+    Uint32           src_flags;41,1317
+    Uint32           dst_flags;42,1349
+} SDL_BlitInfo;43,1381
+SoftBlitPyGame 70,2409
+blit_blend_rgba_add 249,7203
+blit_blend_rgba_sub 389,11634
+blit_blend_rgba_mul 529,16069
+blit_blend_rgba_min 669,20516
+blit_blend_rgba_max 808,24886
+blit_blend_premultiplied 948,29257
+blit_blend_add 1070,33066
+blit_blend_sub 1257,39142
+blit_blend_mul 1444,45338
+blit_blend_min 1634,51607
+blit_blend_max 1826,57683
+alphablit_alpha 2051,63855
+alphablit_colorkey 2157,67474
+alphablit_solid 2296,72318
+pygame_Blit 2430,76874
+pygame_AlphaBlit 2535,79173
+
+fastevent.c,736
+#define PYGAMEAPI_FASTEVENT_INTERNAL26,865
+static int FE_WasInit 31,969
+#define FE_INIT_CHECK(33,997
+fastevent_cleanup 43,1542
+/* DOC */ static char doc_init[doc_init54,1682
+fastevent_init 59,1836
+/* DOC */ static char doc_pump[doc_pump81,2269
+fastevent_pump 97,3166
+/* DOC */ static char doc_wait[doc_wait104,3268
+fastevent_wait 115,3785
+/* DOC */ static char doc_poll[doc_poll133,4159
+fastevent_poll 141,4468
+/* DOC */ static char doc_get[doc_get159,4751
+fastevent_get 164,4914
+/*DOC*/ static char doc_post[doc_post197,5440
+fastevent_post 215,6357
+static PyMethodDef _fastevent_methods[_fastevent_methods241,7013
+/*DOC*/ static char doc_fastevent_MODULE[doc_fastevent_MODULE253,7468
+MODINIT_DEFINE 260,7880
+
+pixelarray_methods.c,335
+#define COLOR_DIFF_RGB(26,1010
+#define WR_NTSC 31,1196
+#define WG_NTSC 32,1218
+#define WB_NTSC 33,1240
+_RGBAFromColorObj 38,1356
+_get_color_from_object(50,1684
+_get_single_pixel(92,2770
+_make_surface(136,3865
+_get_weights(264,7653
+_replace_color(354,10266
+_extract_color 533,15762
+_compare(760,22537
+_transpose(1045,31953
+
+scale_mmx64.c,309
+typedef uint8_t Uint8;35,1199
+typedef uint16_t Uint16;36,1246
+filter_shrink_X_MMX(44,1446
+filter_shrink_X_SSE(132,6459
+filter_shrink_Y_MMX(197,10202
+filter_shrink_Y_SSE(304,16035
+filter_expand_X_MMX(386,20453
+filter_expand_X_SSE(461,23537
+filter_expand_Y_MMX(538,26691
+filter_expand_Y_SSE(584,29182
+
+color.c,2431
+#define PYGAMEAPI_COLOR_INTERNAL20,790
+    Uint8 data[data32,964
+    Uint8 len;33,983
+} PyColor;34,998
+    TRISTATE_SUCCESS,37,1025
+    TRISTATE_FAIL,38,1047
+    TRISTATE_ERROR39,1066
+} tristate;40,1085
+static PyObject *_COLORDICT _COLORDICT42,1098
+static PyMethodDef _color_methods[_color_methods124,4829
+static PyGetSetDef _color_getsets[_color_getsets138,5240
+static PyNumberMethods _color_as_number 158,6133
+static PySequenceMethods _color_as_sequence 214,8206
+static PyMappingMethods _color_as_mapping 230,8802
+static PyBufferProcs _color_as_buffer 239,8959
+#define COLOR_TPFLAGS 253,9141
+#define COLOR_TPFLAGS 256,9247
+#define DEFERRED_ADDRESS(266,9332
+static PyTypeObject PyColor_Type 268,9366
+#define PyColor_Check(328,11753
+#define RGB_EQUALS(331,11834
+_get_double 338,12145
+_get_color 349,12368
+_hextoint 385,13180
+_hexcolor 504,15229
+_coerce_obj 576,16794
+_color_new_internal 602,17373
+_color_new_internal_length 610,17545
+_color_new 629,17938
+_color_dealloc 725,20862
+_color_repr 734,20989
+_color_normalize 747,21296
+_color_correct_gamma 761,21632
+_color_get_r 792,22644
+_color_set_r 801,22772
+_color_get_g 819,23102
+_color_set_g 828,23230
+_color_get_b 846,23560
+_color_set_b 855,23688
+_color_get_a 873,24018
+_color_set_a 882,24146
+_color_get_hsva 900,24479
+_color_set_hsva 944,25611
+_color_get_hsla 1060,28614
+_color_set_hsla 1112,29896
+_color_get_i1i2i3 1245,33215
+_color_set_i1i2i3 1263,33699
+_color_get_cmy 1314,35032
+_color_set_cmy 1332,35429
+_color_get_arraystruct(1375,36577
+_color_add 1394,36925
+_color_sub 1408,37345
+_color_mul 1422,37757
+_color_div 1436,38177
+_color_mod 1454,38696
+_color_inv 1468,39063
+_color_coerce 1483,39380
+_color_int 1499,39599
+_color_long 1514,39922
+_color_float 1527,40202
+_color_oct 1541,40494
+_color_hex 1560,40965
+_color_length 1588,41654
+_color_set_length 1598,41762
+#define FORMAT_STRING 1603,41872
+#define FORMAT_STRING 1605,41904
+#undef FORMAT_STRING1625,42392
+_color_item 1635,42456
+static PyObject * _color_subscript(1663,42961
+_color_ass_item 1720,44232
+_color_slice(1743,44711
+_color_richcompare(1810,46189
+        Uint32 pixel;1813,46268
+        Uint8 bytes[bytes1814,46290
+    } _rgba_t;1815,46314
+_color_getbuffer 1854,46973
+PyColor_New 1896,47934
+PyColor_NewLength 1902,48050
+RGBAFromColorObj 1915,48261
+/*DOC*/ static char _color_doc[_color_doc1929,48619
+MODINIT_DEFINE 1932,48693
+
+overlay.c,416
+    SDL_Overlay *cOverlay;cOverlay34,1208
+    GAME_Rect cRect;35,1235
+} PyGameOverlay;36,1256
+overlay_dealloc 39,1286
+Overlay_SetLocation 48,1485
+Overlay_Display 65,1862
+Overlay_GetHardware 124,3494
+Overlay_New 130,3607
+static PyMethodDef Overlay_methods[Overlay_methods166,4572
+PyTypeObject PyOverlay_Type 176,4954
+static PyMethodDef _overlay_methods[_overlay_methods218,6764
+MODINIT_DEFINE 224,6839
+
+_gsound.c,605
+#define _MIXER_DEFAULT_FREQUENCY 38,1356
+#define _MIXER_DEFAULT_SIZE 39,1395
+#define _MIXER_DEFAULT_CHANNELS 40,1427
+#define _MIXER_DEFAULT_CHUNKSIZE 41,1461
+int queue_get(44,1533
+int queue_put(70,2003
+void queue_flush(85,2304
+void cb_mixer(103,2744
+int soundInit 116,3011
+int soundQuit(221,5596
+int soundStart 235,5885
+int soundEnd 247,6208
+int playBuffer 259,6474
+int stopBuffer 304,7947
+void playBufferQueue(310,8027
+int pauseBuffer(373,9947
+int getPaused 393,10306
+int seekBuffer 399,10408
+int setCallback(411,10640
+double getAudioClock(417,10741
+int getBufferQueueSize(425,10958
+
+camera.h,1822
+        #define PYGAME_MAC_CAMERA_OLD 49,1502
+    #define V4L2_PIX_FMT_RGB24 61,1827
+    #define V4L2_PIX_FMT_RGB444 64,1900
+    #define V4L2_PIX_FMT_YUYV 67,1972
+#define CLEAR(70,2017
+#define SAT(71,2063
+#define SAT2(72,2130
+#define DEFAULT_WIDTH 73,2189
+#define DEFAULT_HEIGHT 74,2215
+#define RGB_OUT 75,2242
+#define YUV_OUT 76,2260
+#define HSV_OUT 77,2278
+#define CAM_V4L 78,2296
+#define CAM_V4L2 79,2377
+struct buffer 81,2397
+    void * start;82,2413
+    size_t length;83,2431
+typedef struct PyCameraObject 87,2476
+    char* device_name;89,2526
+    int camera_type;90,2549
+    unsigned long pixelformat;91,2570
+    unsigned int color_out;92,2601
+    struct buffer* buffers;93,2629
+    unsigned int n_buffers;94,2657
+    int width;95,2685
+    int height;96,2700
+    int size;97,2716
+    int hflip;98,2730
+    int vflip;99,2745
+    int brightness;100,2760
+    int fd;101,2780
+} PyCameraObject;102,2792
+typedef struct PyCameraObject 104,2847
+    char* device_name;106,2897
+    OSType pixelformat;107,2965
+    unsigned int color_out;108,2989
+    SeqGrabComponent component;109,3017
+    SGChannel channel;110,3099
+    GWorldPtr gworld;111,3173
+    Rect boundsRect;112,3279
+    long size;113,3347
+    int hflip;114,3429
+    int vflip;115,3444
+    short depth;116,3459
+    struct buffer pixels;117,3476
+} PyCameraObject;119,3623
+typedef struct PyCameraObject 125,3675
+    char* device_name;127,3725
+    int camera_type;128,3748
+    unsigned long pixelformat;129,3769
+    unsigned int color_out;130,3800
+    struct buffer* buffers;131,3828
+    unsigned int n_buffers;132,3856
+    int width;133,3884
+    int height;134,3899
+    int size;135,3915
+    int hflip;136,3929
+    int vflip;137,3944
+    int brightness;138,3959
+    int fd;139,3979
+} PyCameraObject;140,3991
+
+surflock.c,457
+#define PYGAMEAPI_SURFLOCK_INTERNAL27,931
+PySurface_Prep 39,1306
+PySurface_Unprep 52,1701
+PySurface_Lock 60,1896
+PySurface_Unlock 66,1995
+PySurface_LockBy 72,2098
+PySurface_UnlockBy 105,2812
+static PyTypeObject PyLifetimeLock_Type 161,4201
+_lifelock_dealloc 213,6530
+PySurface_LockLifetime 226,6834
+static PyMethodDef _surflock_methods[_surflock_methods245,7322
+/*DOC*/ static char _surflock_doc[_surflock_doc250,7397
+MODINIT_DEFINE 253,7475
+
+surface.c,2832
+#define PYGAMEAPI_SURFACE_INTERNAL24,868
+    VIEWKIND_0D 33,1045
+    VIEWKIND_1D 34,1066
+    VIEWKIND_2D 35,1087
+    VIEWKIND_3D 36,1108
+    VIEWKIND_RED,37,1129
+    VIEWKIND_GREEN,38,1147
+    VIEWKIND_BLUE,39,1167
+    VIEWKIND_ALPHA40,1186
+} SurfViewKind;41,1205
+static char FormatUint8[FormatUint844,1284
+static char FormatUint16[FormatUint1645,1317
+static char FormatUint24[FormatUint2446,1352
+static char FormatUint32[FormatUint3247,1387
+typedef struct pg_bufferinternal_s 49,1423
+    PyObject *consumer_ref;consumer_ref50,1460
+    Py_ssize_t mem[mem51,1540
+} Pg_bufferinternal;52,1620
+static PyGetSetDef surface_getsets[surface_getsets140,6455
+static struct PyMethodDef surface_methods[surface_methods146,6650
+static PyTypeObject PySurface_Type 244,10975
+#define PySurface_Check(284,12682
+PySurface_New 287,12761
+surface_new 304,13073
+surface_cleanup 321,13481
+surface_dealloc 349,14244
+surface_str 358,14470
+surface_init 377,14914
+surf_get_at 584,21583
+surf_set_at 641,23239
+surf_get_at_mapped 719,25892
+surf_map_rgb 774,27483
+surf_unmap_rgb 790,27933
+surf_lock 810,28457
+surf_unlock 818,28579
+surf_mustlock 825,28679
+surf_get_locked 833,28883
+surf_get_locks 843,29098
+surf_get_palette 865,29621
+surf_get_palette_at 903,30468
+surf_set_palette 931,31194
+surf_set_palette_at 987,32833
+surf_set_colorkey 1030,33969
+surf_get_colorkey 1079,35542
+surf_set_alpha 1098,36049
+surf_get_alpha 1149,37459
+surf_copy 1165,37862
+surf_convert 1188,38425
+surf_convert_alpha 1332,43544
+surf_set_clip 1366,44466
+surf_get_clip 1404,45496
+surf_fill 1415,45723
+surf_blit 1513,48692
+surf_scroll 1581,50837
+surf_get_flags 1660,52621
+surf_get_pitch 1670,52853
+surf_get_size 1680,53079
+surf_get_width 1690,53316
+surf_get_height 1700,53538
+surf_get_rect 1710,53761
+surf_get_bitsize 1739,54518
+surf_get_bytesize 1749,54761
+surf_get_masks 1758,55005
+surf_set_masks 1770,55338
+surf_get_shifts 1799,56084
+surf_set_shifts 1811,56422
+surf_get_losses 1836,56911
+surf_subsurface 1847,57244
+surf_get_offset 1916,59546
+surf_get_abs_offset 1927,59827
+surf_get_parent 1952,60514
+surf_get_abs_parent 1965,60763
+surf_get_bounding_rect 1989,61286
+_raise_get_view_ndim_error(2182,67185
+surf_get_view 2231,68458
+surf_get_buffer 2343,72104
+_get_buffer_0D 2363,72543
+_get_buffer_1D 2391,73277
+_get_buffer_2D 2449,75016
+_get_buffer_3D 2535,77859
+_get_buffer_red 2597,79850
+_get_buffer_green 2607,80168
+_get_buffer_blue 2617,80490
+_get_buffer_alpha 2627,80810
+_get_buffer_colorplane 2637,81132
+_init_buffer 2711,83524
+_release_buffer 2763,85060
+_view_kind 2786,85697
+surf_get_pixels_address(2852,87396
+surface_move 2872,87874
+surface_do_overlap 2889,88247
+PySurface_Blit 2974,90154
+static PyMethodDef _surface_methods[_surface_methods3112,94724
+MODINIT_DEFINE 3117,94798
+
+_freetype.c,2694
+#define PYGAME_FREETYPE_INTERNAL21,787
+#define PYGAME_FREETYPE_FONT_INTERNAL22,820
+#define MODULE_NAME 28,942
+#define FONT_TYPE_NAME 29,974
+static const Scale_t FACE_SIZE_NONE 34,1044
+#define ASSERT_SELF_IS_ALIVE(130,5101
+#define PGFT_CHECK_BOOL(137,5366
+#define DEFAULT_FONT_NAME 148,5856
+#define PKGDATA_MODULE_NAME 149,5903
+#define RESOURCE_FUNC_NAME 150,5948
+load_font_res(153,6009
+parse_dest(202,7060
+obj_to_scale(252,8368
+objs_to_scale(269,8881
+numbers_to_scale(300,9734
+build_scale(343,10993
+number_to_FX6_unsigned(368,11541
+obj_to_rotation(382,11818
+free_string(419,12676
+static PyMethodDef _ft_methods[_ft_methods426,12781
+static PyMethodDef _ftfont_methods[_ftfont_methods489,14131
+static PyGetSetDef _ftfont_getsets[_ftfont_getsets563,15784
+#define FULL_TYPE_NAME 762,19964
+PyTypeObject PgFont_Type 764,20019
+#undef FULL_TYPE_NAME816,22364
+_ftfont_new(823,22546
+_ftfont_dealloc(853,23467
+_ftfont_init(864,23753
+_ftfont_repr(1012,28030
+_ftfont_getstyle_flag(1041,28881
+_ftfont_setstyle_flag(1049,29050
+_ftfont_getstyle 1084,29996
+_ftfont_setstyle(1090,30105
+_ftfont_getstrength(1126,31133
+_ftfont_setstrength(1132,31251
+_ftfont_getsize(1154,31807
+_ftfont_setsize(1165,32124
+_ftfont_getunderlineadjustment(1178,32365
+_ftfont_setunderlineadjustment(1184,32506
+_ftfont_getfontmetric(1212,33220
+    typedef long (*getter)getter1214,33279
+_ftfont_getname(1228,33613
+_ftfont_getpath(1242,33944
+_ftfont_getscalable(1255,34216
+_ftfont_getfixedwidth(1262,34372
+_ftfont_getfixedsizes(1274,34699
+_ftfont_getrender_flag(1288,35081
+_ftfont_setrender_flag(1296,35260
+_ftfont_getresolution(1319,35777
+_ftfont_getrotation(1327,35958
+_ftfont_setrotation(1333,36098
+_ftfont_getfgcolor(1352,36700
+_ftfont_setfgcolor(1358,36809
+_ftfont_getdebugcachestats(1372,37203
+_ftfont_getrect(1395,38162
+get_metrics(1446,39511
+_ftfont_getmetrics(1495,40868
+_ftfont_getsizedascender(1547,42119
+_ftfont_getsizeddescender(1577,42872
+_ftfont_getsizedheight(1607,43627
+_ftfont_getsizedglyphheight(1637,44370
+_ftfont_getsizes(1667,45129
+_ftfont_render_raw(1703,46136
+_ftfont_render_raw_to(1770,47976
+_ftfont_render(1837,49810
+_ftfont_render_to(1952,53017
+PgFont_New(2059,56164
+_ft_autoinit(2104,57234
+_ft_autoquit(2121,57597
+_ft_quit(2132,57783
+_ft_init(2139,57871
+_ft_get_error(2172,58743
+_ft_get_version(2185,58958
+_ft_get_default_resolution(2192,59140
+_ft_set_default_resolution(2198,59287
+_ft_was_init(2213,59663
+_ft_get_default_font(2219,59786
+_ft_traverse 2226,59892
+_ft_clear 2232,59979
+struct PyModuleDef _freetypemodule 2248,60334
+_FreeTypeState _modstate;2261,60541
+MODINIT_DEFINE 2264,60575
+#   define DEC_CONST(2322,61882
+
+fastevents.h,28
+#define _FASTEVENTS_H_2,23
+
+imageext.c,461
+#undef HAVE_PROTOTYPES38,1291
+#undef HAVE_STDDEF_H42,1433
+#undef HAVE_STDLIB_H45,1528
+find_extension(54,1690
+image_load_ext(70,1935
+write_png 166,4399
+SavePNG 231,6121
+#define NUM_LINES_TO_WRITE 327,8488
+int write_jpeg 330,8521
+int SaveJPEG 407,10591
+opengltosdl 514,13018
+image_save_ext(577,14681
+static PyMethodDef _imageext_methods[_imageext_methods676,17569
+/*DOC*/ static char _imageext_doc[_imageext_doc684,17789
+MODINIT_DEFINE 687,17867
+
+rect.c,2497
+#define PYGAMEAPI_RECT_INTERNAL26,889
+static PyTypeObject PyRect_Type;32,1016
+#define PyRect_Check(33,1049
+GameRect_FromObject 39,1272
+PyRect_New 135,4074
+PyRect_New4 150,4371
+DoRectsIntersect 165,4673
+rect_normalize 174,4919
+rect_move 193,5241
+rect_move_ip 205,5564
+rect_inflate 219,5873
+rect_inflate_ip 232,6239
+rect_union 248,6599
+rect_union_ip 264,7141
+rect_unionall 284,7745
+rect_unionall_ip 326,8984
+rect_collidepoint 374,10292
+rect_colliderect 390,10712
+rect_collidelist 401,11063
+rect_collidelistall 442,12183
+rect_collidedict 492,13468
+rect_collidedictall 539,14706
+rect_clip 592,16167
+rect_contains 640,17434
+rect_clamp 658,18067
+rect_fit 688,19003
+rect_clamp_ip 711,19692
+rect_reduce 744,20655
+rect_copy 754,20948
+static struct PyMethodDef rect_methods[rect_methods760,21097
+rect_length 794,22796
+rect_item 800,22862
+rect_ass_item 811,23126
+rect_slice 831,23570
+rect_ass_slice(865,24264
+static PySequenceMethods rect_as_sequence 912,25240
+rect_nonzero 925,25544
+rect_coerce 932,25648
+static PyNumberMethods rect_as_number 967,26292
+rect_dealloc 1000,27278
+rect_repr 1008,27457
+rect_str 1017,27672
+rect_richcompare(1023,27753
+rect_getwidth 1079,28990
+rect_setwidth 1085,29095
+rect_getheight 1096,29300
+rect_setheight 1102,29406
+rect_gettop 1116,29681
+rect_settop 1122,29784
+rect_getleft 1136,30057
+rect_setleft 1142,30161
+rect_getright 1156,30436
+rect_setright 1162,30553
+rect_getbottom 1176,30840
+rect_setbottom 1182,30958
+rect_getcenterx 1196,31247
+rect_setcenterx 1202,31373
+rect_getcentery 1216,31672
+rect_setcentery 1222,31798
+rect_gettopleft 1236,32097
+rect_settopleft 1242,32222
+rect_gettopright 1257,32542
+rect_settopright 1263,32678
+rect_getbottomleft 1278,33011
+rect_setbottomleft 1284,33149
+rect_getbottomright 1299,33485
+rect_setbottomright 1305,33634
+rect_getmidtop 1320,33976
+rect_setmidtop 1326,34119
+rect_getmidleft 1341,34471
+rect_setmidleft 1347,34611
+rect_getmidbottom 1362,34966
+rect_setmidbottom 1369,35150
+rect_getmidright 1384,35518
+rect_setmidright 1391,35701
+rect_getcenter 1406,36065
+rect_setcenter 1413,36253
+rect_getsize 1428,36636
+rect_setsize 1434,36758
+rect_getsafepickle 1448,37062
+static PyGetSetDef rect_getsets[rect_getsets1453,37142
+static PyTypeObject PyRect_Type 1486,39062
+rect_new 1530,41094
+rect_init 1544,41407
+static PyMethodDef _rect_methods[_rect_methods1560,41790
+/*DOC*/ static char _rectangle_doc[_rectangle_doc1565,41859
+MODINIT_DEFINE 1568,41947
+
+pixelcopy.c,721
+    VIEWKIND_RED,30,966
+    VIEWKIND_GREEN,31,984
+    VIEWKIND_BLUE,32,1004
+    VIEWKIND_ALPHA,33,1023
+    VIEWKIND_COLORKEY,34,1043
+    VIEWKIND_RGB35,1066
+} _pc_view_kind_t;36,1083
+    Uint32 value;39,1119
+    Uint8 bytes[bytes40,1137
+} _pc_pixel_t;41,1170
+_validate_view_format(44,1197
+_is_swapped(105,2242
+_view_kind(122,2489
+_copy_mapped(184,4071
+_copy_colorplane(248,5890
+_copy_unmapped(361,9498
+#define COPYMACRO_2D(436,11886
+#define COPYMACRO_3D(445,12425
+array_to_surface(460,13361
+surface_to_array(741,22669
+map_array(821,25054
+#   define PIXELCOPY_MAX_DIM 823,25098
+make_surface 1112,33324
+static PyMethodDef _pixelcopy_methods[_pixelcopy_methods1184,35086
+MODINIT_DEFINE(1196,35542
+
+freetype/ft_layout.c,1273
+#define PYGAME_FREETYPE_INTERNAL21,787
+#define FX16_WIDE_FACTOR 33,1051
+#define SLANT_FACTOR 35,1093
+static FT_Matrix slant_matrix 36,1122
+static FT_Matrix unit_matrix 41,1236
+typedef struct textcontext_ 46,1315
+    FT_Library lib;47,1345
+    FTC_FaceID id;48,1365
+    FT_Face font;49,1384
+    FTC_CMapCache charmap;50,1402
+    int do_transform;51,1429
+    FT_Matrix transform;52,1451
+} TextContext;53,1476
+#define BOLD_STRENGTH_D 56,1498
+#define PIXEL_SIZE 57,1529
+#define BOLD_STRENGTH 58,1563
+#define BOLD_ADVANCE 59,1628
+#define FX16_BOLD_FACTOR 61,1686
+#define UNICODE_SPACE 62,1727
+    UPDATE_NONE,65,1782
+    UPDATE_LAYOUT,66,1799
+    UPDATE_GLYPHS67,1818
+} UpdateLevel_t;68,1836
+static const FT_UInt16 GLYPH_RENDER_FLAGS 71,1918
+static const FT_UInt16 LAYOUT_RENDER_FLAGS 76,2245
+static const FT_UInt16 GLYPH_STYLE_FLAGS 81,2566
+_PGFT_LayoutInit(110,3876
+_PGFT_LayoutFree(127,4219
+_PGFT_LoadLayout(140,4523
+size_text(187,5738
+load_glyphs(257,8136
+position_glyphs(278,8721
+fill_text_bounding_box(378,11983
+int _PGFT_GetMetrics(445,13784
+_PGFT_LoadGlyph(489,15133
+fill_context(642,19963
+fill_metrics(682,21124
+get_load_flags(696,21596
+mode_compare(724,22318
+same_sizes(746,23089
+same_transforms(752,23193
+copy_mode(758,23347
+
+freetype/ft_wrap.c,1029
+#define PYGAME_FREETYPE_INTERNAL21,787
+_PGFT_SetError(38,1226
+#undef __FTERRORS_H__40,1307
+#define FT_ERRORDEF(41,1329
+#define FT_ERROR_START_LIST 42,1371
+#define FT_ERROR_END_LIST 43,1405
+        int          err_code;45,1472
+        const char*  err_msg;46,1503
+_PGFT_GetError(73,2248
+_PGFT_Font_IsFixedWidth(87,2465
+_PGFT_Font_NumFixedSizes(99,2728
+_PGFT_Font_GetAvailableSize(111,3013
+_PGFT_Font_GetName(136,3876
+_PGFT_Font_GetHeight(152,4309
+_PGFT_Font_GetHeightSized(164,4556
+_PGFT_Font_GetAscender(177,4904
+_PGFT_Font_GetAscenderSized(189,5155
+_PGFT_Font_GetDescender(202,5509
+_PGFT_Font_GetDescenderSized(214,5762
+_PGFT_Font_GetGlyphHeightSized(227,6120
+_PGFT_GetTextRect(246,6675
+_PGFT_GetFontSized(277,7526
+_PGFT_GetFont(316,8484
+_PGFT_BuildScaler(342,8955
+_PGFT_font_request(366,9478
+static int init(381,9812
+quit(410,10491
+_PGFT_TryLoadFont_Filename(420,10674
+RWops_read(447,11321
+_PGFT_TryLoadFont_RWops(462,11643
+_PGFT_UnloadFont(496,12554
+_PGFT_Init(523,13277
+_PGFT_Quit(571,14430
+
+freetype/ft_cache.c,856
+#define PYGAME_FREETYPE_INTERNAL21,787
+#define NO_PYGAME_C_API22,820
+typedef struct keyfields_ 27,888
+    GlyphIndex_t id;28,916
+    Scale_t face_size;29,937
+    unsigned short style;30,960
+    unsigned short render_flags;31,986
+    unsigned short rotation;32,1019
+    FT_Fixed strength;33,1048
+} KeyFields;34,1071
+typedef union cachenodekey_ 36,1085
+    KeyFields fields;37,1115
+} NodeKey;39,1188
+typedef struct cachenode_ 41,1200
+    FontGlyph glyph;42,1228
+    struct cachenode_ *next;next43,1249
+    NodeKey key;44,1278
+    FT_UInt32 hash;45,1295
+} CacheNode;46,1315
+const int render_flags_mask 56,1716
+set_node_key(61,1881
+equal_node_keys(78,2481
+get_hash(91,2732
+_PGFT_Cache_Init(131,3480
+_PGFT_Cache_Destroy(173,4627
+_PGFT_Cache_Cleanup(204,5255
+_PGFT_Cache_FindGlyph(234,5915
+free_node(283,6930
+allocate_node(300,7223
+
+freetype/ft_render_cb.c,924
+#define PYGAME_FREETYPE_INTERNAL21,787
+#define NO_PYGAME_C_API22,820
+void __render_glyph_GRAY1(33,1017
+void __render_glyph_MONO_as_GRAY1(77,2233
+void __render_glyph_GRAY_as_MONO1(125,3525
+void __fill_glyph_GRAY1(160,4417
+void __render_glyph_INT(219,6041
+void __render_glyph_MONO_as_INT(289,8036
+void __fill_glyph_INT(378,10537
+#define _CREATE_RGB_FILLER(487,13772
+#define __MONO_RENDER_INNER_LOOP(610,21281
+#define _CREATE_MONO_RENDER(632,22584
+#define _CREATE_RGB_RENDER(696,26975
+#define _DECLARE_full_color(768,32169
+#define _DECLARE_full_color1(771,32356
+#define _DECLARE_full_color2(772,32417
+#define _DECLARE_full_color3(773,32478
+#define _DECLARE_full_color4(774,32513
+#define _SET_PIXEL_24 777,32576
+#define _BLEND_PIXEL_24 780,32677
+#define _SET_PIXEL(783,32763
+#define _BLEND_PIXEL(786,32819
+#define _BLEND_PIXEL_GENERIC(793,33240
+#define _GET_PIXEL(797,33403
+_CREATE_RGB_RENDER(799,33443
+
+freetype/ft_pixel.h,318
+#define _PYGAME_FREETYPE_PIXEL_H_21,820
+#define GET_RGB_VALS(25,880
+#define GET_PALETTE_VALS(41,1923
+#define GET_PIXEL_VALS(47,2236
+#define GET_PIXEL24(56,2627
+#define SET_PIXEL24_RGB(57,2692
+#define SET_PIXEL24(61,2960
+#define GET_PIXEL24(66,3239
+#define SET_PIXEL24_RGB(67,3304
+#define SET_PIXEL24(71,3576
+
+freetype/ft_wrap.h,4406
+#define _PYGAME_FREETYPE_WRAP_H_22,820
+#define PYGAME_FREETYPE_INTERNAL24,854
+#define FX6_ONE 34,1124
+#define FX16_ONE 35,1144
+#define FX6_MAX 36,1168
+#define FX6_MIN 37,1198
+#define FX6_FLOOR(39,1226
+#define FX6_CEIL(40,1260
+#define FX6_ROUND(41,1301
+#define FX6_TRUNC(42,1343
+#define FX16_CEIL_TO_FX6(43,1376
+#define FX16_ROUND_TO_INT(44,1426
+#define INT_TO_FX6(45,1478
+#define INT_TO_FX16(46,1523
+#define FX16_TO_DBL(47,1570
+#define DBL_TO_FX16(48,1632
+#define FX6_TO_DBL(49,1683
+#define DBL_TO_FX6(50,1736
+#define PGFT_DEFAULT_CACHE_SIZE 53,1823
+#define PGFT_MIN_CACHE_SIZE 54,1858
+#undef  PGFT_DEBUG_CACHE56,1919
+#define PGFT_DEFAULT_RESOLUTION 58,1951
+#define PGFT_DBL_DEFAULT_STRENGTH 60,2007
+#define FT_STYLES_SCALABLE_ONLY 63,2107
+typedef FT_UInt32 PGFT_char;69,2324
+typedef FT_UInt GlyphIndex_t;70,2353
+    FT_Library library;77,2551
+    FTC_Manager cache_manager;78,2575
+    FTC_CMapCache cache_charmap;79,2606
+    int cache_size;81,2640
+    char _error_msg[_error_msg82,2660
+} FreeTypeInstance;83,2687
+typedef struct fontcolor_ 85,2708
+    FT_Byte r;86,2736
+    FT_Byte g;87,2751
+    FT_Byte b;88,2766
+    FT_Byte a;89,2781
+} FontColor;90,2796
+typedef struct rendermode_ 92,2810
+    Scale_t face_size;93,2839
+    FT_Angle rotation_angle;94,2862
+    FT_UInt16 render_flags;95,2891
+    FT_UInt16 style;96,2919
+    FT_Fixed strength;99,2977
+    FT_Fixed underline_adjustment;100,3000
+    FT_Matrix transform;101,3035
+} FontRenderMode;102,3060
+#define PGFT_DEBUG_CACHE 105,3131
+typedef struct fontcache_ 110,3186
+    struct cachenode_ **nodes;nodes111,3214
+    struct cachenode_ *free_nodes;free_nodes112,3245
+    FT_Byte *depths;depths114,3281
+    FT_UInt32 _debug_count;117,3327
+    FT_UInt32 _debug_delete_count;118,3355
+    FT_UInt32 _debug_access;119,3390
+    FT_UInt32 _debug_hit;120,3419
+    FT_UInt32 _debug_miss;121,3445
+    FT_UInt32 size_mask;124,3480
+} FontCache;125,3505
+typedef struct fontmetrics_ 127,3519
+    FT_Pos bearing_x;129,3588
+    FT_Pos bearing_y;130,3610
+    FT_Vector bearing_rotated;131,3632
+    FT_Vector advance_rotated;132,3663
+} FontMetrics;133,3694
+typedef struct fontglyph_ 135,3710
+    FT_BitmapGlyph image;136,3738
+    FT_Pos width;138,3765
+    FT_Pos height;139,3802
+    FontMetrics h_metrics;140,3839
+    FontMetrics v_metrics;141,3866
+} FontGlyph;142,3893
+typedef struct glyphslot_ 144,3907
+    GlyphIndex_t id;145,3935
+    FontGlyph *glyph;glyph146,3956
+    FT_Vector posn;147,3978
+    FT_Vector kerning;148,3998
+} GlyphSlot;149,4021
+typedef struct layout_ 151,4035
+    FontRenderMode mode;152,4060
+    int length;154,4086
+    int top;156,4103
+    int left;157,4138
+    FT_Pos min_x;159,4174
+    FT_Pos max_x;160,4192
+    FT_Pos min_y;161,4210
+    FT_Pos max_y;162,4228
+    FT_Vector offset;163,4246
+    FT_Vector advance;164,4268
+    FT_Pos ascender;165,4291
+    FT_Pos descender;166,4312
+    FT_Pos height;167,4334
+    FT_Pos max_advance;168,4353
+    FT_Fixed underline_size;169,4377
+    FT_Pos underline_pos;170,4406
+    int buffer_size;172,4433
+    GlyphSlot *glyphs;glyphs173,4454
+} Layout;174,4477
+typedef void (* FontRenderPtr)178,4510
+typedef void (* FontFillPtr)180,4644
+typedef struct fontsurface_ 183,4786
+    void *buffer;buffer184,4816
+    unsigned width;186,4835
+    unsigned height;187,4855
+    int item_stride;188,4876
+    int pitch;189,4897
+    SDL_PixelFormat *format;format191,4913
+    FontRenderPtr render_gray;193,4943
+    FontRenderPtr render_mono;194,4974
+    FontFillPtr fill;195,5005
+} FontSurface;197,5028
+typedef struct fontinternals_ 199,5044
+    Layout active_text;200,5076
+    FontCache glyph_cache;201,5100
+} FontInternals;202,5127
+typedef struct PGFT_String_ 204,5145
+    Py_ssize_t length;205,5175
+    PGFT_char data[data206,5198
+} PGFT_String;207,5221
+#define PGFT_FONT_CACHE(210,5267
+    FreeTypeInstance *freetype;freetype217,5487
+    int cache_size;218,5519
+    FT_UInt resolution;219,5539
+} _FreeTypeState;220,5563
+#   define FREETYPE_MOD_STATE(224,5648
+#   define FREETYPE_STATE 225,5725
+#   define FREETYPE_MOD_STATE(229,5857
+#   define FREETYPE_STATE 230,5905
+#define ASSERT_GRAB_FREETYPE(233,5961
+#define PGFT_String_GET_DATA(374,13004
+#define PGFT_String_GET_LENGTH(375,13048
+#define _PGFT_FreeString 376,13096
+#define _PGFT_malloc 384,13472
+#define _PGFT_free 385,13506
+
+freetype/ft_unicode.c,461
+#define PYGAME_FREETYPE_INTERNAL27,1052
+#define NO_PYGAME_C_API28,1085
+#define SIZEOF_PGFT_STRING(32,1132
+static const PGFT_char UNICODE_HSA_START 35,1230
+static const PGFT_char UNICODE_HSA_END 36,1281
+static const PGFT_char UNICODE_LSA_START 37,1330
+static const PGFT_char UNICODE_LSA_END 38,1381
+static const PGFT_char UNICODE_SA_START 39,1430
+static const PGFT_char UNICODE_SA_END 40,1480
+_PGFT_EncodePyString(46,1673
+raise_unicode_error(145,4913
+
+freetype/ft_render.c,503
+#define PYGAME_FREETYPE_INTERNAL21,787
+static const FontColor mono_opaque 27,886
+static const FontColor mono_transparent 28,952
+_validate_view_format(35,1238
+_is_swapped(98,2436
+_PGFT_CheckStyle(115,2676
+_PGFT_BuildRenderMode(128,2913
+_PGFT_GetRenderMetrics(211,5629
+_PGFT_Render_ExistingSurface(258,7169
+SDL_Surface *_PGFT_Render_NewSurface(_PGFT_Render_NewSurface404,11257
+PyObject *_PGFT_Render_PixelArray(_PGFT_Render_PixelArray555,15966
+_PGFT_Render_Array(627,17990
+render(752,21680
+
+ffmovie.h,2198
+#define MAX_SOURCENAME 7,73
+#define MAX_AUDIOQ_SIZE 8,101
+#define SDL_AUDIO_BUFFER_SIZE 12,279
+#define AV_SYNC_THRESHOLD 15,382
+#define AV_NOSYNC_THRESHOLD 17,461
+#define SAMPLE_CORRECTION_PERCENT_MAX 20,548
+#define AUDIO_DIFF_AVG_NB 23,663
+#define SAMPLE_ARRAY_SIZE 26,784
+typedef struct PacketQueue 32,825
+    AVPacketList *first_pkt,first_pkt33,854
+    AVPacketList *first_pkt, *last_pkt;last_pkt33,854
+    int nb_packets;34,894
+    int size;35,914
+    int abort_request;36,928
+    SDL_mutex *mutex;mutex37,951
+    SDL_cond *cond;cond38,973
+} PacketQueue;39,993
+typedef struct FFMovie 43,1011
+    SDL_Thread *decode_thread;decode_thread44,1036
+    int abort_request;45,1067
+    int paused;46,1090
+    AVFormatContext *context;context47,1106
+    double external_clock;49,1137
+    int64_t external_clock_time;50,1190
+    double audio_clock;52,1224
+    double audio_diff_cum;53,1248
+    double audio_diff_avg_coef;54,1324
+    double audio_diff_threshold;55,1356
+    int audio_diff_avg_count;56,1389
+    AVStream *audio_st;audio_st57,1419
+    PacketQueue audioq;58,1443
+    int audio_hw_buf_size;59,1467
+    int audio_buf_size;62,1642
+    int audio_buf_index;63,1681
+    AVPacket audio_pkt;64,1721
+    uint8_t *audio_pkt_data;audio_pkt_data65,1745
+    int audio_pkt_size;66,1774
+    int64_t audio_pkt_ipts;67,1798
+    int audio_volume;68,1826
+    int16_t sample_array[sample_array70,1873
+    int sample_array_index;71,1918
+    int frame_count;73,1947
+    double frame_timer;74,1968
+    double frame_last_pts;75,1992
+    double frame_last_delay;76,2019
+    double frame_delay;77,2048
+    double video_clock;78,2117
+    AVStream *video_st;video_st79,2176
+    int64_t vidpkt_timestamp;80,2200
+    int vidpkt_start;81,2230
+    double video_last_P_pts;82,2252
+    double video_current_pts;84,2378
+    SDL_mutex *dest_mutex;dest_mutex87,2523
+    double dest_showtime;88,2550
+    SDL_Overlay *dest_overlay;dest_overlay89,2615
+    SDL_Surface *dest_surface;dest_surface90,2646
+    SDL_Rect dest_rect;91,2677
+    double time_offset;93,2702
+    int audio_disable;95,2749
+    const char *sourcename;sourcename97,2773
+} FFMovie;98,2801
+
+numeric_arrayobject.h,7517
+#define Py_ARRAYOBJECT_H45,1941
+#define REFCOUNT(50,2006
+#define MAX_ELSIZE 51,2061
+#define PyArray_UNSIGNED_TYPES53,2084
+enum PyArray_TYPES 55,2116
+enum PyArray_TYPES {PyArray_CHAR,PyArray_CHAR55,2116
+enum PyArray_TYPES {PyArray_CHAR, PyArray_UBYTE,55,2116
+enum PyArray_TYPES {PyArray_CHAR, PyArray_UBYTE, PyArray_SBYTE,55,2116
+                    PyArray_SHORT,56,2180
+                    PyArray_SHORT, PyArray_USHORT,56,2180
+                    PyArray_INT,57,2231
+                    PyArray_INT, PyArray_UINT,57,2231
+                    PyArray_LONG,58,2278
+                    PyArray_FLOAT,59,2312
+                    PyArray_FLOAT, PyArray_DOUBLE,59,2312
+                    PyArray_CFLOAT,60,2363
+                    PyArray_CFLOAT, PyArray_CDOUBLE,60,2363
+                    PyArray_OBJECT,61,2416
+                    PyArray_NTYPES,62,2452
+                    PyArray_NTYPES, PyArray_NOTYPE}PyArray_NOTYPE62,2452
+typedef void (PyArray_VectorUnaryFunc)64,2506
+typedef PyObject * (PyArray_GetItemFunc)66,2579
+typedef int (PyArray_SetItemFunc)67,2630
+  PyArray_VectorUnaryFunc *cast[cast70,2704
+  PyArray_GetItemFunc *getitem;getitem72,2851
+  PyArray_SetItemFunc *setitem;setitem73,2883
+  int type_num,75,2916
+  int type_num, elsize;75,2916
+  char *one,one76,2940
+  char *one, *zero;zero76,2940
+  char type;77,2960
+} PyArray_Descr;79,2974
+#define CONTIGUOUS 82,3010
+#define OWN_DIMENSIONS 83,3031
+#define OWN_STRIDES 84,3056
+#define OWN_DATA 85,3078
+#define SAVESPACE 86,3097
+#define SAVESPACEBIT 89,3134
+  char *data;data93,3193
+  int nd;94,3207
+  int *dimensions,dimensions95,3217
+  int *dimensions, *strides;strides95,3217
+  PyObject *base;base96,3246
+  PyArray_Descr *descr;descr97,3264
+  int flags;98,3288
+  PyObject *weakreflist;weakreflist99,3301
+} PyArrayObject;100,3326
+#define FORTRAN 103,3372
+#define ALIGNED 104,3400
+#define NOTSWAPPED 105,3428
+#define WRITEABLE 106,3456
+  int version;109,3502
+  int nd;110,3517
+  char typekind;111,3527
+  int itemsize;112,3544
+  int flags;113,3560
+  Py_intptr_t *shape;shape114,3573
+  Py_intptr_t *strides;strides115,3595
+  void *data;data116,3619
+} PyArrayInterface;117,3633
+#define PyArray_Type_NUM 126,3696
+#define PyArray_SetNumericOps_RET 132,3906
+#define PyArray_SetNumericOps_PROTO 133,3944
+#define PyArray_SetNumericOps_NUM 134,3993
+#define PyArray_INCREF_RET 136,4030
+#define PyArray_INCREF_PROTO 137,4061
+#define PyArray_INCREF_NUM 138,4110
+#define PyArray_XDECREF_RET 140,4140
+#define PyArray_XDECREF_PROTO 141,4172
+#define PyArray_XDECREF_NUM 142,4222
+#define PyArrayError_RET 145,4313
+#define PyArrayError_PROTO 146,4349
+#define PyArrayError_NUM 147,4383
+#define PyArray_SetStringFunction_RET 150,4470
+#define PyArray_SetStringFunction_PROTO 151,4513
+#define PyArray_SetStringFunction_NUM 152,4578
+#define PyArray_DescrFromType_RET 155,4672
+#define PyArray_DescrFromType_PROTO 156,4722
+#define PyArray_DescrFromType_NUM 157,4764
+#define PyArray_Cast_RET 160,4841
+#define PyArray_Cast_PROTO 161,4877
+#define PyArray_Cast_NUM 162,4927
+#define PyArray_CanCastSafely_RET 165,4991
+#define PyArray_CanCastSafely_PROTO 166,5029
+#define PyArray_CanCastSafely_NUM 167,5092
+#define PyArray_ObjectType_RET 170,5195
+#define PyArray_ObjectType_PROTO 171,5230
+#define PyArray_ObjectType_NUM 172,5281
+#define _PyArray_multiply_list_RET 174,5315
+#define _PyArray_multiply_list_PROTO 175,5354
+#define _PyArray_multiply_list_NUM 176,5408
+#define PyArray_SIZE(181,5523
+#define PyArray_NBYTES(182,5601
+#define PyArray_ISCONTIGUOUS(184,5707
+#define PyArray_ISSPACESAVER(185,5765
+#define PyScalarArray_Check(186,5839
+#define PyArray_Size_RET 189,5982
+#define PyArray_Size_PROTO 190,6011
+#define PyArray_Size_NUM 191,6051
+#define PyArray_FromDims_RET 196,6199
+#define PyArray_FromDims_PROTO 197,6239
+#define PyArray_FromDims_NUM 198,6288
+#define PyArray_FromDimsAndData_RET 203,6599
+#define PyArray_FromDimsAndData_PROTO 204,6646
+#define PyArray_FromDimsAndData_NUM 205,6710
+#define PyArray_ContiguousFromObject_RET 214,7051
+#define PyArray_ContiguousFromObject_PROTO 215,7103
+#define PyArray_ContiguousFromObject_NUM 216,7174
+#define PyArray_CopyFromObject_RET 219,7291
+#define PyArray_CopyFromObject_PROTO 220,7337
+#define PyArray_CopyFromObject_NUM 221,7402
+#define PyArray_FromObject_RET 224,7542
+#define PyArray_FromObject_PROTO 225,7584
+#define PyArray_FromObject_NUM 226,7645
+#define PyArray_Return_RET 229,7771
+#define PyArray_Return_PROTO 230,7809
+#define PyArray_Return_NUM 231,7856
+#define PyArray_Reshape_RET 233,7887
+#define PyArray_Reshape_PROTO 234,7926
+#define PyArray_Reshape_NUM 235,7993
+#define PyArray_Copy_RET 237,8025
+#define PyArray_Copy_PROTO 238,8061
+#define PyArray_Copy_NUM 239,8108
+#define PyArray_Take_RET 241,8137
+#define PyArray_Take_PROTO 242,8173
+#define PyArray_Take_NUM 243,8242
+#define PyArray_As1D_RET 246,8316
+#define PyArray_As1D_PROTO 247,8345
+#define PyArray_As1D_NUM 248,8423
+#define PyArray_As2D_RET 250,8452
+#define PyArray_As2D_PROTO 251,8481
+#define PyArray_As2D_NUM 252,8569
+#define PyArray_Free_RET 254,8598
+#define PyArray_Free_PROTO 255,8627
+#define PyArray_Free_NUM 256,8680
+#define PyArray_FromDimsAndDataAndDescr_RET 261,8999
+#define PyArray_FromDimsAndDataAndDescr_PROTO 262,9054
+#define PyArray_FromDimsAndDataAndDescr_NUM 263,9138
+#define PyArray_Converter_RET 265,9186
+#define PyArray_Converter_PROTO 266,9220
+#define PyArray_Converter_NUM 267,9278
+#define PyArray_Put_RET 269,9312
+#define PyArray_Put_PROTO 270,9347
+#define PyArray_Put_NUM 271,9423
+#define PyArray_PutMask_RET 273,9451
+#define PyArray_PutMask_PROTO 274,9490
+#define PyArray_PutMask_NUM 275,9569
+#define PyArray_CopyArray_RET 277,9601
+#define PyArray_CopyArray_PROTO 278,9635
+#define PyArray_CopyArray_NUM 279,9709
+#define PyArray_ValidType_RET 281,9743
+#define PyArray_ValidType_PROTO 282,9777
+#define PyArray_ValidType_NUM 283,9820
+#define PyArray_IntegerAsInt_RET 290,10131
+#define PyArray_IntegerAsInt_PROTO 291,10168
+#define PyArray_IntegerAsInt_NUM 292,10217
+#define PyArray_API_pointers 295,10291
+#define PyArray_Check(301,10381
+#define PyArray_API 346,12747
+void **PyArray_API;PyArray_API354,12946
+static void **PyArray_API;PyArray_API356,12972
+#define PyArray_Check(360,13014
+#define PyArray_Type 362,13110
+#define PyArray_SetNumericOps 364,13179
+#define PyArray_INCREF 367,13319
+#define PyArray_XDECREF 370,13431
+#define PyArrayError 373,13547
+#define PyArray_SetStringFunction 376,13651
+#define PyArray_DescrFromType 379,13807
+#define PyArray_Cast 382,13947
+#define PyArray_CanCastSafely 385,14051
+#define PyArray_ObjectType 388,14191
+#define _PyArray_multiply_list 391,14319
+#define PyArray_Size 394,14463
+#define PyArray_FromDims 397,14567
+#define PyArray_FromDimsAndData 400,14687
+#define PyArray_FromDimsAndDataAndDescr 403,14835
+#define PyArray_ContiguousFromObject 406,15015
+#define PyArray_CopyFromObject 409,15183
+#define PyArray_FromObject 412,15327
+#define PyArray_Return 415,15455
+#define PyArray_Reshape 418,15567
+#define PyArray_Copy 421,15683
+#define PyArray_Take 424,15787
+#define PyArray_As1D 427,15891
+#define PyArray_As2D 430,15995
+#define PyArray_Free 433,16099
+#define PyArray_Converter 436,16203
+#define PyArray_Put 439,16327
+#define PyArray_PutMask 442,16427
+#define PyArray_CopyArray 445,16543
+#define PyArray_ValidType 448,16667
+#define PyArray_IntegerAsInt 451,16791
+#define import_array(455,16928
+
+doc/scrap_doc.h,288
+#define DOC_PYGAMESCRAP 2,70
+#define DOC_PYGAMESCRAPINIT 4,134
+#define DOC_PYGAMESCRAPGET 6,212
+#define DOC_PYGAMESCRAPGETTYPES 8,320
+#define DOC_PYGAMESCRAPPUT 10,423
+#define DOC_PYGAMESCRAPCONTAINS 12,510
+#define DOC_PYGAMESCRAPLOST 14,632
+#define DOC_PYGAMESCRAPSETMODE 16,747
+
+doc/transform_doc.h,636
+#define DOC_PYGAMETRANSFORM 2,70
+#define DOC_PYGAMETRANSFORMFLIP 4,137
+#define DOC_PYGAMETRANSFORMSCALE 6,245
+#define DOC_PYGAMETRANSFORMROTATE 8,370
+#define DOC_PYGAMETRANSFORMROTOZOOM 10,458
+#define DOC_PYGAMETRANSFORMSCALE2X 12,569
+#define DOC_PYGAMETRANSFORMSMOOTHSCALE 14,682
+#define DOC_PYGAMETRANSFORMGETSMOOTHSCALEBACKEND 16,840
+#define DOC_PYGAMETRANSFORMSETSMOOTHSCALEBACKEND 18,998
+#define DOC_PYGAMETRANSFORMCHOP 20,1158
+#define DOC_PYGAMETRANSFORMLAPLACIAN 22,1279
+#define DOC_PYGAMETRANSFORMAVERAGESURFACES 24,1394
+#define DOC_PYGAMETRANSFORMAVERAGECOLOR 26,1564
+#define DOC_PYGAMETRANSFORMTHRESHOLD 28,1690
+
+doc/mouse_doc.h,349
+#define DOC_PYGAMEMOUSE 2,70
+#define DOC_PYGAMEMOUSEGETPRESSED 4,134
+#define DOC_PYGAMEMOUSEGETPOS 6,252
+#define DOC_PYGAMEMOUSEGETREL 8,336
+#define DOC_PYGAMEMOUSESETPOS 10,423
+#define DOC_PYGAMEMOUSESETVISIBLE 12,511
+#define DOC_PYGAMEMOUSEGETFOCUSED 14,605
+#define DOC_PYGAMEMOUSESETCURSOR 16,711
+#define DOC_PYGAMEMOUSEGETCURSOR 18,844
+
+doc/image_doc.h,266
+#define DOC_PYGAMEIMAGE 2,70
+#define DOC_PYGAMEIMAGELOAD 4,130
+#define DOC_PYGAMEIMAGESAVE 6,254
+#define DOC_PYGAMEIMAGEGETEXTENDED 8,340
+#define DOC_PYGAMEIMAGETOSTRING 10,447
+#define DOC_PYGAMEIMAGEFROMSTRING 12,566
+#define DOC_PYGAMEIMAGEFROMBUFFER 14,703
+
+doc/event_doc.h,679
+#define DOC_PYGAMEEVENT 2,70
+#define DOC_PYGAMEEVENTPUMP 4,150
+#define DOC_PYGAMEEVENTGET 6,238
+#define DOC_PYGAMEEVENTPOLL 8,366
+#define DOC_PYGAMEEVENTWAIT 10,461
+#define DOC_PYGAMEEVENTPEEK 12,561
+#define DOC_PYGAMEEVENTCLEAR 14,681
+#define DOC_PYGAMEEVENTEVENTNAME 16,809
+#define DOC_PYGAMEEVENTSETBLOCKED 18,911
+#define DOC_PYGAMEEVENTSETALLOWED 20,1079
+#define DOC_PYGAMEEVENTGETBLOCKED 22,1247
+#define DOC_PYGAMEEVENTSETGRAB 24,1361
+#define DOC_PYGAMEEVENTGETGRAB 26,1480
+#define DOC_PYGAMEEVENTPOST 28,1579
+#define DOC_PYGAMEEVENTEVENT 30,1662
+#define DOC_PYGAMEEVENTEVENTTYPE 32,1810
+#define DOC_EVENTTYPETYPE 34,1888
+#define DOC_EVENTTYPEDICT 36,1957
+
+doc/cursors_doc.h,112
+#define DOC_PYGAMECURSORS 2,70
+#define DOC_PYGAMECURSORSCOMPILE 4,134
+#define DOC_PYGAMECURSORSLOADXBM 6,279
+
+doc/mixer_doc.h,1377
+#define DOC_PYGAMEMIXER 2,70
+#define DOC_PYGAMEMIXERINIT 4,142
+#define DOC_PYGAMEMIXERPREINIT 6,267
+#define DOC_PYGAMEMIXERQUIT 8,407
+#define DOC_PYGAMEMIXERGETINIT 10,477
+#define DOC_PYGAMEMIXERSTOP 12,589
+#define DOC_PYGAMEMIXERPAUSE 14,672
+#define DOC_PYGAMEMIXERUNPAUSE 16,769
+#define DOC_PYGAMEMIXERFADEOUT 18,863
+#define DOC_PYGAMEMIXERSETNUMCHANNELS 20,970
+#define DOC_PYGAMEMIXERGETNUMCHANNELS 22,1086
+#define DOC_PYGAMEMIXERSETRESERVED 24,1198
+#define DOC_PYGAMEMIXERFINDCHANNEL 26,1312
+#define DOC_PYGAMEMIXERGETBUSY 28,1411
+#define DOC_PYGAMEMIXERSOUND 30,1498
+#define DOC_SOUNDPLAY 32,1780
+#define DOC_SOUNDSTOP 34,1874
+#define DOC_SOUNDFADEOUT 36,1935
+#define DOC_SOUNDSETVOLUME 38,2023
+#define DOC_SOUNDGETVOLUME 40,2119
+#define DOC_SOUNDGETNUMCHANNELS 42,2196
+#define DOC_SOUNDGETLENGTH 44,2303
+#define DOC_SOUNDGETRAW 46,2386
+#define DOC_PYGAMEMIXERCHANNEL 48,2480
+#define DOC_CHANNELPLAY 50,2587
+#define DOC_CHANNELSTOP 52,2701
+#define DOC_CHANNELPAUSE 54,2771
+#define DOC_CHANNELUNPAUSE 56,2855
+#define DOC_CHANNELFADEOUT 58,2939
+#define DOC_CHANNELSETVOLUME 60,3031
+#define DOC_CHANNELGETVOLUME 62,3159
+#define DOC_CHANNELGETBUSY 64,3252
+#define DOC_CHANNELGETSOUND 66,3333
+#define DOC_CHANNELQUEUE 68,3418
+#define DOC_CHANNELGETQUEUE 70,3511
+#define DOC_CHANNELSETENDEVENT 72,3596
+#define DOC_CHANNELGETENDEVENT 74,3733
+
+doc/color_doc.h,365
+#define DOC_PYGAMECOLOR 2,70
+#define DOC_COLORR 4,213
+#define DOC_COLORG 6,286
+#define DOC_COLORB 8,361
+#define DOC_COLORA 10,435
+#define DOC_COLORCMY 12,510
+#define DOC_COLORHSVA 14,598
+#define DOC_COLORHSLA 16,689
+#define DOC_COLORI1I2I3 18,780
+#define DOC_COLORNORMALIZE 20,877
+#define DOC_COLORCORRECTGAMMA 22,978
+#define DOC_COLORSETLENGTH 24,1087
+
+doc/rect_doc.h,731
+#define DOC_PYGAMERECT 2,70
+#define DOC_RECTCOPY 4,252
+#define DOC_RECTMOVE 6,311
+#define DOC_RECTMOVEIP 8,375
+#define DOC_RECTINFLATE 10,454
+#define DOC_RECTINFLATEIP 12,538
+#define DOC_RECTCLAMP 14,637
+#define DOC_RECTCLAMPIP 16,718
+#define DOC_RECTCLIP 18,814
+#define DOC_RECTUNION 20,891
+#define DOC_RECTUNIONIP 22,967
+#define DOC_RECTUNIONALL 24,1058
+#define DOC_RECTUNIONALLIP 26,1148
+#define DOC_RECTFIT 28,1253
+#define DOC_RECTNORMALIZE 30,1341
+#define DOC_RECTCONTAINS 32,1414
+#define DOC_RECTCOLLIDEPOINT 34,1506
+#define DOC_RECTCOLLIDERECT 36,1633
+#define DOC_RECTCOLLIDELIST 38,1722
+#define DOC_RECTCOLLIDELISTALL 40,1824
+#define DOC_RECTCOLLIDEDICT 42,1934
+#define DOC_RECTCOLLIDEDICTALL 44,2049
+
+doc/joystick_doc.h,721
+#define DOC_PYGAMEJOYSTICK 2,70
+#define DOC_PYGAMEJOYSTICKINIT 4,172
+#define DOC_PYGAMEJOYSTICKQUIT 6,254
+#define DOC_PYGAMEJOYSTICKGETINIT 8,338
+#define DOC_PYGAMEJOYSTICKGETCOUNT 10,447
+#define DOC_PYGAMEJOYSTICKJOYSTICK 12,540
+#define DOC_JOYSTICKINIT 14,634
+#define DOC_JOYSTICKQUIT 16,702
+#define DOC_JOYSTICKGETINIT 18,772
+#define DOC_JOYSTICKGETID 20,860
+#define DOC_JOYSTICKGETNAME 22,926
+#define DOC_JOYSTICKGETNUMAXES 24,1008
+#define DOC_JOYSTICKGETAXIS 26,1101
+#define DOC_JOYSTICKGETNUMBALLS 28,1200
+#define DOC_JOYSTICKGETBALL 30,1301
+#define DOC_JOYSTICKGETNUMBUTTONS 32,1404
+#define DOC_JOYSTICKGETBUTTON 34,1506
+#define DOC_JOYSTICKGETNUMHATS 36,1596
+#define DOC_JOYSTICKGETHAT 38,1697
+
+doc/mask_doc.h,823
+#define DOC_PYGAMEMASK 2,70
+#define DOC_PYGAMEMASKFROMSURFACE 4,127
+#define DOC_PYGAMEMASKFROMTHRESHOLD 6,251
+#define DOC_PYGAMEMASKMASK 8,436
+#define DOC_MASKGETSIZE 10,540
+#define DOC_MASKGETAT 12,625
+#define DOC_MASKSETAT 14,716
+#define DOC_MASKOVERLAP 16,818
+#define DOC_MASKOVERLAPAREA 18,991
+#define DOC_MASKOVERLAPMASK 20,1112
+#define DOC_MASKFILL 22,1225
+#define DOC_MASKCLEAR 24,1284
+#define DOC_MASKINVERT 26,1345
+#define DOC_MASKSCALE 28,1414
+#define DOC_MASKDRAW 30,1477
+#define DOC_MASKERASE 32,1560
+#define DOC_MASKCOUNT 34,1646
+#define DOC_MASKCENTROID 36,1723
+#define DOC_MASKANGLE 38,1818
+#define DOC_MASKOUTLINE 40,1899
+#define DOC_MASKCONVOLVE 42,2003
+#define DOC_MASKCONNECTEDCOMPONENT 44,2145
+#define DOC_MASKCONNECTEDCOMPONENTS 46,2274
+#define DOC_MASKGETBOUNDINGRECTS 48,2411
+
+doc/tests_doc.h,64
+#define DOC_PYGAMETESTS 2,70
+#define DOC_PYGAMETESTSRUN 4,128
+
+doc/locals_doc.h,31
+#define DOC_PYGAMELOCALS 2,70
+
+doc/midi_doc.h,854
+#define DOC_PYGAMEMIDI 2,70
+#define DOC_PYGAMEMIDIINPUT 4,154
+#define DOC_INPUTCLOSE 6,301
+#define DOC_INPUTPOLL 8,396
+#define DOC_INPUTREAD 10,484
+#define DOC_PYGAMEMIDIMIDIEXCEPTION 12,592
+#define DOC_PYGAMEMIDIOUTPUT 14,720
+#define DOC_OUTPUTABORT 16,963
+#define DOC_OUTPUTCLOSE 18,1048
+#define DOC_OUTPUTNOTEOFF 20,1144
+#define DOC_OUTPUTNOTEON 22,1266
+#define DOC_OUTPUTSETINSTRUMENT 24,1386
+#define DOC_OUTPUTWRITE 26,1526
+#define DOC_OUTPUTWRITESHORT 28,1615
+#define DOC_OUTPUTWRITESYSEX 30,1766
+#define DOC_PYGAMEMIDIGETCOUNT 32,1883
+#define DOC_PYGAMEMIDIGETDEFAULTINPUTID 34,1973
+#define DOC_PYGAMEMIDIGETDEFAULTOUTPUTID 36,2087
+#define DOC_PYGAMEMIDIGETDEVICEINFO 38,2204
+#define DOC_PYGAMEMIDIINIT 40,2348
+#define DOC_PYGAMEMIDIMIDIS2EVENTS 42,2421
+#define DOC_PYGAMEMIDIQUIT 44,2545
+#define DOC_PYGAMEMIDITIME 46,2620
+
+doc/draw_doc.h,355
+#define DOC_PYGAMEDRAW 2,70
+#define DOC_PYGAMEDRAWRECT 4,129
+#define DOC_PYGAMEDRAWPOLYGON 6,227
+#define DOC_PYGAMEDRAWCIRCLE 8,351
+#define DOC_PYGAMEDRAWELLIPSE 10,466
+#define DOC_PYGAMEDRAWARC 12,585
+#define DOC_PYGAMEDRAWLINE 14,720
+#define DOC_PYGAMEDRAWLINES 16,838
+#define DOC_PYGAMEDRAWAALINE 18,967
+#define DOC_PYGAMEDRAWAALINES 20,1086
+
+doc/surfarray_doc.h,773
+#define DOC_PYGAMESURFARRAY 2,70
+#define DOC_PYGAMESURFARRAYARRAY2D 4,171
+#define DOC_PYGAMESURFARRAYPIXELS2D 6,264
+#define DOC_PYGAMESURFARRAYARRAY3D 8,364
+#define DOC_PYGAMESURFARRAYPIXELS3D 10,457
+#define DOC_PYGAMESURFARRAYARRAYALPHA 12,557
+#define DOC_PYGAMESURFARRAYPIXELSALPHA 14,663
+#define DOC_PYGAMESURFARRAYPIXELSRED 16,776
+#define DOC_PYGAMESURFARRAYPIXELSGREEN 18,884
+#define DOC_PYGAMESURFARRAYPIXELSBLUE 20,998
+#define DOC_PYGAMESURFARRAYARRAYCOLORKEY 22,1109
+#define DOC_PYGAMESURFARRAYMAKESURFACE 24,1228
+#define DOC_PYGAMESURFARRAYBLITARRAY 26,1333
+#define DOC_PYGAMESURFARRAYMAPARRAY 28,1443
+#define DOC_PYGAMESURFARRAYUSEARRAYTYPE 30,1553
+#define DOC_PYGAMESURFARRAYGETARRAYTYPE 32,1683
+#define DOC_PYGAMESURFARRAYGETARRAYTYPES 34,1789
+
+doc/freetype_doc.h,1768
+#define DOC_PYGAMEFREETYPE 2,70
+#define DOC_PYGAMEFREETYPEGETERROR 4,164
+#define DOC_PYGAMEFREETYPEGETVERSION 6,255
+#define DOC_PYGAMEFREETYPEINIT 8,357
+#define DOC_PYGAMEFREETYPEQUIT 10,471
+#define DOC_PYGAMEFREETYPEWASINIT 12,556
+#define DOC_PYGAMEFREETYPEGETDEFAULTRESOLUTION 14,669
+#define DOC_PYGAMEFREETYPESETDEFAULTRESOLUTION 16,800
+#define DOC_PYGAMEFREETYPESYSFONT 18,947
+#define DOC_PYGAMEFREETYPEGETDEFAULTFONT 20,1082
+#define DOC_PYGAMEFREETYPEFONT 22,1193
+#define DOC_FONTNAME 24,1350
+#define DOC_FONTPATH 26,1408
+#define DOC_FONTSIZE 28,1464
+#define DOC_FONTGETRECT 30,1568
+#define DOC_FONTGETMETRICS 32,1704
+#define DOC_FONTHEIGHT 34,1821
+#define DOC_FONTASCENDER 36,1908
+#define DOC_FONTDESCENDER 38,1999
+#define DOC_FONTGETSIZEDASCENDER 40,2093
+#define DOC_FONTGETSIZEDDESCENDER 42,2206
+#define DOC_FONTGETSIZEDHEIGHT 44,2322
+#define DOC_FONTGETSIZEDGLYPHHEIGHT 46,2431
+#define DOC_FONTGETSIZES 48,2564
+#define DOC_FONTRENDER 50,2711
+#define DOC_FONTRENDERTO 52,2873
+#define DOC_FONTRENDERRAW 54,3044
+#define DOC_FONTRENDERRAWTO 56,3211
+#define DOC_FONTSTYLE 58,3384
+#define DOC_FONTUNDERLINE 60,3446
+#define DOC_FONTSTRONG 62,3539
+#define DOC_FONTOBLIQUE 64,3623
+#define DOC_FONTWIDE 66,3710
+#define DOC_FONTSTRENGTH 68,3788
+#define DOC_FONTUNDERLINEADJUSTMENT 70,3895
+#define DOC_FONTFIXEDWIDTH 72,4010
+#define DOC_FONTFIXEDSIZES 74,4098
+#define DOC_FONTSCALABLE 76,4198
+#define DOC_FONTUSEBITMAPSTRIKES 78,4278
+#define DOC_FONTANTIALIASED 80,4400
+#define DOC_FONTKERNING 82,4476
+#define DOC_FONTVERTICAL 84,4543
+#define DOC_FONTROTATION 86,4608
+#define DOC_FONTFGCOLOR 88,4695
+#define DOC_FONTORIGIN 90,4765
+#define DOC_FONTPAD 92,4839
+#define DOC_FONTUCS4 94,4896
+#define DOC_FONTRESOLUTION 96,4952
+
+doc/examples_doc.h,1423
+#define DOC_PYGAMEEXAMPLES 2,70
+#define DOC_PYGAMEEXAMPLESALIENSMAIN 4,127
+#define DOC_PYGAMEEXAMPLESOLDALIENMAIN 6,219
+#define DOC_PYGAMEEXAMPLESSTARSMAIN 8,319
+#define DOC_PYGAMEEXAMPLESCHIMPMAIN 10,411
+#define DOC_PYGAMEEXAMPLESMOVEITMAIN 12,493
+#define DOC_PYGAMEEXAMPLESFONTYMAIN 14,595
+#define DOC_PYGAMEEXAMPLESFREETYPEMISCMAIN 16,685
+#define DOC_PYGAMEEXAMPLESVGRADEMAIN 18,794
+#define DOC_PYGAMEEXAMPLESEVENTLISTMAIN 20,885
+#define DOC_PYGAMEEXAMPLESARRAYDEMOMAIN 22,976
+#define DOC_PYGAMEEXAMPLESSOUNDMAIN 24,1090
+#define DOC_PYGAMEEXAMPLESSOUNDARRAYDEMOSMAIN 26,1187
+#define DOC_PYGAMEEXAMPLESLIQUIDMAIN 28,1314
+#define DOC_PYGAMEEXAMPLESGLCUBEMAIN 30,1411
+#define DOC_PYGAMEEXAMPLESSCRAPCLIPBOARDMAIN 32,1515
+#define DOC_PYGAMEEXAMPLESMASKMAIN 34,1616
+#define DOC_PYGAMEEXAMPLESTESTSPRITEMAIN 36,1752
+#define DOC_PYGAMEEXAMPLESHEADLESSNOWINDOWSNEEDEDMAIN 38,1982
+#define DOC_PYGAMEEXAMPLESFASTEVENTSMAIN 40,2160
+#define DOC_PYGAMEEXAMPLESOVERLAYMAIN 42,2265
+#define DOC_PYGAMEEXAMPLESBLENDFILLMAIN 44,2368
+#define DOC_PYGAMEEXAMPLESBLITBLENDSMAIN 46,2496
+#define DOC_PYGAMEEXAMPLESCURSORSMAIN 48,2623
+#define DOC_PYGAMEEXAMPLESPIXELARRAYMAIN 50,2725
+#define DOC_PYGAMEEXAMPLESSCALETESTMAIN 52,2841
+#define DOC_PYGAMEEXAMPLESMIDIMAIN 54,3008
+#define DOC_PYGAMEEXAMPLESSCROLLMAIN 56,3115
+#define DOC_PYGAMEEXAMPLESMOVIEPLAYERMAIN 58,3251
+#define DOC_PYGAMEEXAMPLESCAMERAMAIN 60,3351
+
+doc/cdrom_doc.h,804
+#define DOC_PYGAMECDROM 2,70
+#define DOC_PYGAMECDROMINIT 4,135
+#define DOC_PYGAMECDROMQUIT 6,210
+#define DOC_PYGAMECDROMGETINIT 8,287
+#define DOC_PYGAMECDROMGETCOUNT 10,381
+#define DOC_PYGAMECDROMCD 12,472
+#define DOC_CDINIT 14,545
+#define DOC_CDQUIT 16,616
+#define DOC_CDGETINIT 18,689
+#define DOC_CDPLAY 20,769
+#define DOC_CDSTOP 22,854
+#define DOC_CDPAUSE 24,912
+#define DOC_CDRESUME 26,984
+#define DOC_CDEJECT 28,1049
+#define DOC_CDGETID 30,1119
+#define DOC_CDGETNAME 32,1187
+#define DOC_CDGETBUSY 34,1267
+#define DOC_CDGETPAUSED 36,1347
+#define DOC_CDGETCURRENT 38,1424
+#define DOC_CDGETEMPTY 40,1521
+#define DOC_CDGETNUMTRACKS 42,1601
+#define DOC_CDGETTRACKAUDIO 44,1691
+#define DOC_CDGETALL 46,1793
+#define DOC_CDGETTRACKSTART 48,1891
+#define DOC_CDGETTRACKLENGTH 50,1985
+
+doc/pixelcopy_doc.h,222
+#define DOC_PYGAMEPIXELCOPY 2,70
+#define DOC_PYGAMEPIXELCOPYSURFACETOARRAY 4,147
+#define DOC_PYGAMEPIXELCOPYARRAYTOSURFACE 6,304
+#define DOC_PYGAMEPIXELCOPYMAPARRAY 8,429
+#define DOC_PYGAMEPIXELCOPYMAKESURFACE 10,569
+
+doc/bufferproxy_doc.h,181
+#define DOC_PYGAMEBUFFERPROXY 2,70
+#define DOC_BUFFERPROXYPARENT 4,208
+#define DOC_BUFFERPROXYLENGTH 6,313
+#define DOC_BUFFERPROXYRAW 8,405
+#define DOC_BUFFERPROXYWRITE 10,507
+
+doc/font_doc.h,780
+#define DOC_PYGAMEFONT 2,70
+#define DOC_PYGAMEFONTINIT 4,142
+#define DOC_PYGAMEFONTQUIT 6,215
+#define DOC_PYGAMEFONTGETINIT 8,290
+#define DOC_PYGAMEFONTGETDEFAULTFONT 10,382
+#define DOC_PYGAMEFONTGETFONTS 12,489
+#define DOC_PYGAMEFONTMATCHFONT 14,579
+#define DOC_PYGAMEFONTSYSFONT 16,701
+#define DOC_PYGAMEFONTFONT 18,832
+#define DOC_FONTRENDER 20,957
+#define DOC_FONTSIZE 22,1070
+#define DOC_FONTSETUNDERLINE 24,1177
+#define DOC_FONTGETUNDERLINE 26,1284
+#define DOC_FONTSETBOLD 28,1390
+#define DOC_FONTGETBOLD 30,1476
+#define DOC_FONTSETITALIC 32,1559
+#define DOC_FONTMETRICS 34,1651
+#define DOC_FONTGETITALIC 36,1758
+#define DOC_FONTGETLINESIZE 38,1851
+#define DOC_FONTGETHEIGHT 40,1941
+#define DOC_FONTGETASCENT 42,2018
+#define DOC_FONTGETDESCENT 44,2095
+
+doc/gfxdraw_doc.h,957
+#define DOC_PYGAMEGFXDRAW 2,70
+#define DOC_PYGAMEGFXDRAWPIXEL 4,132
+#define DOC_PYGAMEGFXDRAWHLINE 6,217
+#define DOC_PYGAMEGFXDRAWVLINE 8,316
+#define DOC_PYGAMEGFXDRAWRECTANGLE 10,413
+#define DOC_PYGAMEGFXDRAWBOX 12,509
+#define DOC_PYGAMEGFXDRAWLINE 14,587
+#define DOC_PYGAMEGFXDRAWCIRCLE 16,678
+#define DOC_PYGAMEGFXDRAWARC 18,768
+#define DOC_PYGAMEGFXDRAWAACIRCLE 20,862
+#define DOC_PYGAMEGFXDRAWFILLEDCIRCLE 22,970
+#define DOC_PYGAMEGFXDRAWELLIPSE 24,1080
+#define DOC_PYGAMEGFXDRAWAAELLIPSE 26,1179
+#define DOC_PYGAMEGFXDRAWFILLEDELLIPSE 28,1295
+#define DOC_PYGAMEGFXDRAWPIE 30,1413
+#define DOC_PYGAMEGFXDRAWTRIGON 32,1506
+#define DOC_PYGAMEGFXDRAWAATRIGON 34,1613
+#define DOC_PYGAMEGFXDRAWFILLEDTRIGON 36,1738
+#define DOC_PYGAMEGFXDRAWPOLYGON 38,1863
+#define DOC_PYGAMEGFXDRAWAAPOLYGON 40,1955
+#define DOC_PYGAMEGFXDRAWFILLEDPOLYGON 42,2065
+#define DOC_PYGAMEGFXDRAWTEXTUREDPOLYGON 44,2177
+#define DOC_PYGAMEGFXDRAWBEZIER 46,2305
+
+doc/math_doc.h,1927
+#define DOC_PYGAMEMATH 2,70
+#define DOC_PYGAMEMATHENABLESWIZZLING 4,129
+#define DOC_PYGAMEMATHDISABLESWIZZLING 6,238
+#define DOC_PYGAMEMATHVECTOR2 8,350
+#define DOC_VECTOR2DOT 10,511
+#define DOC_VECTOR2CROSS 12,620
+#define DOC_VECTOR2LENGTH 14,713
+#define DOC_VECTOR2LENGTHSQUARED 16,804
+#define DOC_VECTOR2NORMALIZE 18,918
+#define DOC_VECTOR2NORMALIZEIP 20,1029
+#define DOC_VECTOR2ISNORMALIZED 22,1143
+#define DOC_VECTOR2SCALETOLENGTH 24,1259
+#define DOC_VECTOR2REFLECT 26,1364
+#define DOC_VECTOR2REFLECTIP 28,1469
+#define DOC_VECTOR2DISTANCETO 30,1577
+#define DOC_VECTOR2DISTANCESQUAREDTO 32,1693
+#define DOC_VECTOR2LERP 34,1832
+#define DOC_VECTOR2SLERP 36,1944
+#define DOC_VECTOR2ELEMENTWISE 38,2061
+#define DOC_VECTOR2ROTATE 40,2186
+#define DOC_VECTOR2ROTATEIP 42,2287
+#define DOC_VECTOR2ANGLETO 44,2401
+#define DOC_VECTOR2ASPOLAR 46,2510
+#define DOC_VECTOR2FROMPOLAR 48,2622
+#define DOC_PYGAMEMATHVECTOR3 50,2729
+#define DOC_VECTOR3DOT 52,2896
+#define DOC_VECTOR3CROSS 54,3005
+#define DOC_VECTOR3LENGTH 56,3098
+#define DOC_VECTOR3LENGTHSQUARED 58,3189
+#define DOC_VECTOR3NORMALIZE 60,3303
+#define DOC_VECTOR3NORMALIZEIP 62,3414
+#define DOC_VECTOR3ISNORMALIZED 64,3528
+#define DOC_VECTOR3SCALETOLENGTH 66,3644
+#define DOC_VECTOR3REFLECT 68,3749
+#define DOC_VECTOR3REFLECTIP 70,3854
+#define DOC_VECTOR3DISTANCETO 72,3962
+#define DOC_VECTOR3DISTANCESQUAREDTO 74,4078
+#define DOC_VECTOR3LERP 76,4217
+#define DOC_VECTOR3SLERP 78,4329
+#define DOC_VECTOR3ELEMENTWISE 80,4446
+#define DOC_VECTOR3ROTATE 82,4571
+#define DOC_VECTOR3ROTATEIP 84,4681
+#define DOC_VECTOR3ROTATEX 86,4804
+#define DOC_VECTOR3ROTATEXIP 88,4922
+#define DOC_VECTOR3ROTATEY 90,5053
+#define DOC_VECTOR3ROTATEYIP 92,5171
+#define DOC_VECTOR3ROTATEZ 94,5302
+#define DOC_VECTOR3ROTATEZIP 96,5420
+#define DOC_VECTOR3ANGLETO 98,5551
+#define DOC_VECTOR3ASSPHERICAL 100,5660
+#define DOC_VECTOR3FROMSPHERICAL 102,5800
+
+doc/music_doc.h,693
+#define DOC_PYGAMEMIXERMUSIC 2,70
+#define DOC_PYGAMEMIXERMUSICLOAD 4,147
+#define DOC_PYGAMEMIXERMUSICPLAY 6,260
+#define DOC_PYGAMEMIXERMUSICREWIND 8,369
+#define DOC_PYGAMEMIXERMUSICSTOP 10,439
+#define DOC_PYGAMEMIXERMUSICPAUSE 12,515
+#define DOC_PYGAMEMIXERMUSICUNPAUSE 14,601
+#define DOC_PYGAMEMIXERMUSICFADEOUT 16,679
+#define DOC_PYGAMEMIXERMUSICSETVOLUME 18,778
+#define DOC_PYGAMEMIXERMUSICGETVOLUME 20,867
+#define DOC_PYGAMEMIXERMUSICGETBUSY 22,952
+#define DOC_PYGAMEMIXERMUSICSETPOS 24,1048
+#define DOC_PYGAMEMIXERMUSICGETPOS 26,1134
+#define DOC_PYGAMEMIXERMUSICQUEUE 28,1215
+#define DOC_PYGAMEMIXERMUSICSETENDEVENT 30,1318
+#define DOC_PYGAMEMIXERMUSICGETENDEVENT 32,1462
+
+doc/pygame_doc.h,540
+#define DOC_PYGAME 2,70
+#define DOC_PYGAMEINIT 4,121
+#define DOC_PYGAMEQUIT 6,216
+#define DOC_PYGAMEERROR 8,290
+#define DOC_PYGAMEGETERROR 10,372
+#define DOC_PYGAMESETERROR 12,457
+#define DOC_PYGAMEGETSDLVERSION 14,547
+#define DOC_PYGAMEGETSDLBYTEORDER 16,654
+#define DOC_PYGAMEREGISTERQUIT 18,745
+#define DOC_PYGAMEENCODESTRING 20,863
+#define DOC_PYGAMEENCODEFILEPATH 22,1003
+#define DOC_PYGAMEVERSION 24,1146
+#define DOC_PYGAMEVERSIONVER 26,1219
+#define DOC_PYGAMEVERSIONVERNUM 28,1291
+#define DOC_PYGAMEVERSIONREV 30,1377
+
+doc/movie_doc.h,566
+#define DOC_PYGAMEMOVIE 2,70
+#define DOC_PYGAMEMOVIEMOVIE 4,138
+#define DOC_MOVIEPLAY 6,244
+#define DOC_MOVIESTOP 8,318
+#define DOC_MOVIEPAUSE 10,379
+#define DOC_MOVIESKIP 12,459
+#define DOC_MOVIEREWIND 14,543
+#define DOC_MOVIERENDERFRAME 16,615
+#define DOC_MOVIEGETFRAME 18,719
+#define DOC_MOVIEGETTIME 20,805
+#define DOC_MOVIEGETBUSY 22,891
+#define DOC_MOVIEGETLENGTH 24,979
+#define DOC_MOVIEGETSIZE 26,1075
+#define DOC_MOVIEHASVIDEO 28,1166
+#define DOC_MOVIEHASAUDIO 30,1255
+#define DOC_MOVIESETVOLUME 32,1344
+#define DOC_MOVIESETDISPLAY 34,1431
+
+doc/display_doc.h,1022
+#define DOC_PYGAMEDISPLAY 2,70
+#define DOC_PYGAMEDISPLAYINIT 4,154
+#define DOC_PYGAMEDISPLAYQUIT 6,233
+#define DOC_PYGAMEDISPLAYGETINIT 8,314
+#define DOC_PYGAMEDISPLAYSETMODE 10,426
+#define DOC_PYGAMEDISPLAYGETSURFACE 12,561
+#define DOC_PYGAMEDISPLAYFLIP 14,679
+#define DOC_PYGAMEDISPLAYUPDATE 16,774
+#define DOC_PYGAMEDISPLAYGETDRIVER 18,925
+#define DOC_PYGAMEDISPLAYINFO 20,1028
+#define DOC_PYGAMEDISPLAYGETWMINFO 22,1124
+#define DOC_PYGAMEDISPLAYLISTMODES 24,1236
+#define DOC_PYGAMEDISPLAYMODEOK 26,1367
+#define DOC_PYGAMEDISPLAYGLGETATTRIBUTE 28,1489
+#define DOC_PYGAMEDISPLAYGLSETATTRIBUTE 30,1622
+#define DOC_PYGAMEDISPLAYGETACTIVE 32,1761
+#define DOC_PYGAMEDISPLAYICONIFY 34,1876
+#define DOC_PYGAMEDISPLAYTOGGLEFULLSCREEN 36,1959
+#define DOC_PYGAMEDISPLAYSETGAMMA 38,2081
+#define DOC_PYGAMEDISPLAYSETGAMMARAMP 40,2197
+#define DOC_PYGAMEDISPLAYSETICON 42,2333
+#define DOC_PYGAMEDISPLAYSETCAPTION 44,2443
+#define DOC_PYGAMEDISPLAYGETCAPTION 46,2557
+#define DOC_PYGAMEDISPLAYSETPALETTE 48,2664
+
+doc/sprite_doc.h,2432
+#define DOC_PYGAMESPRITE 2,70
+#define DOC_PYGAMESPRITESPRITE 4,143
+#define DOC_SPRITEUPDATE 6,248
+#define DOC_SPRITEADD 8,333
+#define DOC_SPRITEREMOVE 10,405
+#define DOC_SPRITEKILL 12,488
+#define DOC_SPRITEALIVE 14,564
+#define DOC_SPRITEGROUPS 16,645
+#define DOC_PYGAMESPRITEDIRTYSPRITE 18,737
+#define DOC_PYGAMESPRITEGROUP 20,869
+#define DOC_GROUPSPRITES 22,990
+#define DOC_GROUPCOPY 24,1084
+#define DOC_GROUPADD 26,1146
+#define DOC_GROUPREMOVE 28,1219
+#define DOC_GROUPHAS 30,1302
+#define DOC_GROUPUPDATE 32,1382
+#define DOC_GROUPDRAW 34,1476
+#define DOC_GROUPCLEAR 36,1547
+#define DOC_GROUPEMPTY 38,1649
+#define DOC_PYGAMESPRITERENDERPLAIN 40,1711
+#define DOC_PYGAMESPRITERENDERCLEAR 42,1778
+#define DOC_PYGAMESPRITERENDERUPDATES 44,1845
+#define DOC_RENDERUPDATESDRAW 46,1971
+#define DOC_PYGAMESPRITEORDEREDUPDATES 48,2079
+#define DOC_PYGAMESPRITELAYEREDUPDATES 50,2229
+#define DOC_LAYEREDUPDATESADD 52,2408
+#define DOC_LAYEREDUPDATESSPRITES 54,2521
+#define DOC_LAYEREDUPDATESDRAW 56,2638
+#define DOC_LAYEREDUPDATESGETSPRITESAT 58,2761
+#define DOC_LAYEREDUPDATESGETSPRITE 60,2895
+#define DOC_LAYEREDUPDATESREMOVESPRITESOFLAYER 62,3021
+#define DOC_LAYEREDUPDATESLAYERS 64,3178
+#define DOC_LAYEREDUPDATESCHANGELAYER 66,3300
+#define DOC_LAYEREDUPDATESGETLAYEROFSPRITE 68,3414
+#define DOC_LAYEREDUPDATESGETTOPLAYER 70,3545
+#define DOC_LAYEREDUPDATESGETBOTTOMLAYER 72,3634
+#define DOC_LAYEREDUPDATESMOVETOFRONT 74,3732
+#define DOC_LAYEREDUPDATESMOVETOBACK 76,3837
+#define DOC_LAYEREDUPDATESGETTOPSPRITE 78,3944
+#define DOC_LAYEREDUPDATESGETSPRITESFROMLAYER 80,4041
+#define DOC_LAYEREDUPDATESSWITCHLAYER 82,4198
+#define DOC_PYGAMESPRITELAYEREDDIRTY 84,4326
+#define DOC_LAYEREDDIRTYDRAW 86,4490
+#define DOC_LAYEREDDIRTYCLEAR 88,4621
+#define DOC_LAYEREDDIRTYREPAINTRECT 90,4706
+#define DOC_LAYEREDDIRTYSETCLIP 92,4804
+#define DOC_LAYEREDDIRTYGETCLIP 94,4947
+#define DOC_LAYEREDDIRTYCHANGELAYER 96,5074
+#define DOC_LAYEREDDIRTYSETTIMINGTRESHOLD 98,5186
+#define DOC_PYGAMESPRITEGROUPSINGLE 100,5303
+#define DOC_PYGAMESPRITESPRITECOLLIDE 102,5427
+#define DOC_PYGAMESPRITECOLLIDERECT 104,5593
+#define DOC_PYGAMESPRITECOLLIDERECTRATIO 106,5721
+#define DOC_PYGAMESPRITECOLLIDECIRCLE 108,5885
+#define DOC_PYGAMESPRITECOLLIDECIRCLERATIO 110,6019
+#define DOC_PYGAMESPRITECOLLIDEMASK 112,6189
+#define DOC_PYGAMESPRITEGROUPCOLLIDE 114,6330
+#define DOC_PYGAMESPRITESPRITECOLLIDEANY 116,6500
+
+doc/_movie_doc.h,659
+#define _MOVIE_DOC_H_2,22
+#define DOC_GMOVIE 4,45
+#define DOC_GMOVIEMOVIE 6,139
+#define DOC_GMOVIEMOVIEPLAY 8,351
+#define DOC_GMOVIEMOVIESTOP 10,466
+#define DOC_GMOVIEMOVIEPAUSE 12,590
+#define DOC_GMOVIEMOVIEREWIND 14,730
+#define DOC_GMOVIEMOVIERESIZE 16,821
+#define DOC_GMOVIEMOVIEPAUSED 18,1092
+#define DOC_GMOVIEMOVIEPLAYING 20,1207
+#define DOC_GMOVIEMOVIEWIDTH 22,1380
+#define DOC_GMOVIEMOVIEHEIGHT 24,1523
+#define DOC_GMOVIEMOVIESURFACE 26,1669
+#define DOC_GMOVIEMOVIEFINISHED 28,1793
+#define DOC_GMOVIEMOVIEYTOP 30,2057
+#define DOC_GMOVIEMOVIEXLEFT 32,2299
+#define DOC_GMOVIEMOVIEEASY_SEEK 34,2547
+#define DOC_GMOVIEMOVIESHIFT 36,2777
+
+doc/key_doc.h,291
+#define DOC_PYGAMEKEY 2,70
+#define DOC_PYGAMEKEYGETFOCUSED 4,135
+#define DOC_PYGAMEKEYGETPRESSED 6,257
+#define DOC_PYGAMEKEYGETMODS 8,354
+#define DOC_PYGAMEKEYSETMODS 10,450
+#define DOC_PYGAMEKEYSETREPEAT 12,553
+#define DOC_PYGAMEKEYGETREPEAT 14,681
+#define DOC_PYGAMEKEYNAME 16,781
+
+doc/camera_doc.h,435
+#define DOC_PYGAMECAMERA 2,70
+#define DOC_PYGAMECAMERACOLORSPACE 4,127
+#define DOC_PYGAMECAMERALISTCAMERAS 6,255
+#define DOC_PYGAMECAMERACAMERA 8,359
+#define DOC_CAMERASTART 10,458
+#define DOC_CAMERASTOP 12,543
+#define DOC_CAMERAGETCONTROLS 14,629
+#define DOC_CAMERASETCONTROLS 16,759
+#define DOC_CAMERAGETSIZE 18,941
+#define DOC_CAMERAQUERYIMAGE 20,1053
+#define DOC_CAMERAGETIMAGE 22,1135
+#define DOC_CAMERAGETRAW 24,1234
+
+doc/surface_doc.h,1824
+#define DOC_PYGAMESURFACE 2,70
+#define DOC_SURFACEBLIT 4,259
+#define DOC_SURFACECONVERT 6,372
+#define DOC_SURFACECONVERTALPHA 8,561
+#define DOC_SURFACECOPY 10,722
+#define DOC_SURFACEFILL 12,799
+#define DOC_SURFACESCROLL 14,907
+#define DOC_SURFACESETCOLORKEY 16,997
+#define DOC_SURFACEGETCOLORKEY 18,1126
+#define DOC_SURFACESETALPHA 20,1228
+#define DOC_SURFACEGETALPHA 22,1366
+#define DOC_SURFACELOCK 24,1474
+#define DOC_SURFACEUNLOCK 26,1558
+#define DOC_SURFACEMUSTLOCK 28,1649
+#define DOC_SURFACEGETLOCKED 30,1737
+#define DOC_SURFACEGETLOCKS 32,1829
+#define DOC_SURFACEGETAT 34,1913
+#define DOC_SURFACESETAT 36,2004
+#define DOC_SURFACEGETATMAPPED 38,2102
+#define DOC_SURFACEGETPALETTE 40,2213
+#define DOC_SURFACEGETPALETTEAT 42,2333
+#define DOC_SURFACESETPALETTE 44,2444
+#define DOC_SURFACESETPALETTEAT 46,2562
+#define DOC_SURFACEMAPRGB 48,2693
+#define DOC_SURFACEUNMAPRGB 50,2794
+#define DOC_SURFACESETCLIP 52,2907
+#define DOC_SURFACEGETCLIP 54,3030
+#define DOC_SURFACESUBSURFACE 56,3125
+#define DOC_SURFACEGETPARENT 58,3235
+#define DOC_SURFACEGETABSPARENT 60,3324
+#define DOC_SURFACEGETOFFSET 62,3430
+#define DOC_SURFACEGETABSOFFSET 64,3542
+#define DOC_SURFACEGETSIZE 66,3682
+#define DOC_SURFACEGETWIDTH 68,3777
+#define DOC_SURFACEGETHEIGHT 70,3859
+#define DOC_SURFACEGETRECT 72,3945
+#define DOC_SURFACEGETBITSIZE 74,4043
+#define DOC_SURFACEGETBYTESIZE 76,4144
+#define DOC_SURFACEGETFLAGS 78,4238
+#define DOC_SURFACEGETPITCH 80,4335
+#define DOC_SURFACEGETMASKS 82,4431
+#define DOC_SURFACESETMASKS 84,4559
+#define DOC_SURFACEGETSHIFTS 86,4692
+#define DOC_SURFACESETSHIFTS 88,4824
+#define DOC_SURFACEGETLOSSES 90,4962
+#define DOC_SURFACEGETBOUNDINGRECT 92,5098
+#define DOC_SURFACEGETVIEW 94,5217
+#define DOC_SURFACEGETBUFFER 96,5330
+#define DOC_SURFACEPIXELSADDRESS 98,5447
+
+doc/time_doc.h,380
+#define DOC_PYGAMETIME 2,70
+#define DOC_PYGAMETIMEGETTICKS 4,130
+#define DOC_PYGAMETIMEWAIT 6,222
+#define DOC_PYGAMETIMEDELAY 8,320
+#define DOC_PYGAMETIMESETTIMER 10,420
+#define DOC_PYGAMETIMECLOCK 12,542
+#define DOC_CLOCKTICK 14,627
+#define DOC_CLOCKTICKBUSYLOOP 16,704
+#define DOC_CLOCKGETTIME 18,799
+#define DOC_CLOCKGETRAWTIME 20,886
+#define DOC_CLOCKGETFPS 22,986
+
+doc/pixelarray_doc.h,416
+#define DOC_PYGAMEPIXELARRAY 2,70
+#define DOC_PIXELARRAYSURFACE 4,187
+#define DOC_PIXELARRAYITEMSIZE 6,278
+#define DOC_PIXELARRAYNDIM 8,373
+#define DOC_PIXELARRAYSHAPE 10,450
+#define DOC_PIXELARRAYSTRIDES 12,530
+#define DOC_PIXELARRAYMAKESURFACE 14,637
+#define DOC_PIXELARRAYREPLACE 16,752
+#define DOC_PIXELARRAYEXTRACT 18,924
+#define DOC_PIXELARRAYCOMPARE 20,1077
+#define DOC_PIXELARRAYTRANSPOSE 22,1225
+
+doc/overlay_doc.h,142
+#define DOC_PYGAMEOVERLAY 2,70
+#define DOC_OVERLAYDISPLAY 4,185
+#define DOC_OVERLAYSETLOCATION 6,289
+#define DOC_OVERLAYGETHARDWARE 8,390
+
+doc/sndarray_doc.h,298
+#define DOC_PYGAMESNDARRAY 2,70
+#define DOC_PYGAMESNDARRAYARRAY 4,146
+#define DOC_PYGAMESNDARRAYSAMPLES 6,237
+#define DOC_PYGAMESNDARRAYMAKESOUND 8,337
+#define DOC_PYGAMESNDARRAYUSEARRAYTYPE 10,441
+#define DOC_PYGAMESNDARRAYGETARRAYTYPE 12,568
+#define DOC_PYGAMESNDARRAYGETARRAYTYPES 14,673
+
+pgarrinter.h,546
+#define PG_ARRAYINTER_HEADER4,91
+static const int PAI_CONTIGUOUS 6,121
+static const int PAI_FORTRAN 7,161
+static const int PAI_ALIGNED 8,198
+static const int PAI_NOTSWAPPED 9,236
+static const int PAI_WRITEABLE 10,277
+static const int PAI_ARR_HAS_DESCR 11,317
+    int two;14,379
+    int nd;15,457
+    char typekind;16,510
+    int itemsize;17,585
+    int flags;18,638
+    Py_intptr_t *shape;shape20,754
+    Py_intptr_t *strides;strides21,825
+    void *data;data22,897
+    PyObject *descr;descr23,973
+} PyArrayInterface;24,1032
+
+scale_mmx64_gcc.c,325
+typedef uint8_t Uint8;35,1148
+typedef uint16_t Uint16;36,1195
+filter_shrink_X_MMX(45,1396
+filter_shrink_X_SSE(133,6409
+filter_shrink_Y_MMX_gcc(198,10152
+filter_shrink_Y_SSE_gcc(299,15759
+filter_expand_X_MMX_gcc(373,19926
+filter_expand_X_SSE_gcc(431,22599
+filter_expand_Y_MMX(491,25342
+filter_expand_Y_SSE(537,27833
+
+pgcompat.h,3201
+#define PGCOMPAT_H5,68
+#define PY3 9,115
+#define PyInt_Check(12,190
+#define PyInt_FromString 13,231
+#define PyInt_FromUnicode 14,274
+#define PyInt_FromLong 15,319
+#define PyInt_FromSize_t 16,358
+#define PyInt_FromSsize_t 17,401
+#define PyInt_AsLong 18,446
+#define PyInt_AsSsize_t 19,481
+#define PyInt_AsUnsignedLongMask 20,522
+#define PyInt_AsUnsignedLongLongMask 21,581
+#define PyInt_AS_LONG 22,648
+#define PyNumber_Int 23,685
+#define Py_TPFLAGS_HAVE_WEAKREFS 26,757
+#define MODINIT_RETURN(29,849
+#define MODINIT_DEFINE(30,884
+#define DECREF_MOD(31,957
+#define TYPE_HEAD(34,1025
+#define Text_Type 37,1119
+#define Text_Check 38,1152
+#define Text_FromUTF8 39,1187
+#define Text_FromUTF8AndSize 40,1230
+#define Text_FromFormat 41,1287
+#define Text_GetSize 42,1332
+#define Text_GET_SIZE 43,1371
+#define Bytes_Type 46,1448
+#define Bytes_Check 47,1480
+#define Bytes_Size 48,1514
+#define Bytes_AsString 49,1546
+#define Bytes_AsStringAndSize 50,1586
+#define Bytes_FromStringAndSize 51,1640
+#define Bytes_FromFormat 52,1698
+#define Bytes_AS_STRING 53,1742
+#define Bytes_GET_SIZE 54,1784
+#define Bytes_AsDecodeObject 55,1824
+#define Object_Unicode 57,1878
+#define IsTextObj(59,1915
+#define BUILTINS_MODULE 62,2001
+#define BUILTINS_UNICODE 63,2036
+#define BUILTINS_UNICHR 64,2067
+#define UNICODE_DEF_FS_CODEC 67,2144
+#define UNICODE_DEF_FS_ERROR 69,2224
+#define UNICODE_DEF_FS_ERROR 71,2269
+#define PY3 76,2363
+#define MODINIT_RETURN(79,2422
+#define MODINIT_DEFINE(80,2455
+#define DECREF_MOD(81,2525
+#define TYPE_HEAD(84,2577
+#define Text_Type 89,2726
+#define Text_Check 90,2758
+#define Text_FromUTF8 91,2792
+#define Text_FromUTF8AndSize 92,2834
+#define Text_FromFormat 93,2890
+#define Text_GetSize 94,2934
+#define Text_GET_SIZE 95,2972
+#define Bytes_Type 98,3056
+#define Bytes_Check 99,3089
+#define Bytes_Size 100,3124
+#define Bytes_AsString 101,3157
+#define Bytes_AsStringAndSize 102,3198
+#define Bytes_FromStringAndSize 103,3253
+#define Bytes_FromFormat 104,3312
+#define Bytes_AS_STRING 105,3357
+#define Bytes_GET_SIZE 106,3400
+#define Bytes_AsDecodedObject 107,3441
+#define Object_Unicode 109,3497
+#define BUILTINS_MODULE 112,3561
+#define BUILTINS_UNICODE 113,3599
+#define BUILTINS_UNICHR 114,3634
+#define UNICODE_DEF_FS_CODEC 117,3714
+#define UNICODE_DEF_FS_ERROR 118,3772
+#define PY2 122,3851
+#define MODINIT_ERROR 124,3871
+#define PY2_GETSTATE(130,4073
+#define PY3_GETSTATE(131,4104
+#define Py_TYPE(135,4250
+#define Py_REFCNT(136,4301
+#define Py_SIZE(137,4354
+#define Unicode_AsEncodedPath(141,4449
+#define HAVE_RELATIVE_IMPORT 146,4644
+#define HAVE_RELATIVE_IMPORT 148,4681
+#define RELATIVE_MODULE(152,4745
+#define RELATIVE_MODULE(154,4786
+#define HAVE_NEW_BUFPROTO 159,4900
+#define HAVE_NEW_BUFPROTO 161,4934
+#define HAVE_OLD_BUFPROTO 164,4970
+#define PG_ENABLE_OLDBUF 168,5093
+#define PG_ENABLE_OLDBUF 170,5126
+#define Py_TPFLAGS_HAVE_NEWBUFFER 175,5202
+#define Py_TPFLAGS_HAVE_CLASS 179,5276
+#define Slice_GET_INDICES_EX(183,5349
+#define Slice_GET_INDICES_EX(186,5505
+#define PyInt_AsSsize_t 193,5776
+#define PyInt_FromSsizt_t 194,5813
+#define PG_ENABLE_NEWBUF 200,6015
+#define PG_ENABLE_NEWBUF 202,6048
+
+scale_mmx64_msvc.c,181
+typedef uint8_t Uint8;31,1083
+typedef uint16_t Uint16;32,1130
+filter_shrink_Y_MMX(40,1330
+filter_shrink_Y_SSE(56,1838
+filter_expand_X_MMX(74,2417
+filter_expand_X_SSE(100,3141
+
+fastevents.c,356
+static char *error error40,1190
+setError 43,1241
+FE_GetError 49,1290
+static SDL_mutex *eventLock eventLock60,1439
+static SDL_cond *eventWait eventWait61,1475
+static SDL_TimerID eventTimer 62,1510
+FE_PushEvent 70,1603
+FE_PumpEvents 87,1889
+FE_PollEvent 100,2055
+FE_WaitEvent 120,2365
+timerCallback 139,2693
+FE_Init 151,2856
+FE_Quit 186,3508
+
+joystick.c,897
+#define PYGAMEAPI_JOYSTICK_INTERNAL23,830
+#define JOYSTICK_MAXSTICKS 28,939
+static SDL_Joystick* joystick_stickdata[joystick_stickdata29,969
+static PyTypeObject PyJoystick_Type;30,1039
+#define PyJoystick_Check(32,1115
+joy_autoquit 35,1191
+joy_autoinit 52,1604
+quit 65,1928
+init 72,2013
+get_init 87,2294
+joy_dealloc 94,2429
+Joystick 100,2505
+get_count 113,2716
+joy_init 120,2842
+joy_quit 135,3202
+joy_get_init 149,3484
+joy_get_id 156,3641
+joy_get_name 163,3768
+joy_get_numaxes 171,3943
+joy_get_axis 185,4265
+joy_get_numbuttons 212,4942
+joy_get_button 226,5270
+joy_get_numballs 252,5953
+joy_get_ball 266,6277
+joy_get_numhats 294,7004
+joy_get_hat 313,7441
+static PyMethodDef joy_methods[joy_methods353,8363
+static PyTypeObject PyJoystick_Type 380,9508
+PyJoystick_New 423,11364
+static PyMethodDef _joystick_methods[_joystick_methods441,11727
+MODINIT_DEFINE 455,12317
+
+scale_mmx32.c,319
+typedef uint8_t Uint8;35,1227
+typedef uint16_t Uint16;36,1274
+filter_shrink_X_MMX(44,1474
+filter_shrink_X_SSE(131,6418
+filter_shrink_Y_MMX(195,10092
+filter_shrink_Y_SSE(301,15855
+filter_expand_X_MMX(381,20202
+filter_expand_X_SSE(457,23327
+void filter_expand_Y_MMX(534,26518
+void filter_expand_Y_SSE(579,29009
+
+_camera.c,894
+PyObject* surf_colorspace 69,2664
+PyObject* list_cameras 131,4479
+PyObject* camera_start 165,5297
+PyObject* camera_stop 191,6046
+PyObject* camera_get_controls 210,6608
+PyObject* camera_set_controls 230,7367
+PyObject* camera_get_size 276,8898
+PyObject* camera_query_image(286,9233
+PyObject* camera_get_image 295,9482
+PyObject* camera_get_raw(381,11737
+void colorspace 396,12085
+void rgb24_to_rgb 408,12485
+void rgb_to_hsv 465,14162
+void rgb_to_yuv 632,20280
+void rgb444_to_rgb 748,24885
+void yuyv_to_rgb 807,26730
+void yuyv_to_yuv 877,29168
+void sbggr8_to_rgb 970,32971
+void yuv420_to_rgb 1072,37041
+void yuv420_to_yuv 1262,45052
+PyMethodDef cameraobj_builtins[cameraobj_builtins1368,48834
+void camera_dealloc 1380,49584
+PyTypeObject PyCamera_Type 1389,49828
+PyObject* Camera 1427,51315
+PyMethodDef camera_builtins[camera_builtins1516,53908
+MODINIT_DEFINE 1523,54209
+
+image.c,1545
+struct _module_state 32,992
+    int is_extended;33,1015
+#define GETSTATE(37,1048
+static struct _module_state _state 39,1106
+#define GETSTATE(40,1150
+#define DATAROW(47,1382
+image_load_basic(52,1571
+opengltosdl 104,2729
+image_save(173,4542
+image_get_extended 300,8527
+image_tostring 306,8651
+image_fromstring 809,28288
+image_frombuffer 940,32692
+struct TGAheader1034,35831
+    Uint8 infolen;1036,35850
+    Uint8 has_cmap;1037,35911
+    Uint8 type;1038,35989
+    Uint8 cmap_start[cmap_start1040,36006
+    Uint8 cmap_len[cmap_len1041,36074
+    Uint8 cmap_bits;1042,36148
+    Uint8 yorigin[yorigin1044,36215
+    Uint8 xorigin[xorigin1045,36286
+    Uint8 width[width1046,36308
+    Uint8 height[height1047,36360
+    Uint8 pixel_bits;1048,36381
+    Uint8 flags;1049,36435
+enum tga_type1052,36456
+    TGA_TYPE_INDEXED 1054,36472
+    TGA_TYPE_RGB 1055,36498
+    TGA_TYPE_BW 1056,36520
+    TGA_TYPE_RLE 1057,36541
+#define TGA_INTERLEAVE_MASK 1060,36596
+#define TGA_INTERLEAVE_NONE 1061,36636
+#define TGA_INTERLEAVE_2WAY 1062,36676
+#define TGA_INTERLEAVE_4WAY 1063,36716
+#define TGA_ORIGIN_MASK 1065,36757
+#define TGA_ORIGIN_LEFT 1066,36801
+#define TGA_ORIGIN_RIGHT 1067,36845
+#define TGA_ORIGIN_LOWER 1068,36882
+#define TGA_ORIGIN_UPPER 1069,36919
+#define LE16(1072,37010
+#define SETLE16(1073,37051
+#define MIN(1076,37120
+#define TGA_RLE_MAX 1079,37170
+rle_line 1083,37354
+SaveTGA_RW 1136,38852
+SaveTGA 1295,43023
+static PyMethodDef _image_methods[_image_methods1306,43263
+MODINIT_DEFINE 1321,43818
+
+gmovie.h,26
+#define GMOVIE_H_31,1072
+
+SDL_gfx/SDL_gfxPrimitives_font.h,102
+#define GFX_FONTDATAMAX 6,68
+static unsigned char gfxPrimitivesFontdata[gfxPrimitivesFontdata8,101
+
+SDL_gfx/SDL_gfxPrimitives.h,309
+#define _SDL_gfxPrimitives_h10,109
+#define M_PI	14,170
+#define SDL_GFXPRIMITIVES_MAJOR	26,369
+#define SDL_GFXPRIMITIVES_MINOR	27,403
+#define SDL_GFXPRIMITIVES_MICRO	28,437
+#    define SDL_GFXPRIMITIVES_SCOPE 35,584
+#      define SDL_GFXPRIMITIVES_SCOPE 38,683
+#  define SDL_GFXPRIMITIVES_SCOPE 43,802
+
+SDL_gfx/SDL_gfxPrimitives.c,5117
+#define DEFAULT_ALPHA_PIXEL_ROUTINE20,293
+#undef EXPERIMENTAL_ALPHA_PIXEL_ROUTINE21,329
+	Sint16 x,29,481
+	Sint16 x, y;29,481
+	int dx,30,495
+	int dx, dy,30,495
+	int dx, dy, s1,30,495
+	int dx, dy, s1, s2,30,495
+	int dx, dy, s1, s2, swapdir,30,495
+	int dx, dy, s1, s2, swapdir, error;30,495
+	Uint32 count;31,532
+} SDL_gfxBresenhamIterator;32,547
+	Uint32 color;38,661
+	SDL_Surface *dst;dst39,676
+	int u,40,695
+	int u, v;40,695
+	int ku,41,731
+	int ku, kt,41,731
+	int ku, kt, kv,41,731
+	int ku, kt, kv, kd;41,731
+	int oct2;42,773
+	int quad4;43,784
+	Sint16 last1x,44,796
+	Sint16 last1x, last1y,44,796
+	Sint16 last1x, last1y, last2x,44,796
+	Sint16 last1x, last1y, last2x, last2y,44,796
+	Sint16 last1x, last1y, last2x, last2y, first1x,44,796
+	Sint16 last1x, last1y, last2x, last2y, first1x, first1y,44,796
+	Sint16 last1x, last1y, last2x, last2y, first1x, first1y, first2x,44,796
+	Sint16 last1x, last1y, last2x, last2y, first1x, first1y, first2x, first2y,44,796
+	Sint16 last1x, last1y, last2x, last2y, first1x, first1y, first2x, first2y, tempx,44,796
+	Sint16 last1x, last1y, last2x, last2y, first1x, first1y, first2x, first2y, tempx, tempy;44,796
+} SDL_gfxMurphyIterator;45,886
+#define clip_xmin(49,958
+#define clip_xmax(50,1006
+#define clip_ymin(51,1077
+#define clip_ymax(52,1125
+int fastPixelColorNolock(64,1506
+int fastPixelColorNolockNoclip(121,2761
+int fastPixelColor(167,3718
+int fastPixelRGBA(205,4518
+int fastPixelRGBANolock(233,5211
+int _putPixelAlpha(263,6117
+int pixelColor(474,11831
+int pixelColorNolock(522,12746
+int _filledRectAlpha(560,13764
+int filledRectAlpha(785,19634
+int _HLineAlpha(834,20691
+int _VLineAlpha(850,21241
+int pixelColorWeight(866,21773
+int pixelColorWeightNolock(894,22483
+int pixelRGBA(924,23239
+int hlineColorStore(970,24303
+int hlineRGBAStore(1114,27049
+int hlineColor(1133,27676
+int hlineRGBA(1302,30856
+int vlineColor(1321,31471
+int vlineRGBA(1489,34578
+int rectangleColor(1509,35323
+int rectangleRGBA(1592,37056
+int roundedRectangleColor(1614,37885
+int roundedRectangleRGBA(1744,40429
+int roundedBoxColor(1766,41284
+int roundedBoxRGBA(1899,43816
+#define CLIP_LEFT_EDGE 1914,44278
+#define CLIP_RIGHT_EDGE 1915,44307
+#define CLIP_BOTTOM_EDGE 1916,44336
+#define CLIP_TOP_EDGE 1917,44365
+#define CLIP_INSIDE(1918,44394
+#define CLIP_REJECT(1919,44424
+#define CLIP_ACCEPT(1920,44455
+static int _clipEncode(1934,44909
+static int _clipLine(1960,45576
+int boxColor(2036,47467
+int boxRGBA(2248,51502
+#define ABS(2262,51961
+int lineColor(2276,52414
+int lineRGBA(2485,56360
+#define AAlevels 2495,56625
+#define AAbits 2496,56646
+int _aalineColor(2518,57618
+int aalineColor(2757,62648
+int aalineRGBA(2777,63372
+int circleColor(2801,64146
+int circleRGBA(3019,68776
+int arcColor(3046,69705
+int arcRGBA(3417,79410
+int aacircleColor(3441,80137
+int aacircleRGBA(3460,80774
+int filledCircleColor(3485,81565
+int filledCircleRGBA(3612,84092
+int ellipseColor(3638,84911
+int ellipseRGBA(3952,92351
+lrint(3968,92828
+lrint 3974,92930
+__declspec(3988,93114
+int aaellipseColor(4017,93991
+int aaellipseRGBA(4257,98959
+int filledEllipseColor(4287,99913
+int filledEllipseRGBA(4455,103347
+int _pieColor(4482,104268
+int pieColor(4632,107248
+int pieRGBA(4655,107976
+int filledPieColor(4676,108713
+int filledPieRGBA(4697,109500
+int trigonColor(4722,110414
+int trigonRGBA(4754,111360
+int aatrigonColor(4788,112337
+int aatrigonRGBA(4820,113330
+int filledTrigonColor(4854,114331
+int filledTrigonRGBA(4888,115424
+int polygonColor(4917,116167
+int polygonRGBA(4985,117462
+int aapolygonColor(5006,118181
+int aapolygonRGBA(5074,119521
+int _gfxPrimitivesCompareInt(5092,120085
+static int *gfxPrimitivesPolyIntsGlobal gfxPrimitivesPolyIntsGlobal5102,120376
+static int gfxPrimitivesPolyAllocatedGlobal 5109,120575
+int filledPolygonColorMT(5126,121473
+int filledPolygonRGBAMT(5301,125772
+int filledPolygonColor(5323,126676
+int filledPolygonRGBA(5345,127465
+int _HLineTextured(5366,128261
+int texturedPolygonMT(5503,132114
+int texturedPolygon(5670,135967
+static SDL_Surface *gfxPrimitivesFont[gfxPrimitivesFont5684,136314
+static Uint32 gfxPrimitivesFontColor[gfxPrimitivesFontColor5689,136446
+static const unsigned char *currentFontdata currentFontdata5694,136577
+static Uint32 charWidth 5699,136703
+static Uint32 charHeight 5704,136790
+static Uint32 charWidthLocal 5709,136872
+static Uint32 charHeightLocal 5714,136959
+static Uint32 charPitch 5719,137060
+static Uint32 charRotation 5724,137167
+static Uint32 charSize 5729,137279
+void gfxPrimitivesSetFont(5744,137927
+void gfxPrimitivesSetFontRotation(5790,138948
+int characterColor(5837,140157
+int characterRGBA(6007,143843
+int stringColor(6029,144601
+int stringRGBA(6073,145627
+double _evaluateBezier 6092,146239
+int bezierColor(6151,147482
+int bezierRGBA(6226,149195
+int _bresenhamInitialize(6253,150010
+int _bresenhamIterate(6315,151108
+void _murphyParaline(6358,151791
+void _murphyIteration(6420,152886
+#define HYPOT(6536,155519
+void _murphyWideline(6552,155974
+int thickLineColor(6738,160104
+int thickLineRGBA(6770,161062
+
+time.c,890
+#define WORST_CLOCK_ACCURACY 27,899
+static SDL_TimerID event_timers[event_timers28,931
+timer_callback 31,1003
+accurate_delay 44,1276
+time_get_ticks 80,2034
+time_delay 88,2207
+time_wait 112,2843
+time_set_timer 146,3707
+    int last_tick;187,4763
+    int fps_count,188,4782
+    int fps_count, fps_tick;188,4782
+    float fps;189,4811
+    int timepassed,190,4826
+    int timepassed, rawpassed;190,4826
+    PyObject* rendered;191,4857
+} PyClockObject;192,4881
+clock_tick_base(196,4961
+clock_tick 262,6727
+clock_tick_busy_loop 268,6835
+clock_get_fps 274,6953
+clock_get_time 281,7118
+clock_get_rawtime 288,7271
+static struct PyMethodDef clock_methods[clock_methods296,7439
+clock_dealloc 310,7937
+clock_str 318,8094
+static PyTypeObject PyClock_Type 328,8292
+ClockInit 371,10138
+static PyMethodDef _time_methods[_time_methods397,10736
+void initpygame_time 412,11214
+
+movie.c,844
+    SMPEG* movie;34,991
+    PyObject* surftarget;35,1009
+    PyObject* filesource;36,1035
+} PyMovieObject;37,1061
+#define PyMovie_AsSMPEG(38,1078
+static PyTypeObject PyMovie_Type;40,1135
+#define PyMovie_Check(42,1208
+movie_play 46,1310
+movie_stop 63,1706
+movie_pause 78,2052
+movie_rewind 93,2401
+movie_skip 108,2751
+movie_set_volume 127,3204
+movie_set_display 152,3805
+movie_has_video 223,5794
+movie_has_audio 239,6200
+movie_get_size 256,6607
+movie_get_frame 272,7028
+movie_get_time 288,7438
+movie_get_length 304,7850
+movie_get_busy 322,8274
+movie_render_frame 336,8605
+static PyMethodDef movie_methods[movie_methods355,9147
+movie_dealloc 385,10443
+static PyTypeObject PyMovie_Type 396,10735
+Movie 440,12613
+static PyMethodDef _movie_methods[_movie_methods521,14663
+PyMovie_New 528,14812
+MODINIT_DEFINE 545,15172
+
+scrap.c,548
+static int _scrapinitialized 38,1203
+static ScrapClipType _currentmode;43,1284
+static PyObject* _selectiondata;44,1319
+static PyObject* _clipdata;45,1352
+    #define X11_SCRAP58,1952
+    #define WIN_SCRAP62,2085
+    #define MAC_SCRAP71,2271
+pygame_scrap_initialized 83,2552
+_scrap_init 93,2707
+_scrap_get_types 117,3265
+_scrap_contains 168,4325
+_scrap_get_scrap 186,4675
+_scrap_put_scrap 232,5742
+_scrap_lost_scrap 285,6933
+_scrap_set_mode 302,7284
+static PyMethodDef scrap_builtins[scrap_builtins320,7765
+MODINIT_DEFINE 342,8566
+
+gmovie.c,1760
+void _movie_init_internal(4,22
+int _movie_init(78,2345
+void _movie_dealloc(118,3248
+char *format_timestamp(format_timestamp144,3911
+PyObject* _movie_repr 187,4592
+PyObject* _movie_play(198,4935
+PyObject* _movie_stop(245,6271
+PyObject* _movie_pause(253,6449
+PyObject* _movie_rewind(260,6539
+PyObject* _movie_resize 266,6676
+PyObject *_movie_shift(_movie_shift290,7167
+PyObject* _movie_easy_seek 305,7482
+PyObject* _movie_get_paused 343,8183
+PyObject* _movie_get_playing 347,8296
+PyObject* _movie_get_finished(354,8445
+PyObject* _movie_get_width 359,8563
+int _movie_set_width 387,9126
+PyObject* _movie_get_height 407,9520
+int _movie_set_height 427,9920
+PyObject* _movie_get_ytop 447,10319
+int _movie_set_ytop 460,10560
+PyObject* _movie_get_xleft 478,10927
+int _movie_set_xleft 491,11170
+PyObject *_movie_get_surface(_movie_get_surface510,11542
+int _movie_set_surface(519,11726
+static PyMethodDef _movie_methods[_movie_methods554,13001
+static PyMemberDef _movie_members[_movie_members565,14073
+static PyGetSetDef _movie_getsets[_movie_getsets570,14367
+static PyTypeObject PyMovie_Type 583,15435
+static char _movie_doc[_movie_doc634,17893
+void _info_init_internal(639,17974
+int _info_init(742,20946
+void _info_dealloc(775,21627
+PyObject* _info_get_duration 780,21717
+PyObject* _info_get_aspect_ratio 786,21834
+PyObject* _info_get_width 791,21958
+PyObject* _info_get_height 796,22070
+PyObject* _info_get_sample_rate(801,22184
+PyObject* _info_get_channels(806,22307
+PyObject* _info_get_video_codec(811,22424
+PyObject* _info_get_audio_codec(816,22544
+PyObject* _info_get_filename(821,22664
+static PyGetSetDef _info_getsets[_info_getsets826,22780
+static PyTypeObject PyMovieInfo_Type 841,23631
+init_movie(894,26106
+
+transform.c,1706
+typedef void (* SMOOTHSCALE_FILTER_P)35,1062
+struct _module_state 36,1144
+    const char *filter_type;filter_type37,1167
+    SMOOTHSCALE_FILTER_P filter_shrink_X;38,1196
+    SMOOTHSCALE_FILTER_P filter_shrink_Y;39,1238
+    SMOOTHSCALE_FILTER_P filter_expand_X;40,1280
+    SMOOTHSCALE_FILTER_P filter_expand_Y;41,1322
+#define GETSTATE(49,1434
+static struct _module_state _state 51,1492
+#define GETSTATE(52,1546
+static struct _module_state _state 62,1952
+#define GETSTATE(68,2115
+#define smoothscale_init(69,2157
+newsurf_fromsurf 78,2435
+rotate90 113,3797
+rotate 236,6965
+stretch 351,10634
+surf_scale 477,14122
+surf_scale2x 536,15734
+surf_rotate 595,17272
+surf_flip 695,19999
+surf_rotozoom 860,25711
+chop 904,26913
+surf_chop 980,28872
+static void filter_shrink_X_ONLYC(1008,29554
+static void filter_shrink_Y_ONLYC(1052,31506
+static void filter_expand_X_ONLYC(1113,33924
+static void filter_expand_Y_ONLYC(1164,35635
+smoothscale_init 1187,36560
+static void convert_24_32(1219,37481
+static void convert_32_24(1239,37982
+scalesmooth(1260,38487
+static PyObject* surf_scalesmooth(1365,41755
+surf_get_smoothscale_backend 1440,43820
+surf_set_smoothscale_backend 1446,43947
+static int get_threshold 1516,46189
+static PyObject* surf_threshold(1777,57506
+#define SURF_GET_AT(1916,62144
+#define SURF_SET_AT(1940,63069
+#define SURF_SET_AT(1962,63979
+#define LAPLACIAN_NUM 1994,64949
+void laplacian(1998,64985
+surf_laplacian 2193,70129
+int average_surfaces(2254,71649
+surf_average_surfaces 2454,77123
+void average_color(2627,81178
+static PyObject* surf_average_color(2734,84983
+static PyMethodDef _transform_methods[_transform_methods2770,85878
+MODINIT_DEFINE 2793,87138
+
+mask.c,1491
+#define PYGAMEAPI_MASK_INTERNAL 29,1113
+#define M_PI 39,1312
+static PyTypeObject PyMask_Type;42,1356
+static PyObject* mask_get_size(46,1417
+static PyObject* mask_get_at(56,1641
+static PyObject* mask_set_at(73,2091
+static PyObject* mask_overlap(94,2654
+static PyObject* mask_overlap_area(116,3186
+static PyObject* mask_overlap_mask(132,3605
+static PyObject* mask_fill(154,4202
+static PyObject* mask_clear(163,4357
+static PyObject* mask_invert(172,4514
+static PyObject* mask_scale(181,4673
+static PyObject* mask_draw(200,5092
+static PyObject* mask_erase(217,5473
+static PyObject* mask_count(234,5856
+static PyObject* mask_centroid(241,6009
+static PyObject* mask_angle(271,6672
+static PyObject* mask_outline(303,7465
+static PyObject* mask_convolve(413,10649
+static PyObject* mask_from_surface(440,11351
+void bitmask_threshold 562,14705
+static PyObject* mask_from_threshold(709,20133
+unsigned int cc_label(796,22956
+static int get_bounding_rects(980,29905
+static PyObject* mask_get_bounding_rects(1070,32982
+static int get_connected_components(1123,34110
+static PyObject* mask_connected_components(1221,36741
+static int largest_connected_comp(1274,38462
+static PyObject* mask_connected_component(1335,40354
+static PyMethodDef mask_methods[mask_methods1362,41099
+static void mask_dealloc(1395,42570
+static PyTypeObject PyMask_Type 1404,42711
+static PyObject* Mask(1446,44050
+static PyMethodDef _mask_methods[_mask_methods1467,44541
+MODINIT_DEFINE 1477,44852
+
+surface_fill.c,463
+#define NO_PYGAME_C_API20,790
+void surface_respect_clip_rect 28,1010
+surface_fill_blend_add 79,2204
+surface_fill_blend_sub 165,4616
+surface_fill_blend_mult 251,7032
+surface_fill_blend_min 336,9417
+surface_fill_blend_max 421,11798
+surface_fill_blend_rgba_add 509,14213
+surface_fill_blend_rgba_sub 578,16074
+surface_fill_blend_rgba_mult 647,17938
+surface_fill_blend_rgba_min 715,19777
+surface_fill_blend_rgba_max 783,21612
+surface_fill_blend 852,23441
+
+scale.h,63
+#define SCALE_HEADER30,1072
+#define SCALE_MMX_SUPPORT33,1274
+
+rotozoom.c,548
+#define NO_PYGAME_C_API14,269
+typedef struct tColorRGBA 18,332
+    Uint8 r;19,360
+    Uint8 r; Uint8 g;19,360
+    Uint8 r; Uint8 g; Uint8 b;19,360
+    Uint8 r; Uint8 g; Uint8 b; Uint8 a;19,360
+} tColorRGBA;20,400
+#define VALUE_LIMIT 22,415
+#define MAX(24,456
+#define M_PI 27,522
+int zoomSurfaceRGBA(37,692
+void transformSurfaceRGBA(225,5635
+#define VALUE_LIMIT 394,12445
+void rotozoomSurfaceSizeTrig(399,12536
+void rotozoomSurfaceSize(432,13636
+void zoomSurfaceSize(451,14269
+SDL_Surface *rotozoomSurface(rotozoomSurface480,14878
+
+scale_mmx.c,0

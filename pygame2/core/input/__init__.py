@@ -1,0 +1,2 @@
+class InputProviderBase:
+    pass

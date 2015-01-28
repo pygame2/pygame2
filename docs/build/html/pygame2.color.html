@@ -1,0 +1,287 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>pygame2.color module &mdash; pygame2 0.0.0 documentation</title>
+    
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.0.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="pygame2 0.0.0 documentation" href="index.html" />
+    <link rel="up" title="pygame2 package" href="pygame2.html" />
+    <link rel="next" title="pygame2.rect module" href="pygame2.rect.html" />
+    <link rel="prev" title="pygame2 package" href="pygame2.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="pygame2.rect.html" title="pygame2.rect module"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="pygame2.html" title="pygame2 package"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">pygame2 0.0.0 documentation</a> &raquo;</li>
+          <li><a href="pygame2.html" accesskey="U">pygame2 package</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="pygame2-color-module">
+<h1>pygame2.color module<a class="headerlink" href="#pygame2-color-module" title="Permalink to this headline">¶</a></h1>
+<span class="target" id="module-pygame2.color"></span><p>The Color class represents RGBA color values using a value range of 0-255.
+It allows basic arithmetic operations tocreate new colors, supports conversions
+to other color spaces such as HSV or HSL and lets you adjust single color
+channels. Alpha defaults to 255 when not given.</p>
+<p>‘rgbvalue’ can be either a color name, an HTML color format string, a hex number
+string, or an integer pixel value. The HTML format is ‘#rrggbbaa’, where rr, gg,
+bb, and aa are 2 digit hex numbers. The alpha aa is optional. A hex number
+string has the form ‘0xrrggbbaa’, where aa is optional.</p>
+<p>If passed an integer, ARGB format is assumed.</p>
+<p>Color objects support equality comparison with other color objects and 3 or 4
+element tuples of integers.</p>
+<dl class="class">
+<dt id="pygame2.color.Color">
+<em class="property">class </em><tt class="descclassname">pygame2.color.</tt><tt class="descname">Color</tt><big>(</big><em>*args</em><big>)</big><a class="reference internal" href="_modules/pygame2/color.html#Color"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pygame2.color.Color" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">sdl2.ext.color.Color</span></tt></p>
+<p>Color(red, green, blue, alpha)</p>
+<p>Color(red, green, blue)</p>
+<p>Color(name)</p>
+<p>Color(&#8220;#rrggbbaa&#8221;)</p>
+<p>Color(&#8220;0xrrggbbaa&#8221;)</p>
+<p>Color(argb_int)</p>
+<p>Color(argb_hex)</p>
+<p>Color(object)</p>
+<p>Color() -&gt; Color(&#8216;black&#8217;)</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd><p class="first">args (tuple): red, green, blue [, alpha]</p>
+<p class="last">args (string): Color name from pygame2.color.colors</p>
+</dd>
+</dl>
+<dl class="attribute">
+<dt id="pygame2.color.Color.a">
+<tt class="descname">a</tt><a class="reference internal" href="_modules/pygame2/color.html#Color.a"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pygame2.color.Color.a" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets or sets the alpha value of the Color.</p>
+<div class="highlight-python"><div class="highlight"><pre>a -&gt; int
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pygame2.color.Color.b">
+<tt class="descname">b</tt><a class="reference internal" href="_modules/pygame2/color.html#Color.b"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pygame2.color.Color.b" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets or sets the blue value of the Color.</p>
+<div class="highlight-python"><div class="highlight"><pre>b -&gt; int
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pygame2.color.Color.cmy">
+<tt class="descname">cmy</tt><a class="reference internal" href="_modules/pygame2/color.html#Color.cmy"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pygame2.color.Color.cmy" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets or sets the CMY representation of the Color.</p>
+<div class="highlight-python"><div class="highlight"><pre>cmy -&gt; tuple
+</pre></div>
+</div>
+<p>The CMY representation of the Color. The CMY components are in the
+ranges C = [0, 1], M = [0, 1], Y = [0, 1]. Note that this will not
+return the absolutely exact CMY values for the set RGB values in all
+cases. Due to the RGB mapping from 0-255 and the CMY mapping from 0-1
+rounding errors may cause the CMY values to differ slightly from what
+you might expect.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pygame2.color.Color.correct_gamma">
+<tt class="descname">correct_gamma</tt><big>(</big><em>gamma</em><big>)</big><a class="reference internal" href="_modules/pygame2/color.html#Color.correct_gamma"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pygame2.color.Color.correct_gamma" title="Permalink to this definition">¶</a></dt>
+<dd><p>Not Yet Implemented</p>
+<p>Applies a certain gamma value to the Color.</p>
+<div class="highlight-python"><div class="highlight"><pre>correct_gamma (gamma) -&gt; Color
+</pre></div>
+</div>
+<p>Applies a certain gamma value to the Color and returns a new Color with
+the adjusted RGBA values.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pygame2.color.Color.g">
+<tt class="descname">g</tt><a class="reference internal" href="_modules/pygame2/color.html#Color.g"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pygame2.color.Color.g" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets or sets the green value of the Color.</p>
+<div class="highlight-python"><div class="highlight"><pre>g -&gt; int
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pygame2.color.Color.hsla">
+<tt class="descname">hsla</tt><a class="reference internal" href="_modules/pygame2/color.html#Color.hsla"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pygame2.color.Color.hsla" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets or sets the HSLA representation of the Color.</p>
+<div class="highlight-python"><div class="highlight"><pre>hsla -&gt; tuple
+</pre></div>
+</div>
+<p>The HSLA representation of the Color. The HSLA components are in the
+ranges H = [0, 360], S = [0, 100], V = [0, 100], A = [0, 100]. Note that
+this will not return the absolutely exact HSL values for the set RGB
+values in all cases. Due to the RGB mapping from 0-255 and the HSL
+mapping from 0-100 and 0-360 rounding errors may cause the HSL values to
+differ slightly from what you might expect.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pygame2.color.Color.hsva">
+<tt class="descname">hsva</tt><a class="reference internal" href="_modules/pygame2/color.html#Color.hsva"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pygame2.color.Color.hsva" title="Permalink to this definition">¶</a></dt>
+<dd><p>The Color as HSVA value.</p>
+<div class="highlight-python"><div class="highlight"><pre>hsva -&gt; tuple
+</pre></div>
+</div>
+<p>The HSVA representation of the Color. The HSVA components are in the
+ranges H = [0, 360], S = [0, 100], V = [0, 100], A = [0, 100]. Note that
+this will not return the absolutely exact HSV values for the set RGB
+values in all cases. Due to the RGB mapping from 0-255 and the HSV
+mapping from 0-100 and 0-360 rounding errors may cause the HSV values to
+differ slightly from what you might expect.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pygame2.color.Color.i1i2i3">
+<tt class="descname">i1i2i3</tt><a class="reference internal" href="_modules/pygame2/color.html#Color.i1i2i3"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pygame2.color.Color.i1i2i3" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets or sets the I1I2I3 representation of the Color.</p>
+<div class="highlight-python"><div class="highlight"><pre>i1i2i3 -&gt; tuple
+</pre></div>
+</div>
+<p>The I1I2I3 representation of the Color. The I1I2I3 components are in the
+ranges I1 = [0, 1], I2 = [-0.5, 0.5], I3 = [-0.5, 0.5]. Note that this
+will not return the absolutely exact I1I2I3 values for the set RGB
+values in all cases. Due to the RGB mapping from 0-255 and the I1I2I3
+mapping from 0-1 rounding errors may cause the I1I2I3 values to differ
+slightly from what you might expect.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pygame2.color.Color.length">
+<tt class="descname">length</tt><a class="reference internal" href="_modules/pygame2/color.html#Color.length"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pygame2.color.Color.length" title="Permalink to this definition">¶</a></dt>
+<dd><p>The default Color length is 4. Colors can have lengths 1,2,3 or 4.
+This is useful if you want to unpack to r,g,b and not r,g,b,a. If you
+want to get the length of a Color do len(acolor).</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pygame2.color.Color.normalize">
+<tt class="descname">normalize</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pygame2/color.html#Color.normalize"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pygame2.color.Color.normalize" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the RGBA values in a normalized form with the range
+[0;1] as tuple.</p>
+<div class="highlight-python"><div class="highlight"><pre>normalize() -&gt; tuple
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pygame2.color.Color.r">
+<tt class="descname">r</tt><a class="reference internal" href="_modules/pygame2/color.html#Color.r"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pygame2.color.Color.r" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets or sets the red value of the Color.</p>
+<div class="highlight-python"><div class="highlight"><pre>r -&gt; int
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="pygame2.color.Color.set_length">
+<tt class="descname">set_length</tt><big>(</big><em>length</em><big>)</big><a class="reference internal" href="_modules/pygame2/color.html#Color.set_length"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pygame2.color.Color.set_length" title="Permalink to this definition">¶</a></dt>
+<dd><p>The default Color length is 4. Colors can have lengths 1,2,3 or 4.
+This is useful if you want to unpack to r,g,b and not r,g,b,a. If you
+want to get the length of a Color do len(acolor).</p>
+<p>This method is just a pygame1 compatibility function.</p>
+<p>acolor.length = 4 is equivalent to acolor.set_length(4)</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="pygame2.html"
+                        title="previous chapter">pygame2 package</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="pygame2.rect.html"
+                        title="next chapter">pygame2.rect module</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/pygame2.color.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="pygame2.rect.html" title="pygame2.rect module"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="pygame2.html" title="pygame2 package"
+             >previous</a> |</li>
+        <li><a href="index.html">pygame2 0.0.0 documentation</a> &raquo;</li>
+          <li><a href="pygame2.html" >pygame2 package</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2014, William Kevin Manire, Leif Theden, Alecks Gates.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
+    </div>
+  </body>
+</html>

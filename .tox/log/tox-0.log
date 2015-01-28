@@ -1,0 +1,45 @@
+actionid=tox
+msg=packaging
+cmdargs=['C:\\Python27\\python.exe', local('C:\\Users\\Leif\\PyCharmProjects\\pygame\\setup.py'), 'sdist', '--formats=zip', '--dist-dir', local('C:\\Users\\Leif\\PyCharmProjects\\pygame\\.tox\\dist')]
+env=None
+running sdist
+running check
+warning: check: missing required meta-data: url
+
+warning: check: missing meta-data: either (author and author_email) or (maintainer and maintainer_email) must be supplied
+
+warning: sdist: manifest template 'MANIFEST.in' does not exist (using default file list)
+
+warning: sdist: standard file not found: should have one of README, README.txt
+
+writing manifest file 'MANIFEST'
+creating pygame2-0.0.0
+creating pygame2-0.0.0\pygame2
+copying files to pygame2-0.0.0...
+copying setup.cfg -> pygame2-0.0.0
+copying setup.py -> pygame2-0.0.0
+copying pygame2\__init__.py -> pygame2-0.0.0\pygame2
+copying pygame2\color.py -> pygame2-0.0.0\pygame2
+copying pygame2\constants.py -> pygame2-0.0.0\pygame2
+copying pygame2\display.py -> pygame2-0.0.0\pygame2
+copying pygame2\event.py -> pygame2-0.0.0\pygame2
+copying pygame2\image.py -> pygame2-0.0.0\pygame2
+copying pygame2\key.py -> pygame2-0.0.0\pygame2
+copying pygame2\rect.py -> pygame2-0.0.0\pygame2
+copying pygame2\sprite.py -> pygame2-0.0.0\pygame2
+copying pygame2\surface.py -> pygame2-0.0.0\pygame2
+creating 'C:\Users\Leif\PyCharmProjects\pygame\.tox\dist\pygame2-0.0.0.zip' and adding 'pygame2-0.0.0' to it
+adding 'pygame2-0.0.0\PKG-INFO'
+adding 'pygame2-0.0.0\setup.cfg'
+adding 'pygame2-0.0.0\setup.py'
+adding 'pygame2-0.0.0\pygame2\color.py'
+adding 'pygame2-0.0.0\pygame2\constants.py'
+adding 'pygame2-0.0.0\pygame2\display.py'
+adding 'pygame2-0.0.0\pygame2\event.py'
+adding 'pygame2-0.0.0\pygame2\image.py'
+adding 'pygame2-0.0.0\pygame2\key.py'
+adding 'pygame2-0.0.0\pygame2\rect.py'
+adding 'pygame2-0.0.0\pygame2\sprite.py'
+adding 'pygame2-0.0.0\pygame2\surface.py'
+adding 'pygame2-0.0.0\pygame2\__init__.py'
+removing 'pygame2-0.0.0' (and everything under it)

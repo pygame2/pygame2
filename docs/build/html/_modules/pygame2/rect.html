@@ -1,0 +1,644 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>pygame2.rect &mdash; pygame2 0.0.0 documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '0.0.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="top" title="pygame2 0.0.0 documentation" href="../../index.html" />
+    <link rel="up" title="Module code" href="../index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../index.html">pygame2 0.0.0 documentation</a> &raquo;</li>
+          <li><a href="../index.html" accesskey="U">Module code</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <h1>Source code for pygame2.rect</h1><div class="highlight"><pre>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">   Pygame uses Rect objects to store and manipulate rectangular areas. A Rect</span>
+<span class="sd">   can be created from a combination of left, top, width, and height values.</span>
+<span class="sd">   Rects can also be created from python objects that are already a Rect or</span>
+<span class="sd">   have an attribute named &quot;rect&quot;.</span>
+
+<span class="sd">   Any Pygame function that requires a Rect argument also accepts any of these</span>
+<span class="sd">   values to construct a Rect. This makes it easier to create Rects on the fly</span>
+<span class="sd">   as arguments to functions.</span>
+
+<span class="sd">   The Rect functions that change the position or size of a Rect return a new</span>
+<span class="sd">   copy of the Rect with the affected changes. The original Rect is not</span>
+<span class="sd">   modified. Some methods have an alternate &quot;in-place&quot; version that returns</span>
+<span class="sd">   None but effects the original Rect. These &quot;in-place&quot; methods are denoted</span>
+<span class="sd">   with the &quot;ip&quot; suffix.</span>
+
+<span class="sd">   The Rect object has several virtual attributes which can be used to move and</span>
+<span class="sd">   align the Rect:</span>
+
+<span class="sd">   ::</span>
+
+<span class="sd">       x,y</span>
+<span class="sd">       top, left, bottom, right</span>
+<span class="sd">       topleft, bottomleft, topright, bottomright</span>
+<span class="sd">       midtop, midleft, midbottom, midright</span>
+<span class="sd">       center, centerx, centery</span>
+<span class="sd">       size, width, height</span>
+<span class="sd">       w,h</span>
+
+<span class="sd">   All of these attributes can be assigned to:</span>
+
+<span class="sd">   ::</span>
+
+<span class="sd">       rect1.right = 10</span>
+<span class="sd">       rect2.center = (20,30)</span>
+
+<span class="sd">   Assigning to size, width or height changes the dimensions of the rectangle;</span>
+<span class="sd">   all other assignments move the rectangle without resizing it. Notice that</span>
+<span class="sd">   some attributes are integers and others are pairs of integers.</span>
+
+<span class="sd">   If a Rect has a nonzero width or height, it will return True for a nonzero</span>
+<span class="sd">   test. Some methods return a Rect with 0 size to represent an invalid</span>
+<span class="sd">   rectangle.</span>
+
+<span class="sd">   The coordinates for Rect objects are all integers. The size values can be</span>
+<span class="sd">   programmed to have negative values, but these are considered illegal Rects</span>
+<span class="sd">   for most operations.</span>
+
+<span class="sd">   There are several collision tests between other rectangles. Most python</span>
+<span class="sd">   containers can be searched for collisions against a single Rect.</span>
+
+<span class="sd">   The area covered by a Rect does not include the right- and bottom-most edge</span>
+<span class="sd">   of pixels. If one Rect&#39;s bottom border is another Rect&#39;s top border (i.e.,</span>
+<span class="sd">   rect1.bottom=rect2.top), the two meet exactly on the screen but do not</span>
+<span class="sd">   overlap, and ``rect1.colliderect(rect2)`` returns false.</span>
+
+<span class="sd">   Though Rect can be subclassed, methods that return new rectangles are not</span>
+<span class="sd">   subclass aware. That is, move or copy return a new :mod:`pygame.Rect`</span>
+<span class="sd">   instance, not an instance of the subclass. This may change. To make subclass</span>
+<span class="sd">   awareness work though, subclasses may have to maintain the same constructor</span>
+<span class="sd">   signature as Rect.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+
+<div class="viewcode-block" id="Rect"><a class="viewcode-back" href="../../pygame2.rect.html#pygame2.rect.Rect">[docs]</a><span class="k">class</span> <span class="nc">Rect</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Rect(left, top, width, height) -&gt; Rect</span>
+<span class="sd">        Rect((left, top), (width, height)) -&gt; Rect</span>
+<span class="sd">        Rect(object) -&gt; Rect</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">args</span><span class="p">)</span> <span class="o">==</span> <span class="mi">4</span><span class="p">:</span>
+            <span class="c"># left, top, width, height</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">left</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">top</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">width</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">height</span> <span class="o">=</span> <span class="n">args</span>
+        <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">args</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="c"># (left, top), (width, height)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">left</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">top</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">width</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">height</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">args</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">left</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">left</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">top</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">top</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">width</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">width</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">height</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">height</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&quot;Invalid arguments passed to Rect initializer&quot;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="mi">4</span>
+
+    <span class="k">def</span> <span class="nf">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">index</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">index</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">left</span>
+        <span class="k">elif</span> <span class="n">index</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">top</span>
+        <span class="k">elif</span> <span class="n">index</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">width</span>
+        <span class="k">elif</span> <span class="n">index</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">height</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="p">[</span><span class="n">index</span> <span class="o">%</span> <span class="mi">4</span><span class="p">]</span>
+
+    <span class="k">def</span> <span class="nf">__iter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">yield</span> <span class="bp">self</span><span class="o">.</span><span class="n">left</span>
+        <span class="k">yield</span> <span class="bp">self</span><span class="o">.</span><span class="n">top</span>
+        <span class="k">yield</span> <span class="bp">self</span><span class="o">.</span><span class="n">width</span>
+        <span class="k">yield</span> <span class="bp">self</span><span class="o">.</span><span class="n">height</span>
+
+    <span class="k">def</span> <span class="nf">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s">&quot;pygame2.Rect(left=</span><span class="si">%.2f</span><span class="s">, top=</span><span class="si">%.2f</span><span class="s">, width=</span><span class="si">%.2f</span><span class="s">, height=</span><span class="si">%.2f</span><span class="s">)&quot;</span> <span class="o">%</span> \
+            <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">left</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">top</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">width</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">height</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">x</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns the left edge of the rect</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">left</span>
+
+    <span class="nd">@x.setter</span>
+<div class="viewcode-block" id="Rect.x"><a class="viewcode-back" href="../../pygame2.rect.html#pygame2.rect.Rect.x">[docs]</a>    <span class="k">def</span> <span class="nf">x</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">left</span> <span class="o">=</span> <span class="n">value</span>
+</div>
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">y</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns the top edge of the rect</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">top</span>
+
+    <span class="nd">@y.setter</span>
+<div class="viewcode-block" id="Rect.y"><a class="viewcode-back" href="../../pygame2.rect.html#pygame2.rect.Rect.y">[docs]</a>    <span class="k">def</span> <span class="nf">y</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">top</span> <span class="o">=</span> <span class="n">value</span>
+</div>
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">right</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns the x value which is the right edge of the rect</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">left</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">width</span>
+
+    <span class="nd">@right.setter</span>
+<div class="viewcode-block" id="Rect.right"><a class="viewcode-back" href="../../pygame2.rect.html#pygame2.rect.Rect.right">[docs]</a>    <span class="k">def</span> <span class="nf">right</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">left</span> <span class="o">=</span> <span class="n">value</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">width</span>
+</div>
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">bottom</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns the y value of the bottom edge of the rect</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">top</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">height</span>
+
+    <span class="nd">@bottom.setter</span>
+<div class="viewcode-block" id="Rect.bottom"><a class="viewcode-back" href="../../pygame2.rect.html#pygame2.rect.Rect.bottom">[docs]</a>    <span class="k">def</span> <span class="nf">bottom</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">top</span> <span class="o">=</span> <span class="n">value</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">height</span>
+</div>
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">topleft</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns a point (x, y) which is the top, left corner of the rect.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">left</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">top</span><span class="p">)</span>
+
+    <span class="nd">@topleft.setter</span>
+<div class="viewcode-block" id="Rect.topleft"><a class="viewcode-back" href="../../pygame2.rect.html#pygame2.rect.Rect.topleft">[docs]</a>    <span class="k">def</span> <span class="nf">topleft</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">left</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">top</span> <span class="o">=</span> <span class="n">value</span>
+</div>
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">bottomleft</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns a point (x, y) which is the bottom, left corner of the rect.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">left</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">bottom</span><span class="p">)</span>
+
+    <span class="nd">@bottomleft.setter</span>
+<div class="viewcode-block" id="Rect.bottomleft"><a class="viewcode-back" href="../../pygame2.rect.html#pygame2.rect.Rect.bottomleft">[docs]</a>    <span class="k">def</span> <span class="nf">bottomleft</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">left</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">bottom</span> <span class="o">=</span> <span class="n">value</span>
+</div>
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">topright</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns a point (x, y) which is the top, right corner of the rect.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">right</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">top</span><span class="p">)</span>
+
+    <span class="nd">@topright.setter</span>
+<div class="viewcode-block" id="Rect.topright"><a class="viewcode-back" href="../../pygame2.rect.html#pygame2.rect.Rect.topright">[docs]</a>    <span class="k">def</span> <span class="nf">topright</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">right</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">top</span> <span class="o">=</span> <span class="n">value</span>
+</div>
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">bottomright</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns a point (x, y) which is the bottom, right corner of the rect.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">right</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">bottom</span><span class="p">)</span>
+
+    <span class="nd">@bottomright.setter</span>
+<div class="viewcode-block" id="Rect.bottomright"><a class="viewcode-back" href="../../pygame2.rect.html#pygame2.rect.Rect.bottomright">[docs]</a>    <span class="k">def</span> <span class="nf">bottomright</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">right</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">bottom</span> <span class="o">=</span> <span class="n">value</span>
+</div>
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">centerx</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns the center x value of the rect</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">left</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">width</span> <span class="o">//</span> <span class="mi">2</span>
+
+    <span class="nd">@centerx.setter</span>
+<div class="viewcode-block" id="Rect.centerx"><a class="viewcode-back" href="../../pygame2.rect.html#pygame2.rect.Rect.centerx">[docs]</a>    <span class="k">def</span> <span class="nf">centerx</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">left</span> <span class="o">=</span> <span class="n">value</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">width</span> <span class="o">//</span> <span class="mi">2</span>
+</div>
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">centery</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns the center y value of the rect</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">top</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">height</span> <span class="o">//</span> <span class="mi">2</span>
+
+    <span class="nd">@centery.setter</span>
+<div class="viewcode-block" id="Rect.centery"><a class="viewcode-back" href="../../pygame2.rect.html#pygame2.rect.Rect.centery">[docs]</a>    <span class="k">def</span> <span class="nf">centery</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">top</span> <span class="o">=</span> <span class="n">value</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">height</span> <span class="o">//</span> <span class="mi">2</span>
+</div>
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">center</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns a point (x, y) which is the center of the rect.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">centerx</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">centery</span><span class="p">)</span>
+
+    <span class="nd">@center.setter</span>
+<div class="viewcode-block" id="Rect.center"><a class="viewcode-back" href="../../pygame2.rect.html#pygame2.rect.Rect.center">[docs]</a>    <span class="k">def</span> <span class="nf">center</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">centerx</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">centery</span> <span class="o">=</span> <span class="n">value</span>
+</div>
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">midtop</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns a point (x, y) which is the midpoint of the top edge</span>
+<span class="sd">        the rect.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">centerx</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">top</span><span class="p">)</span>
+
+    <span class="nd">@midtop.setter</span>
+<div class="viewcode-block" id="Rect.midtop"><a class="viewcode-back" href="../../pygame2.rect.html#pygame2.rect.Rect.midtop">[docs]</a>    <span class="k">def</span> <span class="nf">midtop</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">centerx</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">top</span> <span class="o">=</span> <span class="n">value</span>
+</div>
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">midleft</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns a point (x, y) which is the midpoint of the left edge</span>
+<span class="sd">        the rect.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">left</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">centery</span><span class="p">)</span>
+
+    <span class="nd">@midleft.setter</span>
+<div class="viewcode-block" id="Rect.midleft"><a class="viewcode-back" href="../../pygame2.rect.html#pygame2.rect.Rect.midleft">[docs]</a>    <span class="k">def</span> <span class="nf">midleft</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">left</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">centery</span> <span class="o">=</span> <span class="n">value</span>
+</div>
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">midbottom</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns a point (x, y) which is the midpoint of the bottom edge</span>
+<span class="sd">        the rect.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">centerx</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">bottom</span><span class="p">)</span>
+
+    <span class="nd">@midbottom.setter</span>
+<div class="viewcode-block" id="Rect.midbottom"><a class="viewcode-back" href="../../pygame2.rect.html#pygame2.rect.Rect.midbottom">[docs]</a>    <span class="k">def</span> <span class="nf">midbottom</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">centerx</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">bottom</span> <span class="o">=</span> <span class="n">value</span>
+</div>
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">midright</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns a point (x, y) which is the midpoint of the right edge of</span>
+<span class="sd">        the rect.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">right</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">centery</span><span class="p">)</span>
+
+    <span class="nd">@midright.setter</span>
+<div class="viewcode-block" id="Rect.midright"><a class="viewcode-back" href="../../pygame2.rect.html#pygame2.rect.Rect.midright">[docs]</a>    <span class="k">def</span> <span class="nf">midright</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">right</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">centery</span> <span class="o">=</span> <span class="n">value</span>
+</div>
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">size</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns the width and height of the rect as a tuple (width, height)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">width</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">height</span><span class="p">)</span>
+
+    <span class="nd">@size.setter</span>
+<div class="viewcode-block" id="Rect.size"><a class="viewcode-back" href="../../pygame2.rect.html#pygame2.rect.Rect.size">[docs]</a>    <span class="k">def</span> <span class="nf">size</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">width</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">height</span> <span class="o">=</span> <span class="n">value</span>
+</div>
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">w</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        The width of the rect</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">width</span>
+
+    <span class="nd">@w.setter</span>
+<div class="viewcode-block" id="Rect.w"><a class="viewcode-back" href="../../pygame2.rect.html#pygame2.rect.Rect.w">[docs]</a>    <span class="k">def</span> <span class="nf">w</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">width</span> <span class="o">=</span> <span class="n">value</span>
+</div>
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">h</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        The height of the rect</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">height</span>
+
+    <span class="nd">@h.setter</span>
+<div class="viewcode-block" id="Rect.h"><a class="viewcode-back" href="../../pygame2.rect.html#pygame2.rect.Rect.h">[docs]</a>    <span class="k">def</span> <span class="nf">h</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">height</span> <span class="o">=</span> <span class="n">value</span>
+</div>
+<div class="viewcode-block" id="Rect.copy"><a class="viewcode-back" href="../../pygame2.rect.html#pygame2.rect.Rect.copy">[docs]</a>    <span class="k">def</span> <span class="nf">copy</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns a new rectangle having the same position and size as</span>
+<span class="sd">        the original.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">Rect</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="Rect.move"><a class="viewcode-back" href="../../pygame2.rect.html#pygame2.rect.Rect.move">[docs]</a>    <span class="k">def</span> <span class="nf">move</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns a new rectangle that is moved by the given offset. The x</span>
+<span class="sd">        and y arguments can be any integer value, positive or negative.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">Rect</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">move_ip</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="Rect.move_ip"><a class="viewcode-back" href="../../pygame2.rect.html#pygame2.rect.Rect.move_ip">[docs]</a>    <span class="k">def</span> <span class="nf">move_ip</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Same as ``Rect.move()``, but mutates the instance</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">left</span> <span class="o">+=</span> <span class="n">x</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">top</span> <span class="o">+=</span> <span class="n">y</span>
+        <span class="k">return</span> <span class="bp">self</span>
+</div>
+<div class="viewcode-block" id="Rect.inflate"><a class="viewcode-back" href="../../pygame2.rect.html#pygame2.rect.Rect.inflate">[docs]</a>    <span class="k">def</span> <span class="nf">inflate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns a new rectangle with the size changed by the given offset. The</span>
+<span class="sd">        rectangle remains centered around its current center. Negative values</span>
+<span class="sd">        will shrink the rectangle.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">Rect</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">inflate_ip</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="Rect.inflate_ip"><a class="viewcode-back" href="../../pygame2.rect.html#pygame2.rect.Rect.inflate_ip">[docs]</a>    <span class="k">def</span> <span class="nf">inflate_ip</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Same as ``Rect.inflate()``, but mutates the instance</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">center</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">center</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">width</span> <span class="o">+=</span> <span class="n">x</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">height</span> <span class="o">+=</span> <span class="n">y</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">center</span> <span class="o">=</span> <span class="n">center</span>
+        <span class="k">return</span> <span class="bp">self</span>
+</div>
+<div class="viewcode-block" id="Rect.clamp"><a class="viewcode-back" href="../../pygame2.rect.html#pygame2.rect.Rect.clamp">[docs]</a>    <span class="k">def</span> <span class="nf">clamp</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other_rect</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Move the rect the least amount of distance necessary to place it</span>
+<span class="sd">        inside of other_rect. If other_rect is smaller in height,</span>
+<span class="sd">        width or both then the rect shall be centered on those</span>
+<span class="sd">        dimensions which do not fit.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">Rect</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">clamp_ip</span><span class="p">(</span><span class="n">other_rect</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="Rect.clamp_ip"><a class="viewcode-back" href="../../pygame2.rect.html#pygame2.rect.Rect.clamp_ip">[docs]</a>    <span class="k">def</span> <span class="nf">clamp_ip</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other_rect</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Same as ``Rect.clamp()``, but mutates the instance</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">other_rect</span><span class="o">.</span><span class="n">width</span> <span class="o">&lt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">width</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">centerx</span> <span class="o">=</span> <span class="n">other_rect</span><span class="o">.</span><span class="n">centerx</span>
+        <span class="k">elif</span> <span class="n">other_rect</span><span class="o">.</span><span class="n">left</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">left</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">left</span> <span class="o">=</span> <span class="n">other_rect</span><span class="o">.</span><span class="n">left</span>
+        <span class="k">elif</span> <span class="n">other_rect</span><span class="o">.</span><span class="n">right</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">left</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">left</span> <span class="o">=</span> <span class="n">other_rect</span><span class="o">.</span><span class="n">right</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">width</span>
+
+        <span class="k">if</span> <span class="n">other_rect</span><span class="o">.</span><span class="n">height</span> <span class="o">&lt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">height</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">centery</span> <span class="o">=</span> <span class="n">other_rect</span><span class="o">.</span><span class="n">centery</span>
+        <span class="k">elif</span> <span class="n">other_rect</span><span class="o">.</span><span class="n">top</span> <span class="o">&gt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">bottom</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">top</span> <span class="o">=</span> <span class="n">other_rect</span><span class="o">.</span><span class="n">top</span>
+        <span class="k">elif</span> <span class="n">other_rect</span><span class="o">.</span><span class="n">bottom</span> <span class="o">&lt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">top</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">bottom</span> <span class="o">=</span> <span class="n">other_rect</span><span class="o">.</span><span class="n">bottom</span>
+
+        <span class="k">return</span> <span class="bp">self</span>
+</div>
+<div class="viewcode-block" id="Rect.clip"><a class="viewcode-back" href="../../pygame2.rect.html#pygame2.rect.Rect.clip">[docs]</a>    <span class="k">def</span> <span class="nf">clip</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other_rect</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns a new rectangle that is cropped to be completely inside</span>
+<span class="sd">        the argument Rect. If the two rectangles do not overlap to</span>
+<span class="sd">        begin with, a Rect with 0 size is returned.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">r</span> <span class="o">=</span> <span class="n">Rect</span><span class="p">(</span><span class="nb">max</span><span class="p">(</span><span class="n">other_rect</span><span class="o">.</span><span class="n">left</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">left</span><span class="p">),</span>
+                 <span class="nb">max</span><span class="p">(</span><span class="n">other_rect</span><span class="o">.</span><span class="n">top</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">top</span><span class="p">),</span>
+                 <span class="bp">self</span><span class="o">.</span><span class="n">width</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">height</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">r</span><span class="o">.</span><span class="n">right</span> <span class="o">&gt;</span> <span class="n">other_rect</span><span class="o">.</span><span class="n">right</span><span class="p">:</span>
+            <span class="n">r</span><span class="o">.</span><span class="n">width</span> <span class="o">-=</span> <span class="n">r</span><span class="o">.</span><span class="n">right</span> <span class="o">-</span> <span class="n">other_rect</span><span class="o">.</span><span class="n">right</span>
+        <span class="k">if</span> <span class="n">r</span><span class="o">.</span><span class="n">bottom</span> <span class="o">&gt;</span> <span class="n">other_rect</span><span class="o">.</span><span class="n">bottom</span><span class="p">:</span>
+            <span class="n">r</span><span class="o">.</span><span class="n">height</span> <span class="o">-=</span> <span class="n">r</span><span class="o">.</span><span class="n">bottom</span> <span class="o">-</span> <span class="n">other_rect</span><span class="o">.</span><span class="n">bottom</span>
+
+        <span class="k">return</span> <span class="n">r</span>
+</div>
+<div class="viewcode-block" id="Rect.union"><a class="viewcode-back" href="../../pygame2.rect.html#pygame2.rect.Rect.union">[docs]</a>    <span class="k">def</span> <span class="nf">union</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other_rect</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns a new rectangle that completely covers the area of the two</span>
+<span class="sd">        provided rectangles. There may be area inside the new Rect that is not</span>
+<span class="sd">        covered by the originals.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">Rect</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">union_ip</span><span class="p">(</span><span class="n">other_rect</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="Rect.union_ip"><a class="viewcode-back" href="../../pygame2.rect.html#pygame2.rect.Rect.union_ip">[docs]</a>    <span class="k">def</span> <span class="nf">union_ip</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other_rect</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Same as ``Rect.union()``, but mutates the instance</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">left</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">other_rect</span><span class="o">.</span><span class="n">left</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">left</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">top</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">other_rect</span><span class="o">.</span><span class="n">top</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">top</span><span class="p">)</span>
+        <span class="n">right</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">right</span><span class="p">,</span> <span class="n">other_rect</span><span class="o">.</span><span class="n">right</span><span class="p">)</span>
+        <span class="n">bottom</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">bottom</span><span class="p">,</span> <span class="n">other_rect</span><span class="o">.</span><span class="n">bottom</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">width</span> <span class="o">=</span> <span class="n">right</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">left</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">height</span> <span class="o">=</span> <span class="n">bottom</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">top</span>
+        <span class="k">return</span> <span class="bp">self</span>
+</div>
+<div class="viewcode-block" id="Rect.unionall"><a class="viewcode-back" href="../../pygame2.rect.html#pygame2.rect.Rect.unionall">[docs]</a>    <span class="k">def</span> <span class="nf">unionall</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other_rects</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns the union of one rectangle with a sequence of many rectangles.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">Rect</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        <span class="n">result</span><span class="o">.</span><span class="n">unionall_ip</span><span class="p">(</span><span class="n">other_rects</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">result</span>
+</div>
+<div class="viewcode-block" id="Rect.unionall_ip"><a class="viewcode-back" href="../../pygame2.rect.html#pygame2.rect.Rect.unionall_ip">[docs]</a>    <span class="k">def</span> <span class="nf">unionall_ip</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other_rects</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        The same as the ``Rect.unionall()`` method, but mutates the rect instance.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">rect</span> <span class="ow">in</span> <span class="n">other_rects</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">union_ip</span><span class="p">(</span><span class="n">rect</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span>
+
+</div>
+<div class="viewcode-block" id="Rect.fit"><a class="viewcode-back" href="../../pygame2.rect.html#pygame2.rect.Rect.fit">[docs]</a>    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other_rect</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns a new rectangle that is moved and resized to fit</span>
+<span class="sd">        another. The aspect ratio of the original Rect is preserved,</span>
+<span class="sd">        so the new rectangle may be smaller than the target in either</span>
+<span class="sd">        width or height.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">x_ratio</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">width</span><span class="p">)</span> <span class="o">/</span> <span class="nb">float</span><span class="p">(</span><span class="n">other_rect</span><span class="o">.</span><span class="n">width</span><span class="p">)</span>
+        <span class="n">y_ratio</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">height</span><span class="p">)</span> <span class="o">/</span> <span class="nb">float</span><span class="p">(</span><span class="n">other_rect</span><span class="o">.</span><span class="n">height</span><span class="p">)</span>
+        <span class="n">max_ratio</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">x_ratio</span><span class="p">,</span> <span class="n">y_ratio</span><span class="p">)</span>
+        <span class="n">width</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">width</span> <span class="o">/</span> <span class="n">max_ratio</span>
+        <span class="n">height</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">height</span> <span class="o">/</span> <span class="n">max_ratio</span>
+        <span class="n">left</span> <span class="o">=</span> <span class="n">other_rect</span><span class="o">.</span><span class="n">left</span> <span class="o">+</span> <span class="p">(</span><span class="n">other_rect</span><span class="o">.</span><span class="n">width</span> <span class="o">-</span> <span class="n">width</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span>
+        <span class="n">top</span> <span class="o">=</span> <span class="n">other_rect</span><span class="o">.</span><span class="n">top</span> <span class="o">+</span> <span class="p">(</span><span class="n">other_rect</span><span class="o">.</span><span class="n">height</span> <span class="o">-</span> <span class="n">height</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span>
+        <span class="k">return</span> <span class="n">Rect</span><span class="p">(</span><span class="n">left</span><span class="p">,</span> <span class="n">top</span><span class="p">,</span> <span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="Rect.normalize"><a class="viewcode-back" href="../../pygame2.rect.html#pygame2.rect.Rect.normalize">[docs]</a>    <span class="k">def</span> <span class="nf">normalize</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        This will flip the width or height of a rectangle if it has a</span>
+<span class="sd">        negative size. The rectangle will remain in the same place,</span>
+<span class="sd">        with only the sides swapped.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">width</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">left</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">width</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">width</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">width</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">height</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">top</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">height</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">height</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">height</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="Rect.contains"><a class="viewcode-back" href="../../pygame2.rect.html#pygame2.rect.Rect.contains">[docs]</a>    <span class="k">def</span> <span class="nf">contains</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other_rect</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns true when the argument is completely inside the Rect.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">top</span> <span class="o">&lt;=</span> <span class="n">other_rect</span><span class="o">.</span><span class="n">top</span> \
+            <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">left</span> <span class="o">&lt;=</span> <span class="n">other_rect</span><span class="o">.</span><span class="n">left</span> \
+            <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">right</span> <span class="o">&gt;=</span> <span class="n">other_rect</span><span class="o">.</span><span class="n">right</span> \
+            <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">bottom</span> <span class="o">&gt;=</span> <span class="n">other_rect</span><span class="o">.</span><span class="n">bottom</span>
+</div>
+<div class="viewcode-block" id="Rect.collidepoint"><a class="viewcode-back" href="../../pygame2.rect.html#pygame2.rect.Rect.collidepoint">[docs]</a>    <span class="k">def</span> <span class="nf">collidepoint</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns true if the given point is inside the rectangle. A point along</span>
+<span class="sd">        the right or bottom edge is not considered to be inside the rectangle.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">args</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="c"># (x, y)</span>
+            <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c"># x, y, ...</span>
+            <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">2</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">x</span> <span class="o">&gt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">left</span> \
+            <span class="ow">and</span> <span class="n">y</span> <span class="o">&gt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">top</span> \
+            <span class="ow">and</span> <span class="n">x</span> <span class="o">&lt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">right</span> \
+            <span class="ow">and</span> <span class="n">y</span> <span class="o">&lt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">bottom</span>
+</div>
+<div class="viewcode-block" id="Rect.colliderect"><a class="viewcode-back" href="../../pygame2.rect.html#pygame2.rect.Rect.colliderect">[docs]</a>    <span class="k">def</span> <span class="nf">colliderect</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other_rect</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns true if any portion of either rectangle overlap (except the</span>
+<span class="sd">        top+bottom or left+right edges).</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">left</span> <span class="o">&lt;</span> <span class="n">other_rect</span><span class="o">.</span><span class="n">right</span> \
+            <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">top</span> <span class="o">&lt;</span> <span class="n">other_rect</span><span class="o">.</span><span class="n">bottom</span> \
+            <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">right</span> <span class="o">&gt;</span> <span class="n">other_rect</span><span class="o">.</span><span class="n">left</span> \
+            <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">bottom</span> <span class="o">&gt;</span> <span class="n">other_rect</span><span class="o">.</span><span class="n">top</span>
+</div>
+<div class="viewcode-block" id="Rect.collidelist"><a class="viewcode-back" href="../../pygame2.rect.html#pygame2.rect.Rect.collidelist">[docs]</a>    <span class="k">def</span> <span class="nf">collidelist</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other_rects</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Test whether the rectangle collides with any in a sequence of</span>
+<span class="sd">        rectangles.  The index of the first collision found is</span>
+<span class="sd">        returned. If no collisions are found an index of -1 is</span>
+<span class="sd">        returned.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">rect</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">other_rects</span><span class="p">):</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">colliderect</span><span class="p">(</span><span class="n">rect</span><span class="p">):</span>
+                <span class="k">return</span> <span class="n">i</span>
+        <span class="k">return</span> <span class="o">-</span><span class="mi">1</span>
+</div>
+<div class="viewcode-block" id="Rect.collidelistall"><a class="viewcode-back" href="../../pygame2.rect.html#pygame2.rect.Rect.collidelistall">[docs]</a>    <span class="k">def</span> <span class="nf">collidelistall</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other_rects</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns a list of all the indices that contain rectangles that</span>
+<span class="sd">        collide with the Rect. If no intersecting rectangles are</span>
+<span class="sd">        found, an empty list is returned.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">indices</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">rect</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">other_rects</span><span class="p">):</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">colliderect</span><span class="p">(</span><span class="n">rect</span><span class="p">):</span>
+                <span class="n">indices</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">indices</span>
+</div>
+<div class="viewcode-block" id="Rect.collidedict"><a class="viewcode-back" href="../../pygame2.rect.html#pygame2.rect.Rect.collidedict">[docs]</a>    <span class="k">def</span> <span class="nf">collidedict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other_rects</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns the key and value of the first dictionary value that collides</span>
+<span class="sd">        with the Rect. If no collisions are found, None is returned.</span>
+
+<span class="sd">        Rect objects are not hashable and cannot be used as keys in a</span>
+<span class="sd">        dictionary, only as values.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">other_rects</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">colliderect</span><span class="p">(</span><span class="n">value</span><span class="p">):</span>
+                <span class="k">return</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span>
+</div>
+<div class="viewcode-block" id="Rect.collidedictall"><a class="viewcode-back" href="../../pygame2.rect.html#pygame2.rect.Rect.collidedictall">[docs]</a>    <span class="k">def</span> <span class="nf">collidedictall</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other_rects</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns a list of all the key and value pairs that intersect with</span>
+<span class="sd">        the Rect. If no collisions are found an empty dictionary is</span>
+<span class="sd">        returned.</span>
+
+<span class="sd">        Rect objects are not hashable and cannot be used as keys in a</span>
+<span class="sd">        dictionary, only as values.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">pairs</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">other_rects</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">colliderect</span><span class="p">(</span><span class="n">value</span><span class="p">):</span>
+                <span class="n">pairs</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">pairs</span></div></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../index.html">pygame2 0.0.0 documentation</a> &raquo;</li>
+          <li><a href="../index.html" >Module code</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2014, William Kevin Manire, Leif Theden, Alecks Gates.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
+    </div>
+  </body>
+</html>
