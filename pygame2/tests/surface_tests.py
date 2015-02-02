@@ -14,7 +14,6 @@ logger = getLogger()
 
 
 class SurfaceTests(TestCase):
-
     def setUp(self):
         self.size = (32, 32)
         self.s = Surface(self.size)

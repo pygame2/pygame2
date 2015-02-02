@@ -1,5 +1,5 @@
 from . import ImageLoaderBase, ImageData
-import pygame
+# import pygame
 import os
 
 
@@ -11,7 +11,7 @@ class ImageLoader(ImageLoaderBase):
     @staticmethod
     def load(filename, namehint=None):
         fn, ext = os.path.splitext(filename)
-        im = pygame.image.load(filename, ext)
+        # im = pygame.image.load(filename, ext)
 
         fmt = ''
         if im.get_bytesize() == 3:
@@ -22,9 +22,10 @@ class ImageLoader(ImageLoaderBase):
             im = im.convert(32)
             fmt = 'rgba'
 
-        data = pygame.image.tostring(im, fmt.upper())
-        return ImageData(im.get_width(), im.get_height(), fmt, data,
-                         source=filename)
+        # data = pygame.image.tostring(im, fmt.upper())
+        # return ImageData(im.get_width(), im.get_height(), fmt, data,
+        #                  source=filename)
+        raise Exception
 
     @staticmethod
     def save(surface, filename):

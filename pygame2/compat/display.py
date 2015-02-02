@@ -22,14 +22,14 @@ __all__ = ['PygameDisplay',
 
 class SingletonMetaClass(type):
     _instance = None
+
     def __call__(cls, *args, **kw):
         if not cls._instance:
-             cls._instance = super(SingletonMetaClass, cls).__call__(*args, **kw)
+            cls._instance = super(SingletonMetaClass, cls).__call__(*args, **kw)
         return cls._instance
 
 
 class PygameDisplay(metaclass=SingletonMetaClass):
-
     def __init__(self, resolution, flags=0, depth=0):
         if not hasattr(self, "_initialized"):
             w, h = resolution
@@ -137,11 +137,11 @@ def get_init():
 
 
 # def set_mode(resolution=(0, 0), flags=0, depth=0):
-#     raise NotImplementedError()
+# raise NotImplementedError()
 
 
 # def get_surface():
-#     raise NotImplementedError()
+# raise NotImplementedError()
 
 
 # def flip():

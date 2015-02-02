@@ -13,7 +13,6 @@ logger = getLogger()
 
 
 class RectTests(TestCase):
-
     def setUp(self):
         self.r = Rect(11, 12, 13, 14)
 
@@ -40,8 +39,8 @@ class RectTests(TestCase):
         r0 = Rect(10, 11, 12, 13)
         r1 = Rect(10, 11, 12, 13)
         r2 = Rect(0, 0, 0, 0)
-        assert(r0 == r1)
-        assert(not r0 == r2)
+        assert (r0 == r1)
+        assert (not r0 == r2)
 
     def test_init_4_args(self):
         r = Rect(10, 11, 12, 13)

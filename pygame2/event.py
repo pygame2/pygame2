@@ -26,7 +26,7 @@ As an aside, the pygame2 veteran will also want to do some things
 a newbie would want, such as directly controlling the event queue,
 so by catering to both groups, the library is more usable.
 """
-
+import queue
 import logging
 import pygame2
 import weakref
@@ -35,15 +35,18 @@ import weakref
 __all__ = [
     "EventType",
     "Event",
-    "EventQueue",
+    "PlatformEventQueueBase",
+    "EventLoop",
     "EventDispatcher",
     "NoHandlerException"
 ]
 
 logger = logging.getLogger("pygame2.event")
 
+
 def verify_name(name):
     """Event names must begin with "on_"
+
     :param name: Name of event
     :type name: str
     :return: None
@@ -51,6 +54,7 @@ def verify_name(name):
     """
     if not name.startswith('on_'):
         raise ValueError('Event names must begin with "on_"')
+
 
 class NoHandlerException(Exception):
     pass
@@ -157,6 +161,7 @@ class EventDispatcher:
 
     if you want to pass arguments, use functools.partial
     """
+
     def register_event_type(self, name):
         """register new event type
 
@@ -210,6 +215,7 @@ class EventDispatcher:
         self.bind(on_mouse_move=self.on_mouse_move)
         self.bind('on_mouse_move')
         """
+
         def bind(name, callback):
             verify_name(name)
             assert callable(callback), '{!r} is not callable'.format(callback)
@@ -240,10 +246,12 @@ class EventDispatcher:
         pass
 
 
-class EventQueue(EventDispatcher):
+class PlatformEventQueueBase(EventDispatcher):
     """
     To be extended by each host layer
     """
+    def __init__(self):
+        self.event_queue = None
 
     def start(self):
         """ Start the event loop.  Required for all platforms.
@@ -252,57 +260,13 @@ class EventQueue(EventDispatcher):
 
         :return: None
         """
-        self.event_loop = pygame2.app.platform_event_loop
-        self.clock = pygame2.clock.Clock()
-        self.event_loop.start()
-
-        # clear out events that queued up while app was being
-        # initialized
-        events = self.get()
-
-    def pump(self):
-        """internally process pygame event handlers
-
-        For each frame of your game, you will need to make some sort of call to
-        the event queue. This ensures your program can internally interact with
-        the rest of the operating system. If you are not using other event
-        functions in your game, you should call pygame.event.pump() to allow
-        pygame to handle internal actions.
-
-        This function is not necessary if your program is consistently processing
-        events on the queue through the other pygame.eventpygame module for
-        interacting with events and queues functions.
-
-        There are important things that must be dealt with internally in the
-        event queue. The main window may need to be repainted or respond to the
-        system. If you fail to make a call to the event queue for too long,
-        the system may decide your program has locked up.
-
-        :return: None
-        """
-        self.event_loop.step()
+        self.event_queue = queue.Queue()
+        # TODO: clear out events already in the platform queue
 
     def get(self, event_filter=None):
-        """get events from the queue
-
-        get() -> Eventlist
-        get(type) -> Eventlist
-        get(typelist) -> Eventlist
-
-        This will get all the messages and remove them from the queue. If a type
-        or sequence of types is given only those messages will be removed from
-        the queue.
-
-        If you are only taking specific events from the queue, be aware that the
-        queue could eventually fill up with the events you are not interested.
-
-        :param event_filter:
-        :type event_filter:
-        :return: event list
-        :rtype: list
+        """Get events from the queue
         """
-        self.pump()
-        return list()
+        raise NotImplementedError
 
     def poll(self):
         """get a single event from the queue
@@ -315,8 +279,10 @@ class EventQueue(EventDispatcher):
 
         This can only be called from the thread that has set the video mode.
 
-        poll() is the favored way of receiving system events since it can be done
-        from the main loop and does not suspend the main loop while waiting on any
+        poll() is the favored way of receiving system events since it can be
+        done
+        from the main loop and does not suspend the main loop while waiting
+        on any
         event to be posted.
 
         TODO: how to handle NOEVENT?  None?
@@ -324,7 +290,7 @@ class EventQueue(EventDispatcher):
         :return: event
         :rtype: EventType
         """
-        pass
+        raise NotImplementedError
 
     def wait(self):
         """wait for a single event from the queue
@@ -334,7 +300,8 @@ class EventQueue(EventDispatcher):
         Returns a single event from the queue. If the queue is empty this
         function will wait until one is created. The event is removed from the
         queue once it has been returned. While the program is waiting it will
-        sleep in an idle state. This is important for programs that want to share
+        sleep in an idle state. This is important for programs that want to
+        share
         the system with other applications.
 
         This can only be called from the thread that has set the video mode.
@@ -342,7 +309,7 @@ class EventQueue(EventDispatcher):
         :return: event
         :rtype: EventType
         """
-        pass
+        raise NotImplementedError
 
     def peek(self, types=None):
         """test if event types are waiting on the queue
@@ -359,7 +326,29 @@ class EventQueue(EventDispatcher):
         :return: bool if event types are waiting on the queue
         :rtype: bool
         """
-        pass
+        raise NotImplementedError
+
+    def post(self, event):
+        """place a new event on the queue
+
+        post(Event) -> bool
+
+        This places a new event at the end of the event queue. These Events will
+        later be retrieved from the other queue functions.
+
+        This is usually used for placing pygame.USEREVENT events on the queue.
+        Although any type of event can be placed, if using the system event
+        types
+        your program should be sure to create the standard attributes with
+        appropriate values.
+
+        pygame1 note: pygame1 returns None, pygame2 will return a boolean
+
+        :param event:
+        :type event or list:
+        :return: True on success, False if the event was filtered
+        """
+        raise NotImplementedError
 
     def clear(self, event_filter=None):
         """remove all events from the queue
@@ -374,22 +363,7 @@ class EventQueue(EventDispatcher):
 
         :return: None
         """
-        pass
-
-    def event_name(self):
-        """get the string name from and event id
-
-        event_name(type) -> string
-
-        Pygame uses integer ids to represent the event types. If you want to
-        report these types to the user they should be converted to strings. This
-        will return a the simple name for an event type. The string is in the
-        WordCap style.
-
-        :return: name of event type
-        :rtype: str
-        """
-        pass
+        raise NotImplementedError
 
     def get_blocked(self, event_types):
         """test if a type of event is blocked from the queue
@@ -403,7 +377,7 @@ class EventQueue(EventDispatcher):
         :return: whether a type of event is blocked from the queue or not
         :rtype: bool
         """
-        pass
+        raise NotImplementedError
 
     def set_blocked(self, event_types):
         """control which events are allowed on the queue
@@ -416,14 +390,14 @@ class EventQueue(EventDispatcher):
         default all events can be placed on the queue. It is safe to disable an
         event type multiple times.
 
-        If None is passed as the argument, this has the opposite effect and ALL
+        If None is raise NotImplementedErrored as the argument, this has the opposite effect and ALL
         of the event types are allowed to be placed on the queue.
 
         :param event_types:
         :type event_types:
         :return: None
         """
-        pass
+        raise NotImplementedError
 
     def set_allowed(self, event_types):
         """control which events are allowed on the queue
@@ -436,62 +410,84 @@ class EventQueue(EventDispatcher):
         default all events can be placed on the queue. It is safe to enable an
         event type multiple times.
 
-        If None is passed as the argument, NONE of the event types are allowed to
+        If None is raise NotImplementedErrored as the argument, NONE of the event types are
+        allowed to
         be placed on the queue.
 
         :param event_types:
         :type event_types:
         :return: None
         """
-        pass
+        raise NotImplementedError
 
-    def get_grab(self):
-        """control the sharing of input devices with other applications
-
-        This function no longer has meaning since SDL2 is a native multi-window
-        aware
+    def stop(self):
+        """Stop platform dependant event queue
         """
         raise NotImplementedError
 
-    def set_grab(self, value):
-        """test if the program is sharing input devices
 
-        This function no longer has meaning since SDL2 is a native multi-window
-        aware
-        """
-        raise NotImplementedError
+class EventLoop(EventDispatcher):
+    """ somewhat modeled after python's asyncio
+    """
+    def __init__(self):
+        self.clock = None
+        self.platform_queue = None
 
-    def post(self, event):
-        """place a new event on the queue
+    def run_forever(self):
+        self.clock = pygame2.clock.Clock()
 
-        post(Event) -> bool
+        # check if already running
+        # raise runtimeerror if already running
+        try:
+            while 1:
+                try:
+                    self.step()
+                    timeout = self.clock.get_idle_time()
+                    # self.platform_queue.sleep(timeout)
 
-        This places a new event at the end of the event queue. These Events will
-        later be retrieved from the other queue functions.
+                except:
+                    # this exception should be stoperror or something
+                    # meaning the loop is done
+                    break
+        finally:
+            # cleanup
+            pass
 
-        This is usually used for placing pygame.USEREVENT events on the queue.
-        Although any type of event can be placed, if using the system event types
-        your program should be sure to create the standard attributes with
-        appropriate values.
+    def step(self):
+        """Do one iteration of event loop
 
-        pygame1 note: pygame1 returns None, pygame2 will return a boolean
-
-        :param event:
-        :type event or list:
-        :return: True on success, False if the event was filtered
-        """
-        pass
-
-    def idle(self):
-        """Called after each frame
-
-        * handles drawing
         * lets OS sleep app until next scheduled event
         :return:
         :rtype:
         """
         self.clock.tick()
-        # timeout = _clock.get_sleep_time()
-        timeout = 0
 
+    def stop(self):
+        """stop the event loop
+        """
+        raise NotImplementedError
 
+    def enter_blocking(self):
+        """Called by pyglet internal processes when the operating system
+        is about to block due to a user interaction.  For example, this
+        is common when the user begins resizing or moving a window.
+
+        This method provides the event loop with an opportunity to set up
+        an OS timer on the platform event loop, which will continue to
+        be invoked during the blocking operation.
+
+        The default implementation ensures that `idle` continues to be called
+        as documented.
+        """
+        # timeout = self.idle()
+        # app.platform_event_loop.set_timer(self._blocking_timer, timeout)
+        raise NotImplementedError
+
+    def exit_blocking(self):
+        # app.platform_event_loop.set_timer(None, None)
+        raise NotImplementedError
+
+    def _blocking_timer(self):
+        # timeout = self.idle()
+        # app.platform_event_loop.set_timer(self._blocking_timer, timeout)
+        raise NotImplementedError

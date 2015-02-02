@@ -1,4 +1,3 @@
-import pygame2
 from PIL import Image
 from . import ImageLoaderBase, ImageData
 
@@ -6,7 +5,6 @@ __all__ = ['ImageLoaderPyglet']
 
 
 class ImageLoader(ImageLoaderBase):
-
     @staticmethod
     def load(filename, namehint=None):
         image = Image.open(filename)

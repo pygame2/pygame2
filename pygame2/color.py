@@ -36,6 +36,7 @@ class Color:
 
         args (string): HTML or hex color string.  See string_to_color().
     """
+
     def __init__(self, *args):
         self._length = 4
         if len(args) == 4:
@@ -76,8 +77,8 @@ class Color:
         if self.length == 1:
             return self.r
 
-    #def __hash__(self):
-    #    return self.__index__()
+    # def __hash__(self):
+    # return self.__index__()
 
     def __iter__(self):
         yield self.r
@@ -117,14 +118,14 @@ class Color:
     def __eq__(self, color):
         if isinstance(color, (tuple, Color, Color)):
             return self.r == color[0] and self.g == color[1] and \
-                 self.b == color[2] and self.a == color[3]
+                   self.b == color[2] and self.a == color[3]
         else:
             return False
 
     def __ne__(self, color):
         if isinstance(color, (tuple, Color, Color)):
             return self.r != color[0] or self.g != color[1] or \
-                 self.b != color[2] or self.a != color[3]
+                   self.b != color[2] or self.a != color[3]
         else:
             return True
 
@@ -226,7 +227,7 @@ class Color:
         ::
 
             r -> int"""
-        if type(val) not in(int, long):
+        if type(val) not in (int, long):
             raise TypeError("value must be an int")
         if val < 0 or val > 255:
             raise ValueError("The value must be in the range [0; 255]")
@@ -246,7 +247,7 @@ class Color:
         ::
 
             g -> int"""
-        if type(val) not in(int, long):
+        if type(val) not in (int, long):
             raise TypeError("value must be an int")
         if val < 0 or val > 255:
             raise ValueError("The value must be in the range [0; 255]")
@@ -266,7 +267,7 @@ class Color:
         ::
 
             b -> int"""
-        if type(val) not in(int, long):
+        if type(val) not in (int, long):
             raise TypeError("value must be an int")
         if val < 0 or val > 255:
             raise ValueError("The value must be in the range [0; 255]")
@@ -286,7 +287,7 @@ class Color:
         ::
 
             a -> int"""
-        if type(val) not in(int, long):
+        if type(val) not in (int, long):
             raise TypeError("value must be an int")
         if val < 0 or val > 255:
             raise ValueError("The value must be in the range [0; 255]")
@@ -320,7 +321,7 @@ class Color:
         a = an * 100.0
 
         if maxv == minv:
-            return(h, s, v, a)
+            return (h, s, v, a)
         s = 100.0 * (maxv - minv) / maxv
 
         if maxv == rn:
@@ -348,7 +349,7 @@ class Color:
         differ slightly from what you might expect."""
         h, s, v, a = value
         for x in (h, s, v, a):
-            if type(x) not in(int, long, float):
+            if type(x) not in (int, long, float):
                 raise TypeError("HSVA values must be of type float")
         if not (0 <= s <= 100) or not (0 <= v <= 100) or \
                 not (0 <= a <= 100) or not (0 <= h <= 360):
@@ -418,7 +419,7 @@ class Color:
         a = an * 100.0
 
         if maxv == minv:
-            return(h, s, l, a)
+            return (h, s, l, a)
 
         if l <= 50.0:
             s = diff / (maxv + minv) * 100.0
@@ -545,7 +546,7 @@ class Color:
         i2 = (rn - bn) / 2.0
         i3 = (2 * gn - rn - bn) / 4.0
 
-        return(i1, i2, i3)
+        return (i1, i2, i3)
 
     @i1i2i3.setter
     def i1i2i3(self, value):
@@ -650,7 +651,7 @@ class Color:
 
 
 def gamma_decode(color, gamma):
-    corrected = round(255 * pow(color/255, gamma))
+    corrected = round(255 * pow(color / 255, gamma))
     return max(min(int(corrected), 255), 0)
 
 
@@ -661,12 +662,12 @@ def is_rgb_color(v):
     try:
         if hasattr(v, "r") and hasattr(v, "g") and hasattr(v, "b"):
             if 0 <= int(v.r) <= 255 and 0 <= int(v.g) <= 255 and \
-                    0 <= v.b <= 255:
+                                    0 <= v.b <= 255:
                 return True
 
         if len(v) >= 3:
             if 0 <= int(v[0]) <= 255 and 0 <= int(v[1]) <= 255 and \
-                    0 < int(v[2]) < 255:
+                                    0 < int(v[2]) < 255:
                 return True
         return False
     except (TypeError, ValueError):
@@ -731,7 +732,7 @@ def string_to_color(s):
     if type(s) is not str:
         raise TypeError("s must be a string")
 
-    if not(s.startswith("#") or s.startswith("0x")):
+    if not (s.startswith("#") or s.startswith("0x")):
         raise ValueError("value is not Color-compatible")
 
     if s.startswith("#"):
@@ -773,7 +774,7 @@ def convert_to_color(v):
     r, g, b, a = 0, 0, 0, 0
     if hasattr(v, "r") and hasattr(v, "g") and hasattr(v, "b"):
         if 0 <= int(v.r) <= 255 and 0 <= int(v.g) <= 255 and \
-                0 <= v.b <= 255:
+                                0 <= v.b <= 255:
             r = int(v.r)
             g = int(v.g)
             b = int(v.b)
@@ -790,7 +791,7 @@ def convert_to_color(v):
     if length < 3:
         raise ValueError("value is not Color-compatible")
     if 0 <= int(v[0]) <= 255 and 0 <= int(v[1]) <= 255 and \
-            0 <= int(v[2]) <= 255:
+                            0 <= int(v[2]) <= 255:
         r = int(v[0])
         g = int(v[1])
         b = int(v[2])

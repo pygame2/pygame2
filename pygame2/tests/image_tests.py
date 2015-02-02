@@ -23,7 +23,6 @@ default_filename = default_generic_filename + '.png'
 
 
 class ImageTests(TestCase):
-
     @classmethod
     def setUpClass(cls):
         script_path = os.path.realpath(__file__)
@@ -39,4 +38,4 @@ class ImageTests(TestCase):
         self.assertGreater(surface.get_height(), 0)
 
 # def test_frombuffer(self):
-#         self.fail()
+# self.fail()

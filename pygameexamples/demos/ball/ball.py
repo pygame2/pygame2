@@ -31,18 +31,23 @@ while 1:
 
 import pygame2
 
+
+queue = pygame2.core.platform.get_platform_event_queue()
+queue.start()
+
 size = width, height = 800, 600
-window = pygame2.get_display().create_window(size=size)
+window = pygame2.core.platform.create_window(size=size)
 group = pygame2.group.SpriteGroup()
 
 speed = [10, 10]
 ball_image = pygame2.core.image.load("ball.gif")
 ball_sprite = pygame2.sprite.Sprite(ball_image)
+ball_sprite.rect = pygame2.Rect(0, 0, ball_image.width, ball_image.height)
 
 group.add(ball_sprite)
 
 while 1:
-    pygame2.event.pump()
+    queue.get()
 
     rect = ball_sprite.rect
     ball_sprite.rect = rect.move(speed)
@@ -52,3 +57,4 @@ while 1:
         speed[1] = -speed[1]
 
     group.draw()
+    window.flip()

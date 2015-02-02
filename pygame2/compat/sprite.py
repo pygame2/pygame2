@@ -106,7 +106,8 @@ class Sprite(object):
         """remove the sprite from groups
         Sprite.remove(*groups): return None
 
-        Any number of Group instances can be passed as arguments. The Sprite will
+        Any number of Group instances can be passed as arguments. The Sprite
+        will
         be removed from the Groups it is currently a member of.
         """
         has = self.__g.__contains__
@@ -142,7 +143,8 @@ class Sprite(object):
         Sprite.kill(): return None
 
         The Sprite is removed from all the Groups that contain it. This won't
-        change anything about the state of the Sprite. It is possible to continue
+        change anything about the state of the Sprite. It is possible to
+        continue
         to use the Sprite after this method has been called, including adding it
         to Groups.
         """
@@ -168,7 +170,7 @@ class Sprite(object):
 
     def __repr__(self):
         return "<%s sprite(in %d groups)>" % (
-        self.__class__.__name__, len(self.__g))
+            self.__class__.__name__, len(self.__g))
 
 
 class DirtySprite(Sprite):
@@ -220,12 +222,13 @@ class DirtySprite(Sprite):
 
     visible = property(lambda self: self._get_visible(), \
                        lambda self, value: self._set_visible(value), \
-                       doc="you can make this sprite disappear without removing it from the group,\n" +
+                       doc="you can make this sprite disappear without "
+                           "removing it from the group,\n" +
                            "values 0 for invisible and 1 for visible")
 
     def __repr__(self):
         return "<%s DirtySprite(in %d groups)>" % (
-        self.__class__.__name__, len(self.groups()))
+            self.__class__.__name__, len(self.groups()))
 
 
 class AbstractGroup(object):
@@ -697,7 +700,7 @@ class LayeredUpdates(AbstractGroup):
         return sprites
 
 
-    #---# layer methods
+    # ---# layer methods
     def layers(self):
         """returns a list of layers defined (unique), sorted from botton up.
         LayeredUpdates.layers(): return layers
@@ -965,7 +968,8 @@ def collide_circle(left, right):
     except AttributeError:
         rightrect = right.rect
         rightradiussquared = (
-                             rightrect.width ** 2 + rightrect.height ** 2 ) / 4
+                                 rightrect.width ** 2 + rightrect.height ** 2
+                             ) / 4
     return distancesquared < leftradiussquared + rightradiussquared
 
 
@@ -1022,19 +1026,22 @@ class collide_circle_ratio(object):
                 halfratio = self.halfratio
                 rightrect = right.rect
                 rightradiussquared = (
-                                     rightrect.width ** 2 + rightrect.height ** 2) * halfratio
+                                         rightrect.width ** 2 +
+                                         rightrect.height ** 2) * halfratio
         else:
             halfratio = self.halfratio
             leftrect = left.rect
             leftradiussquared = (
-                                leftrect.width ** 2 + leftrect.height ** 2) * halfratio
+                                    leftrect.width ** 2 + leftrect.height **
+                                    2) * halfratio
 
             if hasattr(right, "radius"):
                 rightradiussquared = (right.radius * ratio) ** 2
             else:
                 rightrect = right.rect
                 rightradiussquared = (
-                                     rightrect.width ** 2 + rightrect.height ** 2) * halfratio
+                                         rightrect.width ** 2 +
+                                         rightrect.height ** 2) * halfratio
         return distancesquared < leftradiussquared + rightradiussquared
 
 
@@ -1067,7 +1074,8 @@ def collide_mask(left, right):
 
 def spritecollide(sprite, group, dokill, collided=None):
     """find Sprites in a Group that intersect another Sprite
-    pygame.sprite.spritecollide(sprite, group, dokill, collided = None): return Sprite_list
+    pygame.sprite.spritecollide(sprite, group, dokill, collided = None):
+    return Sprite_list
 
     Return a list containing all Sprites in a Group that intersect with another
     Sprite. Intersection is determined by comparing the Sprite.rect attribute
@@ -1076,10 +1084,13 @@ def spritecollide(sprite, group, dokill, collided=None):
     The dokill argument is a bool. If set to True, all Sprites that collide
     will be removed from the Group.
 
-    The collided argument is a callback function used to calculate if two sprites
+    The collided argument is a callback function used to calculate if two
+    sprites
     are colliding. it should take two sprites as values, and return a bool
-    value indicating if they are colliding. If collided is not passed, all sprites
-    must have a "rect" value, which is a rectangle of the sprite area, which will
+    value indicating if they are colliding. If collided is not passed,
+    all sprites
+    must have a "rect" value, which is a rectangle of the sprite area,
+    which will
     be used to calculate the collision.
     """
     crashed = []

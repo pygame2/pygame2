@@ -63,7 +63,6 @@
 
 
 class Rect:
-
     def __init__(self, *args):
         """
         Rect(left, top, width, height) -> Rect
@@ -102,8 +101,8 @@ class Rect:
             # a rect object must support slicing, but python throws
             # an exception with using the the modulo operator on a slice.
             # this is just a hack...for now!
-            #return self[index]      # max recursion error
-            #return self[index % 4]  # type error
+            # return self[index]      # max recursion error
+            # return self[index % 4]  # type error
             return [self.left, self.top, self.width, self.height][index]
 
     def __iter__(self):
@@ -114,7 +113,7 @@ class Rect:
 
     def __repr__(self):
         return "pygame2.Rect(left=%.2f, top=%.2f, width=%.2f, height=%.2f)" % \
-            (self.left, self.top, self.width, self.height)
+               (self.left, self.top, self.width, self.height)
 
     def __eq__(self, other):
         return list(self) == list(other)
@@ -442,7 +441,8 @@ class Rect:
 
     def unionall_ip(self, other_rects):
         """
-        The same as the ``Rect.unionall()`` method, but mutates the rect instance.
+        The same as the ``Rect.unionall()`` method, but mutates the rect
+        instance.
         """
         for rect in other_rects:
             self.union_ip(rect)
@@ -483,9 +483,9 @@ class Rect:
         Returns true when the argument is completely inside the Rect.
         """
         return self.top <= other_rect.top \
-            and self.left <= other_rect.left \
-            and self.right >= other_rect.right \
-            and self.bottom >= other_rect.bottom
+               and self.left <= other_rect.left \
+               and self.right >= other_rect.right \
+               and self.bottom >= other_rect.bottom
 
     def collidepoint(self, *args):
         """
@@ -499,9 +499,9 @@ class Rect:
             # x, y, ...
             x, y = args[0:2]
         return x >= self.left \
-            and y >= self.top \
-            and x <= self.right \
-            and y <= self.bottom
+               and y >= self.top \
+               and x <= self.right \
+               and y <= self.bottom
 
     def colliderect(self, other_rect):
         """
@@ -509,9 +509,9 @@ class Rect:
         top+bottom or left+right edges).
         """
         return self.left < other_rect.right \
-            and self.top < other_rect.bottom \
-            and self.right > other_rect.left \
-            and self.bottom > other_rect.top
+               and self.top < other_rect.bottom \
+               and self.right > other_rect.left \
+               and self.bottom > other_rect.top
 
     def collidelist(self, other_rects):
         """

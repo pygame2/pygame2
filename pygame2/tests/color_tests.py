@@ -14,11 +14,12 @@ unknown licence, assuming LGPL
 # rgba_vals = [0, 1, 62, 63, 126, 127, 255]
 
 # rgba_combinations = [(r, g, b, a) for r in rgba_vals
-#                      for g in rgba_vals
-#                      for b in rgba_vals
+# for g in rgba_vals
+# for b in rgba_vals
 #                      for a in rgba_vals]
 
-# # ##############################################################################
+# #
+# ##############################################################################
 
 # def rgba_combos_Color_generator():
 #     for rgba in rgba_combinations:
@@ -359,7 +360,8 @@ unknown licence, assuming LGPL
 #         self.assertRaises(ValueError, c.set_length, pow(2, long_(33)))
 
 #     def test_case_insensitivity_of_string_args(self):
-#         self.assertEquals(pygame2.color.Color('red'), pygame2.color.Color('Red'))
+#         self.assertEquals(pygame2.color.Color('red'), pygame2.color.Color(
+# 'Red'))
 
 #     def test_color(self):
 #         c = pygame2.Color(10, 20, 30, 40)
@@ -696,7 +698,8 @@ unknown licence, assuming LGPL
 #     def test_i1i2i3__sanity_testing_converted_should_not_raise(self):
 #         self.colorspaces_converted_should_not_raise('i1i2i3')
 
-#     ############################################################################
+#
+# ############################################################################
 
 #     def colorspaces_converted_should_equate_bar_rounding(self, prop):
 #         for c in rgba_combos_Color_generator():
@@ -725,10 +728,12 @@ unknown licence, assuming LGPL
 #     def test_cmy__sanity_testing_converted_should_equate_bar_rounding(self):
 #         self.colorspaces_converted_should_equate_bar_rounding('cmy')
 
-#     def test_i1i2i3__sanity_testing_converted_should_equate_bar_rounding(self):
+#     def test_i1i2i3__sanity_testing_converted_should_equate_bar_rounding(
+# self):
 #         self.colorspaces_converted_should_equate_bar_rounding('i1i2i3')
 
-#     ################################################################################
+#
+# ################################################################################
 
 #     def test_correct_gamma__verified_against_python_implementation(self):
 #         """|tags:slow|"""
@@ -761,7 +766,8 @@ unknown licence, assuming LGPL
 #         c1_frompickle = pickle.loads(pickle_string)
 #         self.assertEqual(c1, c1_frompickle)
 
-#     ############################################################################
+#
+# ############################################################################
 #     # only available if ctypes module is also available
 
 #     def test_arraystruct(self):
@@ -819,7 +825,8 @@ unknown licence, assuming LGPL
 #                 if 0 <= index < 4:
 #                     self.items[index] = value
 #                 else:
-#                     raise IndexError("valid index values are between 0 and 3: "
+#                     raise IndexError("valid index values are between 0 and
+# 3: "
 #                                      "got {}".format(index))
 
 #         c = pygame2.Color(50, 100, 150, 200)

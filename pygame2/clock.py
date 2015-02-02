@@ -78,10 +78,10 @@ class Scheduler:
         #
         # 0                          interval
         # |--------------------------|
-        #   5  3   6   2   7  4  8   1          Order of search
+        # 5  3   6   2   7  4  8   1          Order of search
         #
         # i.e., first scheduled at interval,
-        #       then at            interval/2
+        # then at            interval/2
         #       then at            interval/4
         #       then at            interval*3/4
         #       then at            ...
@@ -149,7 +149,7 @@ class Scheduler:
         """
         last_ts = self._get_nearest_ts()
         if soft:
-            assert(delay > 0.0)
+            assert (delay > 0.0)
             next_ts = self._get_soft_next_ts(last_ts, delay)
             last_ts = next_ts - delay
         next_ts = last_ts + delay
@@ -172,7 +172,8 @@ class Scheduler:
         Will call any scheduled functions that have elapsed.
 
         :rtype: float
-        :return: The number of time units since the last "tick", or 0 if this was
+        :return: The number of time units since the last "tick", or 0 if this
+        was
                  the first tick.
         """
         delta_t = self.set_time(self._time())
@@ -339,6 +340,7 @@ class Scheduler:
                 The function to remove from the schedule.
 
         """
+
         def remove(list_):
             resort = False
             remove_ = list_.remove

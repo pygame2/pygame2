@@ -1,6 +1,7 @@
 class Node:
     """GameTree Node
     """
+
     def __init__(self):
         self._children = set()
         self._order = list()

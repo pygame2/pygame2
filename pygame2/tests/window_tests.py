@@ -10,13 +10,12 @@ logger = getLogger()
 
 
 class DisplayTests(TestCase):
-
     def setUp(self):
-        self.window = window.Window()
+        self.window = window.WindowBase()
 
     # def test_init(self):
-    #     """init is a noop"""
-    #     self.assertIsNone(self.window.init())
+    # """init is a noop"""
+    # self.assertIsNone(self.window.init())
 
     @skip("TODO: this test should target the pygame window provider only")
     @patch("pygame2.window.pyglet")
@@ -28,9 +27,9 @@ class DisplayTests(TestCase):
         self.assertEqual(self.window.Window._instance.get_resolution(), res)
 
         # make sure there can only be one instance of the display
-        one = window.Window(None)
-        two = window.Window(None)
-        three = window.Window(None)
+        one = window.WindowBase(None)
+        two = window.WindowBase(None)
+        three = window.WindowBase(None)
         self.assertIs(one, two)
         self.assertIs(two, three)
         self.assertIs(one, three)
@@ -60,6 +59,7 @@ class DisplayTests(TestCase):
         # actual = self.window.set_fullscreen.call_args_list
         # self.assertEqual(expected, actual)
 
+    @skip('Should only test the host layer')
     def test_flip(self):
         self.assertIsNone(self.window.flip())
 
@@ -77,53 +77,53 @@ class DisplayTests(TestCase):
         screen = self.window.set_mode((0, 0))
         self.assertIs(screen, self.window.get_surface())
 
-    # def test_quit(self):
-    #     self.fail("test not implemented")
+        # def test_quit(self):
+        #     self.fail("test not implemented")
 
-    # def test_get_init(self):
-    #     self.fail("test not implemented")
+        # def test_get_init(self):
+        #     self.fail("test not implemented")
 
-    # def test_get_surface(self):
-    #     self.fail("test not implemented")
+        # def test_get_surface(self):
+        #     self.fail("test not implemented")
 
-    # def test_get_driver(self):
-    #     self.fail("test not implemented")
+        # def test_get_driver(self):
+        #     self.fail("test not implemented")
 
-    # def test_Info(self):
-    #     self.fail("test not implemented")
+        # def test_Info(self):
+        #     self.fail("test not implemented")
 
-    # def test_get_wm_info(self):
-    #     self.fail("test not implemented")
+        # def test_get_wm_info(self):
+        #     self.fail("test not implemented")
 
-    # def test_list_modes(self):
-    #     self.fail("test not implemented")
+        # def test_list_modes(self):
+        #     self.fail("test not implemented")
 
-    # def test_mode_ok(self):
-    #     self.fail("test not implemented")
+        # def test_mode_ok(self):
+        #     self.fail("test not implemented")
 
-    # def test_gl_get_attribute(self):
-    #     self.fail("test not implemented")
+        # def test_gl_get_attribute(self):
+        #     self.fail("test not implemented")
 
-    # def test_gl_set_attribute(self):
-    #     self.fail("test not implemented")
+        # def test_gl_set_attribute(self):
+        #     self.fail("test not implemented")
 
-    # def test_get_active(self):
-    #     self.fail("test not implemented")
+        # def test_get_active(self):
+        #     self.fail("test not implemented")
 
-    # def test_iconify(self):
-    #     self.fail("test not implemented")
+        # def test_iconify(self):
+        #     self.fail("test not implemented")
 
-    # def test_toggle_fullscreen(self):
-    #     self.fail("test not implemented")
+        # def test_toggle_fullscreen(self):
+        #     self.fail("test not implemented")
 
-    # def test_set_gamma(self):
-    #     self.fail("test not implemented")
+        # def test_set_gamma(self):
+        #     self.fail("test not implemented")
 
-    # def test_set_gamma_ramp(self):
-    #     self.fail("test not implemented")
+        # def test_set_gamma_ramp(self):
+        #     self.fail("test not implemented")
 
-    # def test_set_icon(self):
-    #     self.fail("test not implemented")
+        # def test_set_icon(self):
+        #     self.fail("test not implemented")
 
-    # def test_set_palette(self):
-    #     self.fail("test not implemented")
+        # def test_set_palette(self):
+        #     self.fail("test not implemented")

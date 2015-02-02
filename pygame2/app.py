@@ -7,7 +7,7 @@
 * has clock/scheduler
 * handles screen/window/display updating
 """
-from pygame2.event import EventDispatcher, EventQueue
+from pygame2.event import EventDispatcher
 
 
 class App(EventDispatcher):

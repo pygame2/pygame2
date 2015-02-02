@@ -1,17 +1,12 @@
 from unittest import TestCase
-from logging import getLogger
-
-import pygame2
-from pygame2 import time
-from pygame2.time import Clock
 
 
 class TimeTests(TestCase):
     pass
 
     # def setUp(self):
-    #     # self.assertTrue(pygame2.init())
-    #     self.clock = Clock()
+    # # self.assertTrue(pygame2.init())
+    # self.clock = Clock()
     #
     # def test_get_ticks(self):
     #     # ticks = self.clock.get_ticks()

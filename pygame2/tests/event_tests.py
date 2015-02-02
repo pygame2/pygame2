@@ -13,8 +13,8 @@ event_tests.py
 
 # class EventTests(TestCase):
 
-#     def setUp(self):
-#         pygame2.display.init()
+# def setUp(self):
+# pygame2.display.init()
 #         pygame2.event.clear()
 #         self.assertFalse(pygame2.event.get())
 
@@ -98,7 +98,8 @@ event_tests.py
 #         pygame2.event.set_blocked(self.test_type)
 #         pygame2.event.set_blocked(None)
 #         self.assertFalse(pygame2.event.get_blocked(self.test_type))
-#         # TODO: iterate over all know event types an verify they are not blocked
+#         # TODO: iterate over all know event types an verify they are not
+# blocked
 
 #     def test_set_allowed_type(self):
 #         pygame2.event.set_allowed(self.test_type)

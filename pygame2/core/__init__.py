@@ -4,9 +4,9 @@ do magic here to load the best available loaders for the pygame2 core
 core_modules = dict()
 core_providers = dict()
 
-
+from . import audio
 from . import image
-
+from . import platform
 
 import logging
 
@@ -19,13 +19,16 @@ def load_modules():
     def iterate_providers():
         for provider in providers:
             path = 'pygame2.core.{}.{}'.format(name, provider)
-            logger.debug("imported: %s", path)
+            # TODO: change warn to debug
             try:
                 yield importlib.import_module(path)
-            except:
-                logger.debug('cannot import {}'.format(path))
+                logger.warn("imported: %s", path)
+            except ImportError:
+                logger.warn('cannot import %s', path)
+                pass
 
-    for name, providers in core_modules.items():
+    for name in list(core_modules.keys()):
+        providers = core_modules[name]
         core_providers[name] = list(iterate_providers())
 
 

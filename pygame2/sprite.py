@@ -1,4 +1,7 @@
-class Sprite:
+from pygame2.event import EventDispatcher
+
+
+class Sprite(EventDispatcher):
     """simple base class for visible game objects
     pygame.sprite.Sprite(*groups): return Sprite
 
@@ -38,7 +41,8 @@ class Sprite:
         Sprite.kill(): return None
 
         The Sprite is removed from all the Groups that contain it. This won't
-        change anything about the state of the Sprite. It is possible to continue
+        change anything about the state of the Sprite. It is possible to
+        continue
         to use the Sprite after this method has been called, including adding it
         to Groups.
         """

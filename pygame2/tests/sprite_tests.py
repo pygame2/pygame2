@@ -38,7 +38,7 @@ class GroupTests(unittest.TestCase):
         self.assertEqual(len(self.g.sprites()), 0)
 
     # def test_copy(self):
-    #     self.fail()
+    # self.fail()
 
     def test_add(self):
         s = Mock()

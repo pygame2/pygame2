@@ -9,9 +9,23 @@ from . import surface
 from . import clock
 from . import core
 
-def init():
-    pass
 
+# TODO: MAKE SURE THIS STUFF ISN'T CALLED A BUNCH OF TIMES
+def get_args():
+    from argparse import ArgumentParser
+    import logging
 
-def quit():
-    pass
+    parser = ArgumentParser(prog="pygame2", description="pygame2 init")
+    parser.add_argument(
+        "--log-level",
+        choices=["DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"],
+        default="WARNING", help="Verbosity of logging output")
+
+    args = parser.parse_args()
+
+    # logger = logging.getLogger("pygame2.__init__")
+    logging.basicConfig(
+        level=getattr(logging, args.log_level),
+        format="%(name)s:%(filename)s:%(lineno)d:%(levelname)s: %(message)s")
+
+    # get_args()
