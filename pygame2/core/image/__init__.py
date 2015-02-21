@@ -94,7 +94,7 @@ def load(filename):
     """
     :param filename:Load an Image
 
-    :return: ImageData instance
+    :return: Surface instance
     """
     from pygame2.core import core_providers
 

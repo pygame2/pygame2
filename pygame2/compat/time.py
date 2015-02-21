@@ -1,7 +1,7 @@
 from __future__ import absolute_import
 import time
 
-__all__ = ['Clock', 'get_ticks', 'wait', 'delay', 'set_timer']
+__all__ = ('Clock', 'get_ticks', 'wait', 'delay', 'set_timer')
 
 
 # Conversions

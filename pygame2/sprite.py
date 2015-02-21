@@ -3,12 +3,6 @@ from pygame2.event import EventDispatcher
 
 class Sprite(EventDispatcher):
     """simple base class for visible game objects
-    pygame.sprite.Sprite(*groups): return Sprite
-
-    The base class for visible game objects. Derived classes will want to
-    override the Sprite.update() and assign a Sprite.image and
-    Sprite.rect attributes.  The initializer can accept any number of
-    Group instances to be added to.
 
     When subclassing the Sprite, be sure to call the base initializer before
     adding the Sprite to Groups.

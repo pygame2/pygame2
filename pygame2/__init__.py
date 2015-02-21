@@ -2,12 +2,14 @@ from .rect import Rect
 from .surface import Surface
 
 # "required" modules
+from . import clock
+from . import core
 from . import event
+from . import gl
+from . import graphics
 from . import group
 from . import sprite
 from . import surface
-from . import clock
-from . import core
 
 
 # TODO: MAKE SURE THIS STUFF ISN'T CALLED A BUNCH OF TIMES

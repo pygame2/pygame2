@@ -1,10 +1,28 @@
-import pyglet
+"""
+pygame2 image abstractions
+ImageData => data that represents image in variety of formats
+             able to be converted into other formats
+Surface   => contains ImageData, able to be 'drawn' onto screen
+             will include some warnings if manually manipulated
+Sprite    => contains Surface, able to be manipulated easily
+             able to live in groups and batches
+Animation => contains Several surfaces, operated like Sprite
+
+future:
+As images are loaded from disk, they will be converted to a
+common pixel format, and grouped into large textures.
+
+It will be up to the programmer to give pygame2 hints which
+images should be shared on a texture, and it will give a
+performance penalty if commonly-used-together textures are
+often not drawn together.
+"""
+
 from pygame2.rect import Rect
-from pyglet.image import ImageData, SolidColorImagePattern
 from threading import Lock
 
 
-__all__ = ['SubSurfaceData', 'Surface']
+__all__ = ('SubSurfaceData', 'Surface')
 
 
 class SubSurfaceData:
@@ -16,7 +34,7 @@ class Surface:
         w, h = (int(i) for i in size)
         self._width = w
         self._height = h
-        self._imagedata = pyglet.image.create(w, h)
+        self._imagedata = None
         self._lock = Lock()
 
     def upload_to_gpu(self):
@@ -41,15 +59,7 @@ class Surface:
         self._lock.release()
 
     def fill(self, color, rect=None, special_flags=0):
-        with self._lock:
-            # TODO: this needs to be replaced with a proper color class
-            if len(color) == 3:
-                color = color[0], color[1], color[2], 0
-            if rect is None:
-                patt = SolidColorImagePattern(color)
-                self._imagedata = patt.create_image(self._width, self._height)
-            else:
-                raise NotImplementedError
+        pass
 
     def get_rect(self, **kwargs):
         return Rect(0, 0, self._width, self._height)

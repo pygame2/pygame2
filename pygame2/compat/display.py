@@ -6,7 +6,7 @@ import pyglet
 import pyglet.window
 from pyglet import gl
 
-__all__ = ['PygameDisplay',
+__all__ = ('PygameDisplay',
            'init',
            'get_window',
            'set_mode',
@@ -17,7 +17,7 @@ __all__ = ['PygameDisplay',
            'flip',
            'get_surface',
            'quit',
-           'get_init']
+           'get_init')
 
 
 class SingletonMetaClass(type):

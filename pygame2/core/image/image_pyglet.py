@@ -1,7 +1,7 @@
 import pyglet
 from . import ImageLoaderBase, ImageData
 
-__all__ = ['ImageLoader']
+__all__ = ('ImageLoader', )
 
 
 class ImageLoader(ImageLoaderBase):

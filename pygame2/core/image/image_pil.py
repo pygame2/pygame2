@@ -1,7 +1,7 @@
 from PIL import Image
 from . import ImageLoaderBase, ImageData
 
-__all__ = ['ImageLoaderPyglet']
+__all__ = ('ImageLoaderPyglet', )
 
 
 class ImageLoader(ImageLoaderBase):

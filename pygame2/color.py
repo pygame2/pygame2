@@ -3,9 +3,9 @@
 from math import floor, pow
 import re
 
-__all__ = ["Color", "gamma_decode", "is_rgb_color", "is_rgba_color",
+__all__ = ("Color", "gamma_decode", "is_rgb_color", "is_rgba_color",
            "argb_to_color", "ARGB", "rgba_to_color", "RGBA", "string_to_color",
-           "convert_to_color", "COLOR"]
+           "convert_to_color", "COLOR")
 
 long = int
 

@@ -4,6 +4,8 @@ work with the pyglet backend
 """
 from collections import OrderedDict
 from pygame2.event import EventDispatcher
+from pygame2.graphics.vbo import VertexBatch
+from pygame2.gl import *
 
 
 class SpriteGroupBase(EventDispatcher):
@@ -158,12 +160,18 @@ class SpriteGroupBase(SpriteGroupBase):
 
 
 class RenderGroup(SpriteGroupBase):
-    """
-    As is, this sprite/group implementation will only
-    work with the pyglet backend
+    """ A group that contains sprites with identical OpenGL state.
+
+    Sprites with the same state will be drawn together
+    for better performance.
     """
     pass
 
 
 class SpriteGroup(RenderGroup):
-    pass
+    def __init__(self):
+        super().__init__()
+        self.vertex_group = VertexBatch()
+
+    def draw(self):
+        pass

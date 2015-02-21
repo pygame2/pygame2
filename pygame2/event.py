@@ -32,14 +32,13 @@ import pygame2
 import weakref
 
 
-__all__ = [
+__all__ = (
     "EventType",
     "Event",
     "PlatformEventQueueBase",
     "EventLoop",
     "EventDispatcher",
-    "NoHandlerException"
-]
+    "NoHandlerException")
 
 logger = logging.getLogger("pygame2.event")
 
