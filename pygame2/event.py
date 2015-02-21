@@ -276,16 +276,6 @@ class PlatformEventQueueBase(EventDispatcher):
         event of type pygame.NOEVENT will be returned immediately. The returned
         event is removed from the queue.
 
-        This can only be called from the thread that has set the video mode.
-
-        poll() is the favored way of receiving system events since it can be
-        done
-        from the main loop and does not suspend the main loop while waiting
-        on any
-        event to be posted.
-
-        TODO: how to handle NOEVENT?  None?
-
         :return: event
         :rtype: EventType
         """
@@ -300,8 +290,7 @@ class PlatformEventQueueBase(EventDispatcher):
         function will wait until one is created. The event is removed from the
         queue once it has been returned. While the program is waiting it will
         sleep in an idle state. This is important for programs that want to
-        share
-        the system with other applications.
+        share the system with other applications.
 
         This can only be called from the thread that has set the video mode.
 
@@ -389,8 +378,9 @@ class PlatformEventQueueBase(EventDispatcher):
         default all events can be placed on the queue. It is safe to disable an
         event type multiple times.
 
-        If None is raise NotImplementedErrored as the argument, this has the opposite effect and ALL
-        of the event types are allowed to be placed on the queue.
+        If None is raise NotImplementedErrored as the argument, this has the
+        opposite effect and ALL of the event types are allowed to be placed
+        on the queue.
 
         :param event_types:
         :type event_types:
@@ -409,9 +399,8 @@ class PlatformEventQueueBase(EventDispatcher):
         default all events can be placed on the queue. It is safe to enable an
         event type multiple times.
 
-        If None is raise NotImplementedErrored as the argument, NONE of the event types are
-        allowed to
-        be placed on the queue.
+        If None is raise NotImplementedErrored as the argument, NONE of the
+        event types are allowed to be placed on the queue.
 
         :param event_types:
         :type event_types:
@@ -426,7 +415,7 @@ class PlatformEventQueueBase(EventDispatcher):
 
 
 class EventLoop(EventDispatcher):
-    """ somewhat modeled after python's asyncio
+    """ the lovechild python's asyncio and pyglet's event loop
     """
     def __init__(self):
         self.clock = None

@@ -15,7 +15,7 @@ event_tests.py
 
 # def setUp(self):
 # pygame2.display.init()
-#         pygame2.event.clear()
+# pygame2.event.clear()
 #         self.assertFalse(pygame2.event.get())
 
 #         self.test_type = pygame2.event.KEYDOWN

@@ -2,10 +2,10 @@ from .rect import Rect
 from .surface import Surface
 
 # "required" modules
+from . import app
 from . import clock
 from . import core
 from . import event
-from . import gl
 from . import graphics
 from . import group
 from . import sprite

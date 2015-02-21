@@ -10,18 +10,17 @@ class ImageLoader(ImageLoaderBase):
 
     @staticmethod
     def load(filename, namehint=None):
-        fn, ext = os.path.splitext(filename)
+        # fn, ext = os.path.splitext(filename)
         # im = pygame.image.load(filename, ext)
-
-        fmt = ''
-        if im.get_bytesize() == 3:
-            fmt = 'rgb'
-        elif im.get_bytesize() == 4:
-            fmt = 'rgba'
-        else:
-            im = im.convert(32)
-            fmt = 'rgba'
-
+        #
+        # fmt = ''
+        # if im.get_bytesize() == 3:
+        # fmt = 'rgb'
+        # elif im.get_bytesize() == 4:
+        #     fmt = 'rgba'
+        # else:
+        #     im = im.convert(32)
+        #     fmt = 'rgba'
         # data = pygame.image.tostring(im, fmt.upper())
         # return ImageData(im.get_width(), im.get_height(), fmt, data,
         #                  source=filename)

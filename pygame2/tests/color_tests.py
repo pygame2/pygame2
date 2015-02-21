@@ -16,7 +16,7 @@ unknown licence, assuming LGPL
 # rgba_combinations = [(r, g, b, a) for r in rgba_vals
 # for g in rgba_vals
 # for b in rgba_vals
-#                      for a in rgba_vals]
+# for a in rgba_vals]
 
 # #
 # ##############################################################################

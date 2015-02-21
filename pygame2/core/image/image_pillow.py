@@ -1,7 +1,12 @@
+"""
+Image loading based on Pillow
+
+Please do not use PIL
+"""
 from PIL import Image
 from . import ImageLoaderBase, ImageData
 
-__all__ = ('ImageLoaderPyglet', )
+__all__ = ('ImageLoader', )
 
 
 class ImageLoader(ImageLoaderBase):

@@ -9,7 +9,7 @@ class TimeTests(TestCase):
     # self.clock = Clock()
     #
     # def test_get_ticks(self):
-    #     # ticks = self.clock.get_ticks()
+    # # ticks = self.clock.get_ticks()
     #     #    self.assertTrue(ticks > 0)
     #     pass
     #

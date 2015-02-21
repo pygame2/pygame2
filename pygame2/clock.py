@@ -351,6 +351,7 @@ class Scheduler:
 
         remove(self._every_tick_items)
         if remove(self._scheduled_items):
+            # this will restructure the heap
             heapify(self._scheduled_items)
 
 

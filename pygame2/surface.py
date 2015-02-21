@@ -1,5 +1,6 @@
 """
 pygame2 image abstractions
+
 ImageData => data that represents image in variety of formats
              able to be converted into other formats
 Surface   => contains ImageData, able to be 'drawn' onto screen

@@ -1,6 +1,7 @@
 language: python
 python:
 - '3.4'
+#- 'pypy3'
 before_install:
 - if [ -z "$TRAVIS_TAG" ]; then export DISPLAY=:99.0; fi
 - if [ -z "$TRAVIS_TAG" ]; then sh -e /etc/init.d/xvfb start; fi
@@ -10,7 +11,7 @@ install:
 - if [ -z "$TRAVIS_TAG" ]; then pip install .; fi
 - if [ -z "$TRAVIS_TAG" ]; then pip install -r requirements.txt; fi
 notifications:
-  irc: chat.freenode.net#platakart
+  irc: chat.freenode.net#pygame2
   email:
     recipients:
     - leif.theden@gmail.com
