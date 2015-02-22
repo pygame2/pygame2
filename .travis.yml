@@ -19,10 +19,11 @@ notifications:
     on_success: always
     on_failure: always
 script: if [ -z "$TRAVIS_TAG" ]; then nosetests; fi
-after_success:
-- git remote rm origin
-- git remote add origin https://wkmanire:${GITHUBTOKEN}@github.com/wkmanire/pygame.git
-- build/release.sh $((TRAVIS_BUILD_NUMBER))
-env:
-  global:
-    secure: jrblAdTsoRwoBqjVqTXaS27fyJiUq5RdPFTnM/FCl85u/PVQrQ93wRsgliBCdTWTXa1KfOojz+6OIpLi5IzY2ndwQr2myepcpd94qVUustQmExVNVBYwMpCghvAB5Vz95ExaMq+oRbBpgUdNQQa2Hpo4OT+BTqUPWi1o2+LJvjc=
+# Need to migrate these settings to use new versions in the pygame2 repo
+#after_success:
+#- git remote rm origin
+#- git remote add origin https://wkmanire:${GITHUBTOKEN}@github.com/wkmanire/pygame.git
+#- build/release.sh $((TRAVIS_BUILD_NUMBER))
+#env:
+#  global:
+#    secure: jrblAdTsoRwoBqjVqTXaS27fyJiUq5RdPFTnM/FCl85u/PVQrQ93wRsgliBCdTWTXa1KfOojz+6OIpLi5IzY2ndwQr2myepcpd94qVUustQmExVNVBYwMpCghvAB5Vz95ExaMq+oRbBpgUdNQQa2Hpo4OT+BTqUPWi1o2+LJvjc=
