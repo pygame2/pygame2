@@ -39,6 +39,7 @@ class WindowBase(EventDispatcher):
     _default_size = 640, 480
 
     def __init__(self, **kwargs):
+        super().__init__()
 
         # scan keyword arguments and set values in our instance
         # to match, but only if they are defined by WindowBase
@@ -96,6 +97,14 @@ class WindowBase(EventDispatcher):
 
     def get_rect(self):
         return pygame2.Rect((0, 0), self._resolution)
+
+    def dispatch_events(self):
+        """Poll the operating system event queue for new events and call
+        attached event handlers.
+
+        Typical applications should use `pygame2.app.App`.
+        """
+        raise NotImplementedError('abstract')
 
     def create_renderer(self):
         """ Return a new renderer (sprite group) that draws to this window

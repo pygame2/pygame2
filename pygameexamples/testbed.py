@@ -6,7 +6,6 @@ this testbed is meant to code first, then refactor useful code
 into pygame2.  mostly, things will be moved into pygame2.graphics.
 """
 import os
-import random
 from math import cos, sin
 from math import radians
 
@@ -16,7 +15,7 @@ from pygame2.graphics import *
 import numpy
 import OpenGL
 
-OpenGL.ERROR_CHECKING = True
+OpenGL.ERROR_CHECKING = False
 from OpenGL.GL import *
 
 # http://en.wikibooks.org/wiki/OpenGL_Programming/Modern_OpenGL_Tutorial_02
@@ -101,7 +100,6 @@ def main():
     assert(get_opengl_version()[0] > 3)
 
     program_id = create_program()
-    quad_vbo = new_quad_vbo(0, 0, 2, 2)
     texture = load_texture()
     tex_coords = do_tex_coords()
 
@@ -114,11 +112,12 @@ def main():
     group.batch._attr[attr['coord2d']] = sprite.vbo
 
     # until event dispatcher is implemented
-    def f(junk):
+    def on_draw(*args, **kwargs):
         glClearColor(.98, .98, .98, 1.)
         glClear(GL_COLOR_BUFFER_BIT)
         group.draw()
-    window.on_draw = types.MethodType(f, window)
+    # window.on_draw = types.MethodType(f, window)
+    window.bind('on_draw', on_draw)
 
     # just a test, of course
     def f(dt):

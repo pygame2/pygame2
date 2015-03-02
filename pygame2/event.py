@@ -29,7 +29,6 @@ so by catering to both groups, the library is more usable.
 import queue
 import logging
 import pygame2
-import weakref
 
 
 __all__ = (
@@ -155,34 +154,45 @@ def Event(type_id, attr_dict=None, **attrs):
 class EventDispatcher:
     """
     All classes that send or receive events must inherit from this class
-
     event callbacks do not accept positional or keyword arguments
-
     if you want to pass arguments, use functools.partial
+
+    This is not the publish subscribe pattern.  The pub/sub pattern
+    dictates that all subscribes will receive messages they are
+    subscribed to.  Event dispatchers have a set order in which
+    messages are distributed and consumers have the option of
+    preventing other consumers from receiving the event.
+
+    Is this what we want?
     """
+    def __init__(self):
+        self._event_handlers = dict()
 
-    def register_event_type(self, name):
-        """register new event type
-
-        event names must start with 'on_'
-
-        :param name:
-        :type name:
-        :return:
-        :rtype:
-        """
-        verify_name(name)
-        raise NotImplementedError
-
-    def unregister_event_type(self, name):
-        """Unregister the event
-
-        :param name:
-        :type name:
-        :return:
-        :rtype:
-        """
-        raise NotImplementedError
+    # def register_event_type(self, name):
+    #     """register new event type
+    #
+    #     :param name:
+    #     :type name:
+    #     :return:
+    #     :rtype:
+    #     """
+    #     # verify_name(name)
+    #     self._event_handlers[name] = list()
+    #
+    # def unregister_event_type(self, name):
+    #     """Unregister the event
+    #
+    #     No error will be raised if the event type does not exist
+    #
+    #     :param name:
+    #     :type name:
+    #     :return:
+    #     :rtype:
+    #     """
+    #     try:
+    #         del self._event_handlers[name]
+    #     except KeyError:
+    #         pass
 
     def dispatch(self, name):
         """Dispatch a single event
@@ -193,8 +203,17 @@ class EventDispatcher:
         :rtype:
         """
         # TODO: check if event_type is valid for this instance
-        # if not valid: raise NoHandlerException
-        pass
+        # TODO: if not valid raise NoHandlerException
+        try:
+            observers = self._event_handlers[name]
+        except KeyError:
+            return
+
+        for handler in observers:
+            # handler = other.get(name, None)
+            # if handler is None:
+            #     raise NoHandlerException
+            handler()
 
     @property
     def events(self):
@@ -203,42 +222,54 @@ class EventDispatcher:
         :return:
         :rtype: list
         """
-        pass
+        return self._event_handlers.keys()
 
     def bind(self, *args, **kwargs):
         """Bind a callback to an event name
+        #
+        # self.bind(on_key_down=handle_key_down)
+        #
+        # these will do the same:
+        #     self.bind(on_mouse_move=self.on_mouse_move)
+        #     self.bind('on_mouse_move')
 
-        self.bind(on_key_down=handle_key_down)
-
-        these will do the same:
-        self.bind(on_mouse_move=self.on_mouse_move)
-        self.bind('on_mouse_move')
+        bind('event name', callback)
         """
 
-        def bind(name, callback):
-            verify_name(name)
-            assert callable(callback), '{!r} is not callable'.format(callback)
-            # TODO: search for a previous handler
-            wm = weakref.WeakMethod(callback)
-            self.bind_internal(name, wm)
+        # def bind(name, callback):
+        #     verify_name(name)
+        #     assert callable(callback), '{!r} is not callable'.format(callback)
+        #     # TODO: search for a previous handler
+        #     wm = weakref.WeakMethod(callback)
+        #     self.bind_internal(name, wm)
+        #
+        # for name in args:
+        #     callback = getattr(self, name, None)
+        #     if callback is None:
+        #         raise NoHandlerException(
+        #             'missing handler of event: {}'.format(name))
+        #     bind(name, callback)
+        #
+        # for name, callback in kwargs.items():
+        #     bind(name, callback)
 
-        for name in args:
-            callback = getattr(self, name, None)
-            if callback is None:
-                raise NoHandlerException(
-                    'missing handler of event: {}'.format(name))
-            bind(name, callback)
-
-        for name, callback in kwargs.items():
-            bind(name, callback)
+        # TODO: finalize our API
+        name, callback = args
+        self.bind_internal(name, callback)
 
     def bind_internal(self, name, callback):
         """Bind one event.
 
-        To be used internally, by pygame2.
-        has basically zero checks on the parameters, so use with caution!
+        To be used internally by pygame2.
+        has basically zero checks on the parameters,
+        so use with caution!
         """
-        pass
+        try:
+            observers = self._event_handlers[name]
+        except KeyError:
+            observers = list()
+            self._event_handlers[name] = observers
+        observers.append(callback)
 
     def unbind(self, name, callback):
         """ use weakmethods """
@@ -250,6 +281,7 @@ class PlatformEventQueueBase(EventDispatcher):
     To be extended by each host layer
     """
     def __init__(self):
+        super().__init__()
         self.event_queue = None
 
     def start(self):

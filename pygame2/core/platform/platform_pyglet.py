@@ -20,7 +20,7 @@ class PlatformEventQueue(PlatformEventQueueBase):
         self.platform_event_loop.start()
 
     def get(self, event_filter=None):
-        timeout = .1
+        timeout = .001
         self.platform_event_loop.notify()
         self.platform_event_loop.step(timeout)
         # sleep isn't implemented on os x, yet
@@ -55,3 +55,13 @@ class Window(WindowBase):
 
     def switch_to(self):
         self._window.switch_to()
+
+    def dispatch_pending_events(self):
+        queue = self._window._event_queue
+        while queue:
+            event = queue.pop(0)
+            if type(event[0]) is str:
+                self.dispatch(event[0])
+            else:
+                # win32 event
+                event[0](*event[1:])

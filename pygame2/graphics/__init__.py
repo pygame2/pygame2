@@ -224,7 +224,8 @@ class Texture:
         glBindTexture(GL_TEXTURE_2D, 0)
 
     def __del__(self):
-        print('FIXME: delete Texture')
+        # TODO: delete texture from GPU memory
+        pass
 
     def delete(self):
         glDeleteTextures(self.id)

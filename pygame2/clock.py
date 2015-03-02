@@ -44,7 +44,7 @@ class Scheduler:
         self._last_ts = -1
         self._times = collections.deque(maxlen=10)
         self._scheduled_items = list()
-        self._every_tick_items = list()
+        self._next_tick_items = list()
 
     def _get_nearest_ts(self):
         """Schedule from now, unless now is sufficiently close to last_ts, in
@@ -120,6 +120,19 @@ class Scheduler:
                 pass
 
 
+        Limitations
+        ===========
+
+        There is a hard limit of 10 items that can be scheduled on
+        every tick.  This limit reduces the power and performance
+        impact of the clock on mobile and battery operated computers.
+
+        This 10 maximum only effects callbacks scheduled with
+        repeat=True and delay=0.0.
+
+        A runtime error will be raised if the maximum is reached.
+
+
         Unscheduling
         ============
 
@@ -157,8 +170,10 @@ class Scheduler:
         interval = delay if repeat else 0.0
 
         item = ScheduledItem(func, last_ts, next_ts, interval)
-        if item.next_ts == 0:
-            self._every_tick_items.append(item)
+        if next_ts == 0.0:
+            self._next_tick_items.append(item)
+            if len(self._next_tick_items) > 10:
+                raise RuntimeError
         else:
             heappush(self._scheduled_items, item)
         return item
@@ -237,13 +252,14 @@ class Scheduler:
         result = False
 
         # handle items scheduled for each tick
-        if self._every_tick_items:
+        if self._next_tick_items:
             result = True
-            for item in list(self._every_tick_items):
+            for item in list(self._next_tick_items):
                 retval = item.func(dt)
                 # do not change the following line to "if not retval"!
+                # some items will return None, but False is a special value
                 if retval == False:
-                    self._every_tick_items.remove(item)
+                    self._next_tick_items.remove(item)
 
         # check the next scheduled item that is not called each tick
         # if it is scheduled in the future, then exit
@@ -320,7 +336,7 @@ class Scheduler:
         :return: Time until the next scheduled event in time units, or ``None``
                  if there is no event scheduled.
         """
-        if self._every_tick_items:
+        if self._next_tick_items:
             return 0.0
 
         try:
@@ -349,7 +365,7 @@ class Scheduler:
                 resort = True
             return resort
 
-        remove(self._every_tick_items)
+        remove(self._next_tick_items)
         if remove(self._scheduled_items):
             # this will restructure the heap
             heapify(self._scheduled_items)
