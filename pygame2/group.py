@@ -76,6 +76,7 @@ class SpriteGroupSetList(SpriteGroupBase):
     """
 
     def __init__(self):
+        super().__init__()
         self._members = set()
         self._order = list()
 
@@ -118,6 +119,7 @@ class SpriteGroupSetList(SpriteGroupBase):
 class SpriteGroupBase(SpriteGroupBase):
     """OrderedDict
     """
+
     def __init__(self):
         self._members = OrderedDict()
 
@@ -178,6 +180,7 @@ class Batch:
 
     Call `VertexList.delete` to remove a vertex list from the batch.
     """
+
     def __init__(self, program):
         self.program = program
         self.mode = GL_TRIANGLE_STRIP
@@ -218,7 +221,7 @@ class Batch:
         glUniform1i(uniform_id, 0)
 
         # for attr, vbo in self._attr.items():
-        #     glEnableVertexAttribArray(attr)
+        # glEnableVertexAttribArray(attr)
         #     vbo.bind()
         #     glVertexAttribPointer(attr, 3, GL_FLOAT, GL_FALSE, 0, None)
 
@@ -241,6 +244,7 @@ class Batch:
 
 class SpriteGroup(RenderGroup):
     """sprite groups share a common texture and state"""
+
     def __init__(self, program, texture):
         super().__init__()
         self.batch = Batch(program)
@@ -256,7 +260,7 @@ class SpriteGroup(RenderGroup):
         target = self.texture.target
         glEnable(target)
         glTexParameterf(target, GL_TEXTURE_MIN_FILTER, GL_LINEAR)
-        #glTexParameterf(target, GL_TEXTURE_MIN_FILTER, GL_NEAREST)
+        # glTexParameterf(target, GL_TEXTURE_MIN_FILTER, GL_NEAREST)
         #glTexParameteri(target, GL_TEXTURE_MAG_FILTER, GL_NEAREST)
 
         glDepthMask(0)  # disable writing to depth buffer

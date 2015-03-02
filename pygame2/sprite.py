@@ -9,6 +9,7 @@ class Sprite(EventDispatcher):
     """
 
     def __init__(self, *groups):
+        super().__init__()
         self._groups = set()
 
     def add_internal(self, group):

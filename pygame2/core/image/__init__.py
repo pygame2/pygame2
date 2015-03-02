@@ -103,7 +103,7 @@ class ImageData:
         # rectangle, force_rectangle)
         #
         # if self.anchor_x or self.anchor_y:
-        #     texture.anchor_x = self.anchor_x
+        # texture.anchor_x = self.anchor_x
         #     texture.anchor_y = self.anchor_y
         #
         # self.blit_to_texture(texture.target, texture.level,
@@ -132,7 +132,7 @@ class ImageData:
         # format, type = self._get_gl_format_and_type(data_format)
         # if format is None:
         # if (len(data_format) in (3, 4) and
-        #             gl_info.have_extension('GL_ARB_imaging')):
+        # gl_info.have_extension('GL_ARB_imaging')):
         #         # Construct a color matrix to convert to GL_RGBA
         #         def component_column(component):
         #             try:

@@ -82,7 +82,7 @@ class Scheduler:
         #
         # i.e., first scheduled at interval,
         # then at            interval/2
-        #       then at            interval/4
+        # then at            interval/4
         #       then at            interval*3/4
         #       then at            ...
         #

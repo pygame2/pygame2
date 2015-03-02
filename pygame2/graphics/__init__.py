@@ -205,15 +205,15 @@ class Texture:
         glPixelStorei(GL_UNPACK_ALIGNMENT, 1)
 
         glTexImage2D(
-            GL_TEXTURE_2D,     # target
-            0,                 # level, 0 = no minimap
-            GL_RGBA,           # internalformat
-            width,             # width
-            height,            # height
-            0,                 # border, always 0 in OpenGL ES
-            GL_RGBA,           # format
+            GL_TEXTURE_2D,  # target
+            0,  # level, 0 = no minimap
+            GL_RGBA,  # internalformat
+            width,  # width
+            height,  # height
+            0,  # border, always 0 in OpenGL ES
+            GL_RGBA,  # format
             GL_UNSIGNED_BYTE,  # type
-            data               # pixel data
+            data  # pixel data
         )
         self.unbind()
 

@@ -145,7 +145,7 @@ def get_init():
 
 
 # def flip():
-#     raise NotImplementedError()
+# raise NotImplementedError()
 
 
 # def update(rectangle=None):

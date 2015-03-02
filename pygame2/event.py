@@ -165,11 +165,12 @@ class EventDispatcher:
 
     Is this what we want?
     """
+
     def __init__(self):
         self._event_handlers = dict()
 
     # def register_event_type(self, name):
-    #     """register new event type
+    # """register new event type
     #
     #     :param name:
     #     :type name:
@@ -280,6 +281,7 @@ class PlatformEventQueueBase(EventDispatcher):
     """
     To be extended by each host layer
     """
+
     def __init__(self):
         super().__init__()
         self.event_queue = None
@@ -449,7 +451,9 @@ class PlatformEventQueueBase(EventDispatcher):
 class EventLoop(EventDispatcher):
     """ the lovechild python's asyncio and pyglet's event loop
     """
+
     def __init__(self):
+        super().__init__()
         self.clock = None
         self.platform_queue = None
 

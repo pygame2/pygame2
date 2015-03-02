@@ -10,7 +10,7 @@ class TimeTests(TestCase):
     #
     # def test_get_ticks(self):
     # # ticks = self.clock.get_ticks()
-    #     #    self.assertTrue(ticks > 0)
+    # #    self.assertTrue(ticks > 0)
     #     pass
     #
     # def test_wait(self):

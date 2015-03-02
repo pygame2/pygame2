@@ -4,7 +4,7 @@
 # surface = pygame2.image.load(filename)
 # self.assertIsValidSurface(surface)
 # with open(filename, 'rb') as fh:
-#         surface = pygame2.image.load(fh, filename)
+# surface = pygame2.image.load(fh, filename)
 #         self.assertIsValidSurface(surface)
 #
 # def test_load_jpg(self):

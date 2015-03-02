@@ -17,7 +17,7 @@ class ImageLoader(ImageLoaderBase):
         # if im.get_bytesize() == 3:
         # fmt = 'rgb'
         # elif im.get_bytesize() == 4:
-        #     fmt = 'rgba'
+        # fmt = 'rgba'
         # else:
         #     im = im.convert(32)
         #     fmt = 'rgba'

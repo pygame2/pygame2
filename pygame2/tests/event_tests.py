@@ -20,7 +20,7 @@ class EventDispatcherTestCase(unittest.TestCase):
         self.o = TestDispatcher()
 
     # def test_register_event_type(self):
-    #     self.o.register_event_type('test')
+    # self.o.register_event_type('test')
     #     self.assertIn('test', self.o.events)
     #     self.assertEqual(len(self.o.events), 1)
     #
@@ -47,6 +47,7 @@ class EventDispatcherTestCase(unittest.TestCase):
     def test_bind_function(self):
         def f():
             pass
+
         self.o.bind('test', f)
 
     def test_bind_method(self):

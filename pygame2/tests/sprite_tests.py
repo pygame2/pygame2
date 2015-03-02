@@ -39,7 +39,6 @@ class SpriteTests(unittest.TestCase):
 
 
 class GroupTests(unittest.TestCase):
-
     @skip("draw api not ready")
     def setUp(self):
         program = Mock()
