@@ -46,7 +46,7 @@ class Sprite(EventDispatcher):
         self._groups = set()
         self.rotation = 0
         self.vbo = None
-        self.update_vbo()
+        self.update_transform()
 
     def add_internal(self, group):
         self._groups.add(group)
@@ -67,12 +67,13 @@ class Sprite(EventDispatcher):
         """
         pass
 
-    def update_vbo(self):
+    def update_transform(self):
         """ update VBO when affected by transforms or rotations
         :return: None
         """
         # TODO: find a more elegant way to handle this
-        self.vbo = new_quad_vbo(0, 0, 2, 2, self.rotation)
+        s = self.rotation % 360 / 360.0 * 4
+        self.vbo = new_quad_vbo(0, 0, s, s, self.rotation)
 
     def kill(self):
         """remove the Sprite from all Groups

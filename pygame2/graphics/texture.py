@@ -3,17 +3,13 @@ from OpenGL.GL import *
 mipmaps = 0
 
 
-def load_texture(flip_y=False):
+def load_texture(path, flip_y=False):
     """ Texture loading with PIL
 
     :param flip_y:
     :return: pygame2.graphics.Texture
     """
-    import os
     from PIL import Image
-
-    path = os.path.join('resources', 'pygame2.png')
-
 
     image = Image.open(path)
     width, height = image.size

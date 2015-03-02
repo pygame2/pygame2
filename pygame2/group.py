@@ -198,21 +198,19 @@ class SpriteGroup(SpriteGroupBase):
     def draw(self):
         self.set_state()
 
+        # start changing the coord2d in program
+        attr = self.attr['coord2d']
+        glEnableVertexAttribArray(attr)
+
         # assumes we are just rendering 'quads'
         for sprite in self.sprites():
-            attr = self.attr['coord2d']
-            glEnableVertexAttribArray(attr)
+
+            # bind the vbo and render the group's texture to these coords
             sprite.vbo.bind()
             glVertexAttribPointer(attr, 2, GL_FLOAT, GL_FALSE, 0, None)
 
-            attr = self.attr['texcoord']
-            vbo = self._attr[attr]
-            glEnableVertexAttribArray(attr)
-            vbo.bind()
-            glVertexAttribPointer(attr, 2, GL_FLOAT, GL_FALSE, 0, None)
-
-        # draw
-        glDrawArrays(self.mode, 0, 4)
+            # draw
+            glDrawArrays(self.mode, 0, 4)
 
         self.unset_state()
 
@@ -238,10 +236,17 @@ class SpriteGroup(SpriteGroupBase):
         # glTexParameteri(target, GL_TEXTURE_MAG_FILTER, GL_NEAREST)
 
         glEnable(GL_BLEND)
-        glBlendFunc(GL_SRC_COLOR, GL_ONE_MINUS_SRC_ALPHA)
+        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA)
 
         glActiveTexture(GL_TEXTURE0)
         self.texture.bind()
+
+        # set the texture coordinates
+        attr = self.attr['texcoord']
+        vbo = self._attr[attr]
+        glEnableVertexAttribArray(attr)
+        vbo.bind()
+        glVertexAttribPointer(attr, 2, GL_FLOAT, GL_FALSE, 0, None)
 
     def unset_state(self):
         glDisable(self.texture.target)

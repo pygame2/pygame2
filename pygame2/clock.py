@@ -71,21 +71,6 @@ class Scheduler:
                     return False
             return False
 
-        # Binary division over interval:
-        #
-        # 0                          interval
-        # |--------------------------|
-        # 5  3   6   2   7  4  8   1          Order of search
-        #
-        # i.e., first scheduled at interval,
-        # then at            interval/2
-        # then at            interval/4
-        #       then at            interval*3/4
-        #       then at            ...
-        #
-        # Schedule is hopefully then evenly distributed for any interval,
-        # and any number of scheduled functions.
-
         next_ts = last_ts + interval
         if not taken(next_ts, interval / 4):
             return next_ts
@@ -121,11 +106,8 @@ class Scheduler:
         ===========
 
         There is a hard limit of 10 items that can be scheduled on
-        every tick.  This limit reduces the power and performance
+        next tick.  This limit reduces the power and performance
         impact of the clock on mobile and battery operated computers.
-
-        This 10 maximum only effects callbacks scheduled with
-        repeat=True and delay=0.0.
 
         A runtime error will be raised if the maximum is reached.
 
@@ -176,7 +158,7 @@ class Scheduler:
         return item
 
     def tick(self):
-        """Cause clock to update self and call scheduled functions.
+        """Cause clock to update and call scheduled functions.
 
         This updates the clock's internal measure of time and returns
         the difference since the last update (or since the clock was created).
@@ -354,6 +336,7 @@ class Scheduler:
             `func` : function
                 The function to remove from the schedule.
 
+        :return: None
         """
         def remove(list_):
             resort = False
