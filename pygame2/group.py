@@ -4,6 +4,7 @@ work with the pyglet backend
 """
 from collections import OrderedDict
 from pygame2.event import EventDispatcher
+from pygame2.graphics import *
 from OpenGL.GL import *
 
 
@@ -161,19 +162,18 @@ class SpriteGroupBase(SpriteGroupBase):
             self.remove_internal(sprite)
 
 
-class RenderGroup(SpriteGroupBase):
+class SpriteGroup(SpriteGroupBase):
     """ A group that contains sprites with identical OpenGL state.
 
     Sprites with the same state will be drawn together
     for better performance.
     """
-    pass
+    mode = GL_TRIANGLE_STRIP
 
-
-class Batch:
-    def __init__(self, program, mode):
+    def __init__(self, program, texture):
+        super().__init__()
         self.program = program
-        self.mode = mode
+        self.texture = texture
 
         self.attr = dict()
         for name in 'coord2d texcoord'.split():
@@ -185,7 +185,7 @@ class Batch:
         self._attr = dict()
         attr_texcoord = self.attr['texcoord']
         attr_coord2d = self.attr['coord2d']
-        self._attr[attr_texcoord] = None
+        self._attr[attr_texcoord] = generate_tex_coords()
         self._attr[attr_coord2d] = None
 
     def bind_attribute(self, name):
@@ -197,16 +197,27 @@ class Batch:
 
     def draw(self):
         self.set_state()
-        # TODO: get number of vertices to draw
-        vertices = 4
-        glDrawArrays(self.mode, 0, vertices)
-        glFlush()
+
+        # assumes we are just rendering 'quads'
+        for sprite in self.sprites():
+            attr = self.attr['coord2d']
+            glEnableVertexAttribArray(attr)
+            sprite.vbo.bind()
+            glVertexAttribPointer(attr, 2, GL_FLOAT, GL_FALSE, 0, None)
+
+            attr = self.attr['texcoord']
+            vbo = self._attr[attr]
+            glEnableVertexAttribArray(attr)
+            vbo.bind()
+            glVertexAttribPointer(attr, 2, GL_FLOAT, GL_FALSE, 0, None)
+
+        # draw
+        glDrawArrays(self.mode, 0, 4)
+
         self.unset_state()
 
     def set_state(self):
         glUseProgram(self.program)
-
-        # just hacks for now
         uniform_id = glGetUniformLocation(self.program, 'mytexture')
         glUniform1i(uniform_id, 0)
 
@@ -215,42 +226,12 @@ class Batch:
         #     vbo.bind()
         #     glVertexAttribPointer(attr, 3, GL_FLOAT, GL_FALSE, 0, None)
 
-        attr = self.attr['coord2d']
-        vbo = self._attr[attr]
-        glEnableVertexAttribArray(attr)
-        vbo.bind()
-        glVertexAttribPointer(attr, 2, GL_FLOAT, GL_FALSE, 0, None)
-
-        attr = self.attr['texcoord']
-        vbo = self._attr[attr]
-        glEnableVertexAttribArray(attr)
-        vbo.bind()
-        glVertexAttribPointer(attr, 2, GL_FLOAT, GL_FALSE, 0, None)
-
-    def unset_state(self):
-        for attrib in self.attr.values():
-            glDisableVertexAttribArray(attrib)
-
-
-class SpriteGroup(RenderGroup):
-    """sprite groups share a common texture and state"""
-
-    def __init__(self, program, texture):
-        super().__init__()
-        self.batch = Batch(program, GL_TRIANGLE_STRIP)
-        self.program = program
-        self.texture = texture
-
-    def draw(self):
-        self.set_state()
-        self.batch.draw()
-        self.unset_state()
-
-    def set_state(self):
         target = self.texture.target
         glEnable(target)
 
-        glTexParameterf(target, GL_TEXTURE_MIN_FILTER, GL_LINEAR)
+        # linear filters, not sure if needed here, since it
+        # is already set in the texture
+        # glTexParameterf(target, GL_TEXTURE_MIN_FILTER, GL_LINEAR)
 
         # uncomment below for pixelated look
         # glTexParameterf(target, GL_TEXTURE_MIN_FILTER, GL_NEAREST)
@@ -265,3 +246,6 @@ class SpriteGroup(RenderGroup):
     def unset_state(self):
         glDisable(self.texture.target)
         glDisable(GL_BLEND)
+
+        for attrib in self.attr.values():
+            glDisableVertexAttribArray(attrib)

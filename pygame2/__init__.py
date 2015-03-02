@@ -12,6 +12,11 @@ from . import sprite
 from . import surface
 
 
+# This section below disables error checking for better performance
+import OpenGL
+OpenGL.ERROR_CHECKING = False
+
+
 # TODO: MAKE SURE THIS STUFF ISN'T CALLED A BUNCH OF TIMES
 def get_args():
     from argparse import ArgumentParser

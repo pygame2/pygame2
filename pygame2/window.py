@@ -10,6 +10,7 @@ Abstract Hierarchy of Window Concepts:
 from pygame2.core import core_modules
 from pygame2.event import EventDispatcher
 import pygame2
+from OpenGL.GL import *
 
 core_modules['window'] = ('window_pyglet', 'window_pygame')
 
@@ -119,3 +120,7 @@ class WindowBase(EventDispatcher):
         """Make window current OpenGL rendering context
         """
         raise NotImplementedError
+
+    def clear(self):
+        glClearColor(.98, .98, .98, 1.)
+        glClear(GL_COLOR_BUFFER_BIT)

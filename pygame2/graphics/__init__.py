@@ -7,17 +7,41 @@ and linux.
 """
 import os
 
+import numpy
 import pygame2
 import OpenGL
 
 OpenGL.ERROR_CHECKING = True
 from OpenGL.GL import *
 
+from .texture import Texture, load_texture
+
+
 __all__ = [
     'VertexBufferObject',
     'Texture',
+    'load_texture',
     'create_program',
-    'get_opengl_version']
+    'get_opengl_version',
+    'generate_tex_coords']
+
+
+def generate_tex_coords():
+    """ Generate a VBO that describes texture coordinates.
+
+    This VBO shouldn't need to be changed.  Automatically flips images.
+
+    :return: VBO
+    """
+    quad_texcoords = numpy.array([
+        0.0, 0.0,
+        1.0, 0.0,
+        0.0, 1.0,
+        1.0, 1.0,
+    ], dtype='float32')
+
+    vbo = VertexBufferObject(quad_texcoords, GL_ARRAY_BUFFER, GL_STATIC_DRAW)
+    return vbo
 
 
 # TODO: move into gl.info?
@@ -188,45 +212,3 @@ class VertexBufferObject(AbstractBuffer):
 
 class AttribArray:
     pass
-
-
-class Texture:
-    def __init__(self, width, height, data):
-        self.target = GL_TEXTURE_2D
-
-        id = glGenTextures(1)
-        self.id = id
-
-        # TODO: check for NPOT limitations
-
-        self.bind()
-        # not sure if this belongs here or in draw
-        # glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR)
-        glPixelStorei(GL_UNPACK_ALIGNMENT, 1)
-
-        glTexImage2D(
-            GL_TEXTURE_2D,  # target
-            0,  # level, 0 = no minimap
-            GL_RGBA,  # internalformat
-            width,  # width
-            height,  # height
-            0,  # border, always 0 in OpenGL ES
-            GL_RGBA,  # format
-            GL_UNSIGNED_BYTE,  # type
-            data  # pixel data
-        )
-        self.unbind()
-
-    def bind(self):
-        glBindTexture(GL_TEXTURE_2D, self.id)
-
-    def unbind(self):
-        glBindTexture(GL_TEXTURE_2D, 0)
-
-    def __del__(self):
-        # TODO: delete texture from GPU memory
-        pass
-
-    def delete(self):
-        glDeleteTextures(self.id)
-        self.id = None

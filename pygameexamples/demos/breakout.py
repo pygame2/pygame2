@@ -174,7 +174,7 @@ pygame.display.set_caption('Breakout')
 pygame.mouse.set_visible(0)
 
 # This is a font we use to draw text on the screen (size 36)
-#font = pygame.font.Font(None, 36)
+# font = pygame.font.Font(None, 36)
 
 # Create a surface we can draw on
 background = pygame.Surface(screen.get_size())
@@ -244,7 +244,7 @@ while exit_program != True:
 
     # If we are done, print game over
     if game_over:
-        #text = font.render("Game Over", True, white)
+        # text = font.render("Game Over", True, white)
         #textpos = text.get_rect(centerx=background.get_width() / 2)
         #textpos.top = 300
         #screen.blit(text, textpos)
@@ -255,7 +255,7 @@ while exit_program != True:
         # The 'diff' lets you try to bounce the ball left or right
         # depending where on the paddle you hit it
         diff = (player.rect.x + player.width / 2) - (
-        ball.rect.x + ball.width / 2)
+            ball.rect.x + ball.width / 2)
 
         # Set the ball's y position in case
         # we hit the ball on the edge of the paddle

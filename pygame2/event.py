@@ -466,7 +466,7 @@ class EventLoop(EventDispatcher):
             while 1:
                 try:
                     self.step()
-                    timeout = self.clock.get_idle_time()
+                    # timeout = self.clock.get_idle_time()
                     # self.platform_queue.sleep(timeout)
 
                 except:
