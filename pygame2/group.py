@@ -121,6 +121,7 @@ class SpriteGroupBase(SpriteGroupBase):
     """
 
     def __init__(self):
+        super().__init__()
         self._members = OrderedDict()
 
     def __contains__(self, item):
@@ -170,20 +171,9 @@ class RenderGroup(SpriteGroupBase):
 
 
 class Batch:
-    """Manage a collection of vertex lists for batched rendering.
-
-    Vertex lists are added to a `Batch` using the `add` and `add_indexed`
-    methods.  An optional group can be specified along with the vertex list,
-    which gives the OpenGL state required for its rendering.  Vertex lists
-    with shared mode and group are allocated into adjacent areas of memory and
-    sent to the graphics card in a single operation.
-
-    Call `VertexList.delete` to remove a vertex list from the batch.
-    """
-
-    def __init__(self, program):
+    def __init__(self, program, mode):
         self.program = program
-        self.mode = GL_TRIANGLE_STRIP
+        self.mode = mode
 
         self.attr = dict()
         for name in 'coord2d texcoord'.split():
@@ -210,7 +200,7 @@ class Batch:
         # TODO: get number of vertices to draw
         vertices = 4
         glDrawArrays(self.mode, 0, vertices)
-        # glFlush()
+        glFlush()
         self.unset_state()
 
     def set_state(self):
@@ -247,7 +237,7 @@ class SpriteGroup(RenderGroup):
 
     def __init__(self, program, texture):
         super().__init__()
-        self.batch = Batch(program)
+        self.batch = Batch(program, GL_TRIANGLE_STRIP)
         self.program = program
         self.texture = texture
 
@@ -259,11 +249,13 @@ class SpriteGroup(RenderGroup):
     def set_state(self):
         target = self.texture.target
         glEnable(target)
-        glTexParameterf(target, GL_TEXTURE_MIN_FILTER, GL_LINEAR)
-        # glTexParameterf(target, GL_TEXTURE_MIN_FILTER, GL_NEAREST)
-        #glTexParameteri(target, GL_TEXTURE_MAG_FILTER, GL_NEAREST)
 
-        glDepthMask(0)  # disable writing to depth buffer
+        glTexParameterf(target, GL_TEXTURE_MIN_FILTER, GL_LINEAR)
+
+        # uncomment below for pixelated look
+        # glTexParameterf(target, GL_TEXTURE_MIN_FILTER, GL_NEAREST)
+        # glTexParameteri(target, GL_TEXTURE_MAG_FILTER, GL_NEAREST)
+
         glEnable(GL_BLEND)
         glBlendFunc(GL_SRC_COLOR, GL_ONE_MINUS_SRC_ALPHA)
 
@@ -273,4 +265,3 @@ class SpriteGroup(RenderGroup):
     def unset_state(self):
         glDisable(self.texture.target)
         glDisable(GL_BLEND)
-        glDepthMask(1)

@@ -39,20 +39,17 @@ class Scheduler:
                 in time units.
         """
         super().__init__()
-        self.cumulative_time = 0.0
         self._time = time_function
         self._last_ts = -1
         self._times = collections.deque(maxlen=10)
         self._scheduled_items = list()
         self._next_tick_items = list()
+        self.cumulative_time = 0.0
 
     def _get_nearest_ts(self):
         """Schedule from now, unless now is sufficiently close to last_ts, in
         which case use last_ts.  This clusters together scheduled items that
-        probably want to be scheduled together.  The old (pre 1.1.1)
-        behaviour was to always use self.last_ts, and not look at ts.  The
-        new behaviour is needed because clock ticks can now be quite
-        irregular, and span several time units.
+        probably want to be scheduled together.
         """
         last_ts = self._last_ts
         ts = self._time()
@@ -188,8 +185,7 @@ class Scheduler:
 
         :rtype: float
         :return: The number of time units since the last "tick", or 0 if this
-        was
-                 the first tick.
+                 was the first tick.
         """
         delta_t = self.set_time(self._time())
         self._times.append(delta_t)
@@ -202,11 +198,10 @@ class Scheduler:
         Useful for calculating FPS if this clock is used with the display.
         Returned value is averaged from last 10 ticks.
 
-        Value will be zero if before 1st tick.
+        Value will be 0.0 if before 1st tick.
 
         :rtype: float
-        :return: The number of time units since the last "tick", or 0.0 if this
-                 was the first tick.
+        :return: Average amount of time passed between each tick
         """
         try:
             return sum(self._times) / len(self._times)
@@ -227,6 +222,7 @@ class Scheduler:
                  was the first update.
 
         """
+        # self._last_ts will be -1 before first time set
         if self._last_ts < 0:
             delta_t = 0.0
             self._last_ts = time_stamp
@@ -251,7 +247,7 @@ class Scheduler:
         now = self._last_ts
         result = False
 
-        # handle items scheduled for each tick
+        # handle items scheduled for next tick
         if self._next_tick_items:
             result = True
             for item in list(self._next_tick_items):
@@ -283,6 +279,9 @@ class Scheduler:
 
             # get the next item to be called
             head = scheduled_items[0]
+
+            # if next item is scheduled in the future then exit while
+            # taking care of the heap
             if head.next_ts > now:
                 if replace:
                     heappush(scheduled_items, item)
@@ -356,7 +355,6 @@ class Scheduler:
                 The function to remove from the schedule.
 
         """
-
         def remove(list_):
             resort = False
             remove_ = list_.remove

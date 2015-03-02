@@ -1,4 +1,37 @@
+from math import cos, sin
+from math import radians
+import numpy
+
 from pygame2.event import EventDispatcher
+from pygame2.graphics import *
+
+from OpenGL.GL import *
+
+
+def new_quad_vbo(x, y, width, height, rotation=0):
+    width /= 2.0
+    height /= 2.0
+
+    x1 = x-width
+    y1 = y-height
+    x2 = x+width
+    y2 = y+height
+
+    r = -radians(rotation)
+    cr = cos(r)
+    sr = sin(r)
+    ax = x1 * cr - y1 * sr + x
+    ay = x1 * sr + y1 * cr + y
+    bx = x2 * cr - y1 * sr + x
+    by = x2 * sr + y1 * cr + y
+    dx = x2 * cr - y2 * sr + x
+    dy = x2 * sr + y2 * cr + y
+    cx = x1 * cr - y2 * sr + x
+    cy = x1 * sr + y2 * cr + y
+
+    vertices = numpy.array([ax, ay, bx, by, cx, cy, dx, dy], dtype='float32')
+    vbo = VertexBufferObject(vertices, GL_ARRAY_BUFFER, GL_STATIC_DRAW)
+    return vbo
 
 
 class Sprite(EventDispatcher):
@@ -11,6 +44,9 @@ class Sprite(EventDispatcher):
     def __init__(self, *groups):
         super().__init__()
         self._groups = set()
+        self.rotation = 0
+        self.vbo = None
+        self.update_vbo()
 
     def add_internal(self, group):
         self._groups.add(group)
@@ -30,6 +66,13 @@ class Sprite(EventDispatcher):
         method by the same name in the Group class.
         """
         pass
+
+    def update_vbo(self):
+        """ update VBO when affected by transforms or rotations
+        :return: None
+        """
+        # TODO: find a more elegant way to handle this
+        self.vbo = new_quad_vbo(0, 0, 2, 2, self.rotation)
 
     def kill(self):
         """remove the Sprite from all Groups
