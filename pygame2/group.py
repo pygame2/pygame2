@@ -7,6 +7,11 @@ from pygame2.event import EventDispatcher
 from pygame2.graphics import *
 from OpenGL.GL import *
 
+__all__ = (
+    'SpriteGroupBase',
+    'SpriteGroupSetList',
+    'SpriteGroup')
+
 
 class SpriteGroupBase(EventDispatcher):
     """ AKA "renderer"
@@ -204,7 +209,6 @@ class SpriteGroup(SpriteGroupBase):
 
         # assumes we are just rendering 'quads'
         for sprite in self.sprites():
-
             # bind the vbo and render the group's texture to these coords
             sprite.vbo.bind()
             glVertexAttribPointer(attr, 2, GL_FLOAT, GL_FALSE, 0, None)

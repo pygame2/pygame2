@@ -14,13 +14,12 @@ import OpenGL
 OpenGL.ERROR_CHECKING = True
 from OpenGL.GL import *
 
-from .texture import Texture, load_texture
+from .texture import Texture
 
 
 __all__ = [
     'VertexBufferObject',
     'Texture',
-    'load_texture',
     'create_program',
     'get_opengl_version',
     'generate_tex_coords']

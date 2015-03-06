@@ -4,15 +4,13 @@ Abstract Hierarchy of Window Concepts:
 'display', basically this is the gpu
 'screen', could be the is a logical screen on one monitor or more
 'window', as is
-'canvas', drawing context for graphics.  could be a pygame surface, could be
-          and opengl buffer
+'canvas', drawing context for graphics.
 """
-from pygame2.core import core_modules
-from pygame2.event import EventDispatcher
 import pygame2
+from pygame2.event import EventDispatcher
 from OpenGL.GL import *
 
-core_modules['window'] = ('window_pyglet', 'window_pygame')
+__all__ = ('WindowBase', )
 
 
 class WindowBase(EventDispatcher):

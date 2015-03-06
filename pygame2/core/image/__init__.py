@@ -1,9 +1,14 @@
 from pygame2.core import core_modules
-from OpenGL.GL import *
+from pygame2.graphics import Texture
+
+__all__ = (
+    'ImageLoaderBase',
+    'ImageData',
+    'load')
 
 # declare our image providers
-# core_modules['image'] = ('image_pil', 'image_pyglet', 'image_pygame')
-core_modules['image'] = ('image_pil', 'image_pyglet')
+# core_modules['image'] = ('image_pillow', 'image_pyglet', 'image_pygame')
+core_modules['image'] = ('image_pillow', 'image_pyglet')
 
 
 class ImageLoaderBase:
@@ -68,6 +73,7 @@ class ImageLoaderBase:
 
 class ImageData:
     """ Abstract Image as Bytes
+
     no mipmap support
     """
     _supported_fmts = ('rgb', 'rgba')
@@ -83,6 +89,10 @@ class ImageData:
         self._source = source
 
     @property
+    def size(self):
+        return self._width, self._height
+
+    @property
     def width(self):
         return self._width
 
@@ -96,19 +106,7 @@ class ImageData:
     def create_texture(self):
         """Create a texture containing this image.
         """
-        pass
-        # internalformat = self._get_internalformat(self.format)
-        #
-        # texture = cls.create(self.width, self.height, internalformat,
-        # rectangle, force_rectangle)
-        #
-        # if self.anchor_x or self.anchor_y:
-        # texture.anchor_x = self.anchor_x
-        #     texture.anchor_y = self.anchor_y
-        #
-        # self.blit_to_texture(texture.target, texture.level,
-        #                      self.anchor_x, self.anchor_y, 0, None)
-        # return texture
+        return Texture(self._width, self._height, self._data)
 
     def blit_to_texture(self, target, level, x, y, z, internalformat=None):
         """Draw this image to to the currently bound texture at `target`.

@@ -23,7 +23,15 @@ from pygame2.core import core_modules
 # core_modules['platform'] = ('platform_pyglet', 'platform_pygame',
 # 'platform_pysdl2')
 
+
+__all__ = (
+    'get_event_loop',
+    'get_platform_event_queue',
+    'create_window')
+
+
 core_modules['platform'] = ('platform_pyglet', )
+
 
 
 def get_event_loop():

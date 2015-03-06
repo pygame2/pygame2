@@ -7,15 +7,17 @@ from pygame2.graphics import *
 
 from OpenGL.GL import *
 
+__all__ = ('Sprite', )
+
 
 def new_quad_vbo(x, y, width, height, rotation=0):
     width /= 2.0
     height /= 2.0
 
-    x1 = x-width
-    y1 = y-height
-    x2 = x+width
-    y2 = y+height
+    x1 = x - width
+    y1 = y - height
+    x2 = x + width
+    y2 = y + height
 
     r = -radians(rotation)
     cr = cos(r)

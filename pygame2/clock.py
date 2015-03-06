@@ -2,6 +2,11 @@ import collections
 import time
 from heapq import heappush, heapify, heappop, heappushpop
 
+__all__ = (
+    'ScheduledItem',
+    'Scheduler',
+    'Clock')
+
 
 class ScheduledItem:
     """ A class that describes a scheduled callback.
@@ -338,6 +343,7 @@ class Scheduler:
 
         :return: None
         """
+
         def remove(list_):
             resort = False
             remove_ = list_.remove

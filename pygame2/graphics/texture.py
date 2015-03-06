@@ -3,34 +3,6 @@ from OpenGL.GL import *
 mipmaps = 0
 
 
-def load_texture(path, flip_y=False):
-    """ Texture loading with PIL
-
-    :param flip_y:
-    :return: pygame2.graphics.Texture
-    """
-    from PIL import Image
-
-    image = Image.open(path)
-    width, height = image.size
-    image = image.convert("RGBA")
-    if flip_y:
-        image = image.transpose(Image.FLIP_TOP_BOTTOM)
-
-    # BGRA pixel ordering is preferred on some platforms, possibly windows
-    # other orderings will work, but will have a performance penalty as
-    # data in automatically changed to the preferred ordering in the opengl API
-    data = image.tostring('raw', 'RGBA', 0, -1)
-
-    # pygame2 image loading
-    # image = pygame2.core.image.load(path)
-    # data = str(image.convert())
-    # data = numpy.fromstring(data, dtype='uint8')
-
-    texture = Texture(width, height, data)
-    return texture
-
-
 class Texture:
     def __init__(self, width, height, data):
         self.target = GL_TEXTURE_2D

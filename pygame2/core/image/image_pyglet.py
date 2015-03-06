@@ -14,6 +14,8 @@ __all__ = ('ImageLoader', )
 class ImageLoader(ImageLoaderBase):
     @staticmethod
     def load(filename, namehint=None):
+        raise NotImplementedError
+
         if namehint is None:
             im = pyglet.image.load(filename)
         else:

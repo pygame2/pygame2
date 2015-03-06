@@ -17,7 +17,7 @@ def main():
     app = pygame2.app.App()
     program_id = create_program()
     path = os.path.join('resources', 'pygame2-nologo.png')
-    texture = load_texture(path)
+    texture = pygame2.core.image.load(path).create_texture()
 
     group = pygame2.group.SpriteGroup(program_id, texture)
     for i in range(4):

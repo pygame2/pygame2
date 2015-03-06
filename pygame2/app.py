@@ -12,6 +12,8 @@ import time
 import pygame2
 from pygame2.event import EventDispatcher
 
+__all__ = ('App', )
+
 
 class App(EventDispatcher):
     def __init__(self):
