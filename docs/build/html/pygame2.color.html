@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>pygame2.color module &mdash; pygame2 0.0.0 documentation</title>
+    <title>pygame2.color module &mdash; pygame2 0.0.1 documentation</title>
     
     <link rel="stylesheet" href="_static/default.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '0.0.0',
+        VERSION:     '0.0.1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -23,7 +23,7 @@
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <link rel="top" title="pygame2 0.0.0 documentation" href="index.html" />
+    <link rel="top" title="pygame2 0.0.1 documentation" href="index.html" />
     <link rel="up" title="pygame2 package" href="pygame2.html" />
     <link rel="next" title="pygame2.rect module" href="pygame2.rect.html" />
     <link rel="prev" title="pygame2 package" href="pygame2.html" /> 
@@ -44,7 +44,7 @@
         <li class="right" >
           <a href="pygame2.html" title="pygame2 package"
              accesskey="P">previous</a> |</li>
-        <li><a href="index.html">pygame2 0.0.0 documentation</a> &raquo;</li>
+        <li><a href="index.html">pygame2 0.0.1 documentation</a> &raquo;</li>
           <li><a href="pygame2.html" accesskey="U">pygame2 package</a> &raquo;</li> 
       </ul>
     </div>  
@@ -56,21 +56,10 @@
             
   <div class="section" id="pygame2-color-module">
 <h1>pygame2.color module<a class="headerlink" href="#pygame2-color-module" title="Permalink to this headline">¶</a></h1>
-<span class="target" id="module-pygame2.color"></span><p>The Color class represents RGBA color values using a value range of 0-255.
-It allows basic arithmetic operations tocreate new colors, supports conversions
-to other color spaces such as HSV or HSL and lets you adjust single color
-channels. Alpha defaults to 255 when not given.</p>
-<p>‘rgbvalue’ can be either a color name, an HTML color format string, a hex number
-string, or an integer pixel value. The HTML format is ‘#rrggbbaa’, where rr, gg,
-bb, and aa are 2 digit hex numbers. The alpha aa is optional. A hex number
-string has the form ‘0xrrggbbaa’, where aa is optional.</p>
-<p>If passed an integer, ARGB format is assumed.</p>
-<p>Color objects support equality comparison with other color objects and 3 or 4
-element tuples of integers.</p>
-<dl class="class">
+<span class="target" id="module-pygame2.color"></span><dl class="class">
 <dt id="pygame2.color.Color">
 <em class="property">class </em><tt class="descclassname">pygame2.color.</tt><tt class="descname">Color</tt><big>(</big><em>*args</em><big>)</big><a class="reference internal" href="_modules/pygame2/color.html#Color"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pygame2.color.Color" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">sdl2.ext.color.Color</span></tt></p>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">builtins.object</span></tt></p>
 <p>Color(red, green, blue, alpha)</p>
 <p>Color(red, green, blue)</p>
 <p>Color(name)</p>
@@ -82,8 +71,9 @@ element tuples of integers.</p>
 <p>Color() -&gt; Color(&#8216;black&#8217;)</p>
 <dl class="docutils">
 <dt>Args:</dt>
-<dd><p class="first">args (tuple): red, green, blue [, alpha]</p>
-<p class="last">args (string): Color name from pygame2.color.colors</p>
+<dd><p class="first">args (tuple): red, green, blue [, alpha].  See argb_to_color().</p>
+<p>args (string): Color name from pygame2.color.colors</p>
+<p class="last">args (string): HTML or hex color string.  See string_to_color().</p>
 </dd>
 </dl>
 <dl class="attribute">
@@ -122,8 +112,7 @@ you might expect.</p>
 <dl class="method">
 <dt id="pygame2.color.Color.correct_gamma">
 <tt class="descname">correct_gamma</tt><big>(</big><em>gamma</em><big>)</big><a class="reference internal" href="_modules/pygame2/color.html#Color.correct_gamma"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pygame2.color.Color.correct_gamma" title="Permalink to this definition">¶</a></dt>
-<dd><p>Not Yet Implemented</p>
-<p>Applies a certain gamma value to the Color.</p>
+<dd><p>Applies a certain gamma value to the Color.</p>
 <div class="highlight-python"><div class="highlight"><pre>correct_gamma (gamma) -&gt; Color
 </pre></div>
 </div>
@@ -224,6 +213,61 @@ want to get the length of a Color do len(acolor).</p>
 
 </dd></dl>
 
+<dl class="function">
+<dt id="pygame2.color.gamma_decode">
+<tt class="descclassname">pygame2.color.</tt><tt class="descname">gamma_decode</tt><big>(</big><em>color</em>, <em>gamma</em><big>)</big><a class="reference internal" href="_modules/pygame2/color.html#gamma_decode"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pygame2.color.gamma_decode" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="pygame2.color.is_rgb_color">
+<tt class="descclassname">pygame2.color.</tt><tt class="descname">is_rgb_color</tt><big>(</big><em>v</em><big>)</big><a class="reference internal" href="_modules/pygame2/color.html#is_rgb_color"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pygame2.color.is_rgb_color" title="Permalink to this definition">¶</a></dt>
+<dd><p>Checks, if the passed value is an item that could be converted to
+a RGB color.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pygame2.color.is_rgba_color">
+<tt class="descclassname">pygame2.color.</tt><tt class="descname">is_rgba_color</tt><big>(</big><em>v</em><big>)</big><a class="reference internal" href="_modules/pygame2/color.html#is_rgba_color"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pygame2.color.is_rgba_color" title="Permalink to this definition">¶</a></dt>
+<dd><p>Checks, if the passed value is an item that could be converted to
+a RGBA color.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pygame2.color.argb_to_color">
+<tt class="descclassname">pygame2.color.</tt><tt class="descname">argb_to_color</tt><big>(</big><em>v</em><big>)</big><a class="reference internal" href="_modules/pygame2/color.html#argb_to_color"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pygame2.color.argb_to_color" title="Permalink to this definition">¶</a></dt>
+<dd><p>Converts an integer value to a Color, assuming the integer
+represents a 32-bit ARGB value.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pygame2.color.rgba_to_color">
+<tt class="descclassname">pygame2.color.</tt><tt class="descname">rgba_to_color</tt><big>(</big><em>v</em><big>)</big><a class="reference internal" href="_modules/pygame2/color.html#rgba_to_color"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pygame2.color.rgba_to_color" title="Permalink to this definition">¶</a></dt>
+<dd><p>Converts an integer value to a Color, assuming the integer
+represents a 32-bit RGBA value.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pygame2.color.string_to_color">
+<tt class="descclassname">pygame2.color.</tt><tt class="descname">string_to_color</tt><big>(</big><em>s</em><big>)</big><a class="reference internal" href="_modules/pygame2/color.html#string_to_color"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pygame2.color.string_to_color" title="Permalink to this definition">¶</a></dt>
+<dd><p>Converts a hex color string or color name to a Color value.</p>
+<p>Supported hex values are:</p>
+<p>#RGB
+#RGBA
+#RRGGBB
+#RRGGBBAA</p>
+<p>0xRGB
+0xRGBA
+0xRRGGBB
+0xRRGGBBAA</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pygame2.color.convert_to_color">
+<tt class="descclassname">pygame2.color.</tt><tt class="descname">convert_to_color</tt><big>(</big><em>v</em><big>)</big><a class="reference internal" href="_modules/pygame2/color.html#convert_to_color"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pygame2.color.convert_to_color" title="Permalink to this definition">¶</a></dt>
+<dd><p>Tries to convert the passed value to a Color object.</p>
+<p>If the color is an integer value, it is assumed to be in ARGB layout.</p>
+</dd></dl>
+
 </div>
 
 
@@ -275,13 +319,13 @@ want to get the length of a Color do len(acolor).</p>
         <li class="right" >
           <a href="pygame2.html" title="pygame2 package"
              >previous</a> |</li>
-        <li><a href="index.html">pygame2 0.0.0 documentation</a> &raquo;</li>
+        <li><a href="index.html">pygame2 0.0.1 documentation</a> &raquo;</li>
           <li><a href="pygame2.html" >pygame2 package</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer">
-        &copy; Copyright 2014, William Kevin Manire, Leif Theden, Alecks Gates.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
+        &copy; Copyright 2015, William Kevin Manire, Leif Theden, Alecks Gates.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
     </div>
   </body>
 </html>

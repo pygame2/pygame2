@@ -18,8 +18,8 @@ def main():
     program_id = create_program()
     path = os.path.join('resources', 'pygame2-nologo.png')
     texture = pygame2.core.image.load(path).create_texture()
-
     group = pygame2.group.SpriteGroup(program_id, texture)
+
     for i in range(4):
         sprite = pygame2.sprite.Sprite()
         sprite.rotation = i * (360 / 4)
