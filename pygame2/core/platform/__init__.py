@@ -29,9 +29,7 @@ __all__ = (
     'get_platform_event_queue',
     'create_window')
 
-
 core_modules['platform'] = ('platform_pyglet', )
-
 
 
 def get_event_loop():

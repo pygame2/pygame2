@@ -228,7 +228,7 @@ class SpriteRenderer(SpriteGroupBase):
 
         # for attr, vbo in self._attr.items():
         # glEnableVertexAttribArray(attr)
-        #     vbo.bind()
+        # vbo.bind()
         #     glVertexAttribPointer(attr, 3, GL_FLOAT, GL_FALSE, 0, None)
 
         # set the texture coordinates

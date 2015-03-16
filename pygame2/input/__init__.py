@@ -19,6 +19,7 @@ __all__ = (
 class Control(EventDispatcher):
     """ Single value input provided by a device
     """
+
     def __init__(self, name):
         super().__init__()
         self.name = name

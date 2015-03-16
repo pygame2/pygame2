@@ -19,7 +19,7 @@ class ImageLoader(ImageLoaderBase):
         # elif im.get_bytesize() == 4:
         # fmt = 'rgba'
         # else:
-        #     im = im.convert(32)
+        # im = im.convert(32)
         #     fmt = 'rgba'
         # data = pygame.image.tostring(im, fmt.upper())
         # return ImageData(im.get_width(), im.get_height(), fmt, data,

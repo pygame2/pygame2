@@ -172,7 +172,7 @@ class EventDispatcher:
     # def register_event_type(self, name):
     # """register new event type
     #
-    #     :param name:
+    # :param name:
     #     :type name:
     #     :return:
     #     :rtype:

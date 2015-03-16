@@ -27,7 +27,7 @@ class ImageLoader(ImageLoaderBase):
         if image.mode in ('1', 'P'):
             image = image.convert()
 
-        if image.mode not in ('L', 'LA', 'RGB',  'RGBA'):
+        if image.mode not in ('L', 'LA', 'RGB', 'RGBA'):
             raise Exception('Unsupported mode "%s"' % image.mode)
 
         # TODO: make in-memory format configurable

@@ -14,6 +14,7 @@ from . import surface
 
 # This section below disables error checking for better performance
 import OpenGL
+
 OpenGL.ERROR_CHECKING = True
 
 
