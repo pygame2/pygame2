@@ -21,3 +21,4 @@ cffi
 networkx
 pyopengl
 numpy
+pyopengl

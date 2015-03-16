@@ -43,11 +43,12 @@ class Sprite(EventDispatcher):
     adding the Sprite to Groups.
     """
 
-    def __init__(self, *groups):
+    def __init__(self, texture=None):
         super().__init__()
         self._groups = set()
         self.rotation = 0
         self.vbo = None
+        self.texture = texture
         self.update_transform()
 
     def add_internal(self, group):

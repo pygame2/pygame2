@@ -6,7 +6,7 @@ import unittest
 from unittest import skip
 from mock import Mock, patch
 
-from pygame2 import sprite, group
+from pygame2 import sprite, renderer
 import OpenGL
 
 
@@ -14,22 +14,22 @@ class SpriteTests(unittest.TestCase):
     @skip("draw api not ready")
     def test_add_group(self):
         s = sprite.Sprite()
-        g = group.SpriteGroup()
+        g = renderer.SpriteRenderer()
         g.add(s)
         self.assertIn(s, g)
 
     @skip("draw api not ready")
     def test_remove_group(self):
         s = sprite.Sprite()
-        g = group.SpriteGroup()
+        g = renderer.SpriteRenderer()
         g.add(s)
         g.remove(s)
         self.assertNotIn(s, g)
 
     @skip("draw api not ready")
     def test_kill_removes_from_groups(self):
-        g0 = group.SpriteGroup()
-        g1 = group.SpriteGroup()
+        g0 = renderer.SpriteRenderer()
+        g1 = renderer.SpriteRenderer()
         s = sprite.Sprite()
         g0.add(s)
         g1.add(s)
@@ -43,7 +43,7 @@ class GroupTests(unittest.TestCase):
     def setUp(self):
         program = Mock()
         texture = Mock()
-        self.g = group.SpriteGroup(program, texture)
+        self.g = renderer.SpriteRenderer(program, texture)
 
     @skip("draw api not ready")
     def test_sprites(self):

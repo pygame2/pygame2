@@ -8,7 +8,7 @@ from pygame2.gl import *
 
 size = width, height = 800, 600
 window = pygame2.core.platform.create_window(size=size)
-group = pygame2.group.SpriteGroup()
+group = pygame2.renderer.SpriteRenderer()
 
 queue = pygame2.core.platform.get_platform_event_queue()
 queue.start()
