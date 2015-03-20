@@ -1,5 +1,10 @@
+"""
+
+WIP module, curently needs to be ported from pygame
+
+"""
+
 from math import sqrt, cos, sin, pi
-import pygame
 
 __all__ = ('Task', 'Animation', 'remove_animations_of')
 
@@ -16,7 +21,7 @@ def remove_animations_of(group, target):
     group.remove(*to_remove)
 
 
-class Task(pygame.sprite.Sprite):
+class Task():
     """Execute functions at a later time and optionally loop it
 
     This is a silly little class meant to make it easy to create
@@ -94,7 +99,7 @@ class Task(pygame.sprite.Sprite):
             task.add(*groups)
 
 
-class Animation(pygame.sprite.Sprite):
+class Animation:
     """Change numeric values over time
 
     To animate a target sprite/object's position, simply specify
