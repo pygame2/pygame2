@@ -7,5 +7,5 @@
 # mixer.set_num_channels(32)
 #
 #
-# class Sound(SoundBase):
+# class SoundLoader(SoundBase):
 # pass

@@ -47,7 +47,7 @@ class App(EventDispatcher):
 
             # TODO: make sure we can sleep correctly on all systems
             # sleep_time = self.clock.get_idle_time()
-            time.sleep(.001)
+            time.sleep(.015)
 
     def stop(self):
         self.running = False

@@ -1,3 +1,10 @@
+"""
+proposed sprite features:
+
+-x/y scaling
+-rotation (x, y, z)
+-anchor points
+"""
 from math import cos, sin
 from math import radians
 import numpy
@@ -41,6 +48,9 @@ class Sprite(EventDispatcher):
 
     When subclassing the Sprite, be sure to call the base initializer before
     adding the Sprite to Groups.
+
+    When making game objects (players, missiles, etc), it is advisable to
+    follow the composite pattern, rather than subclassing this.
     """
 
     def __init__(self, texture=None):
@@ -56,19 +66,6 @@ class Sprite(EventDispatcher):
 
     def remove_internal(self, group):
         self._groups.remove(group)
-
-    def update(self, *args):
-        """method to control sprite behavior
-        Sprite.update(*args):
-
-        The default implementation of this method does nothing; it's just a
-        convenient "hook" that you can override. This method is called by
-        Group.update() with whatever arguments you give it.
-
-        There is no need to use this method if not using the convenience
-        method by the same name in the Group class.
-        """
-        pass
 
     def update_transform(self):
         """ update VBO when affected by transforms or rotations

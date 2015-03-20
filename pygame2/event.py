@@ -25,6 +25,12 @@ here is a sample pygame2 veteran:
 As an aside, the pygame2 veteran will also want to do some things
 a newbie would want, such as directly controlling the event queue,
 so by catering to both groups, the library is more usable.
+
+Terms:
+Event:  basically jsut some data, probably a python dict or named tuple
+Event Queue:  FIFO queue of events from pygame2 framework
+Event Loop: Manages the Event Queue.  Used by pygame2.app.App
+Platform Event Queue:  OS specific.  Collects events from OS.
 """
 import queue
 import logging
@@ -32,10 +38,8 @@ import pygame2
 
 
 __all__ = (
-    "EventType",
-    "Event",
-    "PlatformEventQueueBase",
     "EventLoop",
+    "PlatformEventQueueBase",
     "EventDispatcher",
     "NoHandlerException")
 
@@ -55,99 +59,6 @@ def verify_name(name):
 
 
 class NoHandlerException(Exception):
-    pass
-
-
-class EventType:
-    """
-    An event object
-    """
-
-    def __init__(self, event):
-        self._event = event
-
-        if not event:
-            self.type = None  # NOEVENT
-            return
-
-        self.timestamp = event.timestamp
-        self.type = event.type
-
-        if self.type in (KEYDOWN, KEYUP):
-            # pygame1 definitions
-            self.key = event.key.keysym.sym
-            self.mod = event.key.keysym.mod
-            self.scancode = event.key.keysym.scancode
-            self.unicode = None
-            self.window_id = event.windowID
-            self.repeat = event.repeat
-
-        # pygame2 only
-        elif self.type == TEXTEDITING:
-            logger.debug("type %s not implemented", self.type)
-            return
-
-        # pygame2 only
-        elif self.type == TEXTINPUT:
-            self.window_id = event.windowID
-            self.test = event.text
-
-        elif self.type == MOUSEMOTION:
-            self.pos = event.x, event.y
-            self.rel = event.xrel, event.yrel
-            # TODO: buttons
-
-        elif self.type in (MOUSEBUTTONDOWN, MOUSEBUTTONUP):
-            self.pos = event.x, event.y
-            self.button = event.button
-            self.window_id = event.windowID
-
-        elif self.type == MOUSEWHEEL:
-            self.window_id = event.windowID
-            self.x = event.x
-            self.y = event.y
-
-        elif self.type == JOYAXISMOTION:
-            self.joy = event.which
-            self.axis = event.axis
-            # TODO: axis insanity
-
-        elif self.type == JOYBALLMOTION:
-            self.joy = event.which
-            self.ball = event.ball
-            self.rel = event.xrel, event.yrel
-
-        elif self.type == JOYHATMOTION:
-            logger.debug("type %s not implemented", self.type)
-            return
-
-        elif self.type in (JOYBUTTONDOWN, JOYBUTTONUP):
-            self.joy = event.which
-            self.button = event.button
-
-        elif self.type == JOYDEVICEADDED:
-            self.joy = event.which
-
-        elif self.type == JOYDEVICEREMOVED:
-            self.joy = event.which
-
-        # TODO: Controller Events
-
-        elif self.type in (FINGERDOWN, FINGERUP, FINGERMOTION):
-            # unlike other event types, coordinates are normalized
-            self.touchid = event.touchid
-            self.fingerid = event.fingerid
-            self.x = event.x
-            self.y = event.y
-            self.dx = event.dx
-            self.dy = event.dy
-            self.pressure = event.pressure
-
-
-def Event(type_id, attr_dict=None, **attrs):
-    """
-    Event(type, dict) -> EventType instance
-    """
     pass
 
 
@@ -387,61 +298,6 @@ class PlatformEventQueueBase(EventDispatcher):
         """
         raise NotImplementedError
 
-    def get_blocked(self, event_types):
-        """test if a type of event is blocked from the queue
-
-        get_blocked(type) -> bool
-
-        Returns true if the given event type is blocked from the queue.
-
-        :param event_types:
-        :type event_types:
-        :return: whether a type of event is blocked from the queue or not
-        :rtype: bool
-        """
-        raise NotImplementedError
-
-    def set_blocked(self, event_types):
-        """control which events are allowed on the queue
-
-        set_blocked(type) -> None
-        set_blocked(typelist) -> None
-        set_blocked(None) -> None
-
-        The given event types are not allowed to appear on the event queue. By
-        default all events can be placed on the queue. It is safe to disable an
-        event type multiple times.
-
-        If None is raise NotImplementedErrored as the argument, this has the
-        opposite effect and ALL of the event types are allowed to be placed
-        on the queue.
-
-        :param event_types:
-        :type event_types:
-        :return: None
-        """
-        raise NotImplementedError
-
-    def set_allowed(self, event_types):
-        """control which events are allowed on the queue
-
-        set_allowed(type) -> None
-        set_allowed(typelist) -> None
-        set_allowed(None) -> None
-
-        The given event types are allowed to appear on the event queue. By
-        default all events can be placed on the queue. It is safe to enable an
-        event type multiple times.
-
-        If None is raise NotImplementedErrored as the argument, NONE of the
-        event types are allowed to be placed on the queue.
-
-        :param event_types:
-        :type event_types:
-        :return: None
-        """
-        raise NotImplementedError
-
     def stop(self):
         """Stop platform dependant event queue
         """
@@ -499,6 +355,11 @@ class EventLoop(EventDispatcher):
         This method provides the event loop with an opportunity to set up
         an OS timer on the platform event loop, which will continue to
         be invoked during the blocking operation.
+
+        In a blocked state, the app will hang while waiting for events.
+        Setting an OS timer with a callback will allow the app to continue
+        to process events, although timing will be different, so it might
+        be wise to pause the gameplay during this 'inside blocking' state.
 
         The default implementation ensures that `idle` continues to be called
         as documented.

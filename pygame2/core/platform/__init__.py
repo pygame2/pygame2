@@ -16,6 +16,13 @@ module.
 Where possible, if a platform provides functions that do not depend
 on the functions listed above, then that functionality will be
 split up and made into a separate module.
+
+Abstract Hierarchy of Window Concepts:
+
+'display', basically this is the gpu
+'screen', could be the is a logical screen on one monitor or more
+'window', as is
+'canvas', drawing context for graphics.
 """
 from pygame2.core import core_modules
 
@@ -51,6 +58,15 @@ def get_platform_event_queue():
             raise
 
     return queue
+
+
+def get_display(index=-1):
+    """ Get a display.
+
+    :param index:
+    :return:
+    """
+    pass
 
 
 def create_window(**kwargs):

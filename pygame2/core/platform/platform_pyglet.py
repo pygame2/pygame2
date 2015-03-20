@@ -57,6 +57,10 @@ class Window(WindowBase):
         self._window.switch_to()
 
     def dispatch_pending_events(self):
+        """ Pyglet provides an event queue for each window
+
+        :return: None
+        """
         queue = self._window._event_queue
         while queue:
             event = queue.pop(0)

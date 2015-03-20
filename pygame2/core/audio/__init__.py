@@ -1,78 +1,26 @@
-"""
-Where pygame made sounds and music different, pygame2
-unifies them. there is no confusing arbitrary difference
-between 'sounds', and 'music'.
+from pygame2.core import core_modules
 
-instead, the difference is a much more palpable
-'stored in memory' or 'streamed'.
-
-API for determining each is in progress
-"""
-from pygame2.event import EventDispatcher
+__all__ = ('load', )
 
 
-class SoundBase(EventDispatcher):
-    """Base for objects that play sounds/music
+# declare audio providers
+core_modules['audio'] = ('audio_pygame', )
+
+
+def load(filename):
     """
-    _source = None
-    _volume = 1.0
-    _state = None
-    _loop = None
-    _position = None
-    _length = None
 
-    @property
-    def source(self):
-        return self._source
+    :param filename: filename of audio file to load
+    :return: pygame2.audio.Sound object
+    """
+    from pygame2.core import core_providers
 
-    @property
-    def volume(self):
-        return self._volume
+    snd = None
+    for provider in core_providers['audio']:
+        try:
+            snd = provider.SoundLoader.load(filename)
+            break
+        except:
+            raise
 
-    @volume.setter
-    def volume(self, value):
-        if not self._volume == value:
-            self._volume = value
-
-    @property
-    def state(self):
-        return self._state
-
-    @state.setter
-    def state(self, value):
-        pass
-
-    @property
-    def position(self):
-        return self._position
-
-    @position.setter
-    def position(self, value):
-        pass
-
-    @property
-    def length(self):
-        pass
-
-    def load(self):
-        """Load the file into memory."""
-        pass
-
-    def unload(self):
-        """Unload the file from memory."""
-        pass
-
-    def play(self):
-        """Play the file."""
-        self.state = 'play'
-        self.dispatch('on_play')
-
-    def stop(self):
-        """Stop playback."""
-        self.state = 'stop'
-        self.dispatch('on_stop')
-
-    def seek(self, position):
-        """Go to the <position> (in seconds)."""
-        pass
-
+    return snd

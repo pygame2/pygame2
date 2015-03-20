@@ -2,12 +2,16 @@ from .rect import Rect
 from .surface import Surface
 
 # "required" modules
+from . import animation
 from . import app
+from . import audio
 from . import clock
 from . import core
+from . import display
 from . import event
 from . import graphics
 from . import renderer
+from . import screen
 from . import sprite
 from . import surface
 
@@ -15,7 +19,7 @@ from . import surface
 # This section below disables error checking for better performance
 import OpenGL
 
-OpenGL.ERROR_CHECKING = True
+OpenGL.ERROR_CHECKING = False
 
 
 # TODO: MAKE SURE THIS STUFF ISN'T CALLED A BUNCH OF TIMES
