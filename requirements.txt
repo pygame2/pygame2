@@ -17,6 +17,5 @@ pillow==2.7.0
 
 # below are experimental deps while i find the best opengl
 # bindings.  these may or may not change.
-cffi
 pyopengl
 numpy
