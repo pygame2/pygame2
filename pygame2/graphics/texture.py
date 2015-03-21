@@ -2,6 +2,8 @@ from OpenGL.GL import *
 
 mipmaps = 0
 
+# TODO: MIPMAPS.  there is some code to support is, but isn't complete
+
 
 class Texture:
     def __init__(self, width, height, data):

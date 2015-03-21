@@ -38,6 +38,7 @@ class App(EventDispatcher):
         while self.running:
             self.clock.tick()
 
+            # get our events from the platform
             queue.get()
 
             window.switch_to()

@@ -4,11 +4,27 @@ Pyglet based platform
 Pyglet is a cross-platform multimedia library built with python
 and ctypes.  It is a good target for Windows, Mac, and Linux,
 but may be slower on pypy.
+
+pyglet is almost a pure event oriented framework, so the way pygame2
+handles it will seem awkward:
+   - set event handlers for each input
+   - catch events and queue them
+
+if we are to remove this queue/dequeue steps, then we'll have to
+fork pyglet and use pyglet's excellet ctypes-based OS interfaces and
+then handle the queue directly.
 """
-from pygame2.window import WindowBase
-from pygame2.event import PlatformEventQueueBase
 import pyglet
 import pyglet.app
+
+from pygame2.event import PlatformEventQueueBase
+from pygame2.window import WindowBase
+
+# from pygame2.input.keyboard import KeyboardBase
+# from pygame2.input.mouse import MouseBase
+
+
+__all__ = ('PlatformEventQueue', 'Window')
 
 
 class PlatformEventQueue(PlatformEventQueueBase):

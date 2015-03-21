@@ -3,11 +3,19 @@ this is a testbed for the opengl operations of pygame2
 
 the general goal is to create new useful functions for pygame2
 this testbed is meant to code first, then refactor useful code
-into pygame2.  mostly, things will be moved into pygame2.graphics.
+into pygame2.
 """
 import os
 import pygame2
 from pygame2.graphics import *
+
+
+def on_key_press(*args):
+    print('got a key press')
+
+
+def on_mouse_motion(*args):
+    print('got mouse motion')
 
 
 def main():
@@ -39,6 +47,8 @@ def main():
         renderer.draw()
 
     window.bind('on_draw', on_draw)
+    window.bind('on_key_press', on_key_press)
+    window.bind('on_mouse_motion', on_mouse_motion)
 
     def update(dt):
         for i, sprite in enumerate(renderer.sprites()):

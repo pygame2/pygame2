@@ -12,6 +12,25 @@ from pygame2.core import core_modules
 core_modules['input'] = ('input_pyglet', )
 
 
+def list_sources(**kwargs):
+    """ list input sources available to use
+
+    :param kwargs:
+    :return: list of inputs supported
+    """
+    from pygame2.core import core_providers
+
+    keyboard = None
+    for provider in core_providers['input']:
+        try:
+            keyboard = provider.Keyboard(**kwargs)
+            break
+        except:
+            raise
+
+    return keyboard
+
+
 def get_keyboard(**kwargs):
     """
     :return: Pygame2 window (depends on event queue)
