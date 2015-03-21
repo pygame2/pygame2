@@ -1,6 +1,6 @@
 """ pygame2 event functions
 
-this set of functions follows the pygame api
+this set of functions roughly follows the pygame api
 
 there is probably excessive abstraction of roles in the module,
 considering we are going to push the use of pygame2.app.App,

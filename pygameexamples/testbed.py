@@ -42,6 +42,8 @@ def main():
 
     def update(dt):
         for i, sprite in enumerate(renderer.sprites()):
+            sprite.rect.width += .1 * dt
+            sprite.rect.height += .05 * dt
             sprite.rotation += 20 * i * dt
             sprite.update_transform()
 

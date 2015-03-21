@@ -2,6 +2,8 @@
 
 WIP module, curently needs to be ported from pygame
 
+needs to connect with come clock, setting triggers/callbacks
+
 """
 
 from math import sqrt, cos, sin, pi
@@ -145,14 +147,6 @@ class Animation:
     NOTE: Specifying an initial value will set the initial value
           for all target names in the constructor.  This
           limitation won't be resolved for a while.
-
-
-    Pygame Rects
-    ============
-
-    If you are using pygame rects are a target, you should pass
-    'round_values=True' to the constructor to avoid jitter caused
-    by integer truncation.
     """
     def __init__(self, **kwargs):
         super(Animation, self).__init__()

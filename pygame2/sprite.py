@@ -9,6 +9,7 @@ from math import cos, sin
 from math import radians
 import numpy
 
+from pygame2.rect import Rect
 from pygame2.event import EventDispatcher
 from pygame2.graphics import *
 
@@ -17,7 +18,9 @@ from OpenGL.GL import *
 __all__ = ('Sprite', )
 
 
-def new_quad_vbo(x, y, width, height, rotation=0):
+def new_quad_vbo(rect, rotation=0):
+    x, y, width, height = rect
+
     width /= 2.0
     height /= 2.0
 
@@ -59,6 +62,9 @@ class Sprite(EventDispatcher):
         self.rotation = 0
         self.vbo = None
         self.texture = texture
+
+        # TODO: fix the rect stuff below
+        self.rect = Rect(0, 0, 1, 1)
         self.update_transform()
 
     def add_internal(self, group):
@@ -72,8 +78,7 @@ class Sprite(EventDispatcher):
         :return: None
         """
         # TODO: find a more elegant way to handle this
-        s = self.rotation % 360 / 360.0 * 4
-        self.vbo = new_quad_vbo(0, 0, s, s, self.rotation)
+        self.vbo = new_quad_vbo(self.rect, self.rotation)
 
     def kill(self):
         """remove the Sprite from all Groups
