@@ -24,14 +24,15 @@ class App(EventDispatcher):
         self.windows = list()
 
     def start(self):
-        self.dispatch('app_start')
-        self.running = True
+        if self.running:
+            print('App.start called twice')
+            raise RuntimeError
 
-    def run(self, window):
+        self.running = True
+        self.dispatch('app_start')
+
+    def run(self):
         """
-        create window
-        set window title
-        set window/app icon
         send start event
         manage event loop
         """
@@ -39,6 +40,13 @@ class App(EventDispatcher):
 
         queue = pygame2.core.platform.get_platform_event_queue()
         queue.start()
+
+        # TODO: address the run method when adding support for multiple windows
+        try:
+            window = self.windows[0]
+        except IndexError:
+            print('create a window before calling App.run')
+            raise RuntimeError
 
         window.bind('on_close', self.stop)
 

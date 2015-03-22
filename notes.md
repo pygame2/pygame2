@@ -54,3 +54,31 @@ modern features
 pygame2 should be able to use 2d physics engines and open source editors.
 it will ship with pyopengl as a first class citizen, along with useful places
 to extend pygame2 with custom shaders and opengl code.
+
+
+texture atlases
+===============
+
+pyglet features a handy utility that will combine individual textures into an
+atlas, then use the result for sprite batched rendering.  the benefits are
+quick, rapid prototyping of textures, but increased load times and lack of
+fine control of the resulting atlases.  For example, you may have your scenery
+rendered at once, but the textures may be distributed in different atlases.
+
+a better solution would be have control of what textures are combined together.
+in this example, the ideal result would be rendering all the scenery while using
+just one texture.
+
+so, a proposal, is to have our sprites be aware of texture atlases and have one
+single, commonly understood format to load an atlas.  this may be XML, it may be
+JSON, or even plain text.  we will choose some format to support, and allow the
+developer to use his own tools to create the atlas.
+
+automatic atlasing will not be a planned feature, but perhaps in the future,
+we can investigate it.  one idea to support automatic atlasing would be to
+generate a cached version of the atlas and save it to disk.  the pygame2
+framework will search for chaced atlases on startup, and do some checksums to
+verify that the cache isn't stale, and will load the cache instead of the real
+files.  the resulting cache can be distributed with the published game in place
+of the original assets.  in the event that the cache is out of date, it can be
+removed by the user, and it will be generated again once the game starts.

@@ -56,7 +56,7 @@ def main():
     app.clock.schedule(update, 1 / 70., repeat=True)
 
     # this will start the application and will exit when window is closed
-    app.run(window)
+    app.run()
 
 
 if __name__ == '__main__':
