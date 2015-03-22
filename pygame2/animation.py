@@ -8,97 +8,20 @@ needs to connect with come clock, setting triggers/callbacks
 
 from math import sqrt, cos, sin, pi
 
-__all__ = ('Task', 'Animation', 'remove_animations_of')
+__all__ = ('Animation', 'AnimationTransition')
+
+ANIMATION_NOT_STARTED = 0
+ANIMATION_RUNNING = 1
+ANIMATION_FINISHED = 2
 
 
-def remove_animations_of(group, target):
-    """Find animations that target objects and remove those animations
+def is_number(value):
+    try:
+        float(value)
+    except (ValueError, TypeError):
+        raise ValueError
 
-    :param group: pygame.sprite.Group
-    :param target: any
-    :return: None
-    """
-    animations = [ani for ani in group.sprites() if isinstance(ani, Animation)]
-    to_remove = [ani for ani in animations if target in ani.targets]
-    group.remove(*to_remove)
-
-
-class Task():
-    """Execute functions at a later time and optionally loop it
-
-    This is a silly little class meant to make it easy to create
-    delayed or looping events without any complicated hooks into
-    pygame's clock or event loop.
-
-        # like a delay
-        def call_later():
-            pass
-        task = Task(call_later, 1000)
-
-        # do something 24 times at 1 second intervals
-        task = Task(call_later, 1000, 24)
-
-        # do something every 2.5 seconds forever
-        task = Task(call_later, 2500, -1)
-
-        # pass arguments
-        task = Task(call_later, 1000, args=(1,2,3), kwargs={key: value})
-
-        # chain tasks
-        task = Task(call_later, 2500)
-        task.chain(Task(something_else))
-    """
-    def __init__(self, callback, interval=0, loops=1, args=None, kwargs=None):
-        assert (callable(callback))
-        assert (loops >= -1)
-        super(Task, self).__init__()
-        self.interval = interval
-        self.loops = loops
-        self.callback = callback
-        self._timer = 0
-        self._args = args if args else list()
-        self._kwargs = kwargs if kwargs else dict()
-        self._loops = loops
-        self._chain = list()
-
-    def chain(self, *others):
-        """Schedule Task(s) to execute when this one is finished
-
-        If you attempt to chain a task that will never end (loops=-1),
-        then ValueError will be raised.
-
-        :param others: Task instances
-        :return: None
-        """
-        if self._loops == -1:
-            raise ValueError
-        for task in others:
-            assert isinstance(task, Task)
-            self._chain.append(task)
-
-    def update(self, dt):
-        """Update the Task
-
-        The unit of time passed must match the one used in the
-        constructor.
-
-        :param dt: Time passed since last update.
-        """
-        self._timer += dt
-        if self._timer >= self.interval:
-            self._timer -= self.interval
-            self.callback(*self._args, **self._kwargs)
-            if not self._loops == -1:
-                self._loops -= 1
-                if self._loops <= 0:
-                    self._execute_chain()
-                    self._chain = None
-                    self.kill()
-
-    def _execute_chain(self):
-        groups = self.groups()
-        for task in self._chain:
-            task.add(*groups)
+    return True
 
 
 class Animation:
@@ -124,11 +47,6 @@ class Animation:
     drawn, then an exception will be raised, so you should create
     a sprite group only for containing Animations.
 
-    You can cancel the animation by calling Animation.kill().
-
-    When the Animation has finished, then it will remove itself
-    from the sprite group that contains it.
-
     You can optionally delay the start of the animation using the
     delay keyword.
 
@@ -148,21 +66,25 @@ class Animation:
           for all target names in the constructor.  This
           limitation won't be resolved for a while.
     """
+    default_transition = 'out_quad'
+
     def __init__(self, **kwargs):
-        super(Animation, self).__init__()
+        super().__init__()
         self.targets = None
-        self.delay = kwargs.get('delay', 0)
-        self._started = False
-        self._round_values = kwargs.get('round_values', False)
-        self._duration = float(kwargs.get('duration', 1000.))
-        self._transition = kwargs.get('transition', 'linear')
+        self._state = ANIMATION_NOT_STARTED
+        self._elapsed = 0.
+        self._delay = kwargs.get('delay', 0.)
+        self._duration = float(kwargs.get('duration', 1.))
         self._initial = kwargs.get('initial', None)
+        self._round_values = kwargs.get('round_values', False)
+        self._transition = kwargs.get('transition', self.default_transition)
         if isinstance(self._transition, str):
             self._transition = getattr(AnimationTransition, self._transition)
-        self._elapsed = 0.
         for key in ('duration', 'transition', 'round_values', 'delay',
                     'initial'):
             kwargs.pop(key, None)
+        if len(kwargs) == 0:
+            raise ValueError
         self.props = kwargs
 
     def _get_value(self, target, name):
@@ -175,19 +97,32 @@ class Animation:
         if self._initial is None:
             attr = getattr(target, name)
             if callable(attr):
-                value = attr()
-                if value is None:
-                    return 0
+                try:
+                    value = attr()
+                    if value is None:
+                        return 0.
+                    else:
+                        is_number(value)
+                        return value
+
+                except TypeError:
+                    # TypeError will be raised if called without needed
+                    # arguments.  That is fine here, so just return 0
+                    return 0.
+
             else:
-                return getattr(target, name)
+                value = getattr(target, name)
+                is_number(value)
+                return value
         else:
             if callable(self._initial):
-                return self._initial()
+                value = self._initial()
+                is_number(value)
+                return value
             else:
                 return self._initial
 
-    @staticmethod
-    def _set_value(target, name, value):
+    def _set_value(self, target, name, value):
         """Set a value on some other object
 
         If the name references a callable type, then
@@ -204,6 +139,9 @@ class Animation:
         :param value: value
         :return: None
         """
+        if self._round_values:
+            value = int(round(value, 0))
+
         attr = getattr(target, name)
         if callable(attr):
             attr(value)
@@ -218,13 +156,17 @@ class Animation:
 
         :param dt: Time passed since last update.
         """
+        if self._state is not ANIMATION_RUNNING:
+            raise RuntimeError
+
         self._elapsed += dt
-        if self.delay > 0:
-            if self._elapsed < self.delay:
+        if self._delay > 0:
+            if self._elapsed < self._delay:
                 return
             else:
-                self._elapsed -= self.delay
-                self.delay = 0
+                self._elapsed -= self._delay
+                self._delay = 0.
+                return
 
         p = min(1., self._elapsed / self._duration)
         t = self._transition(p)
@@ -232,10 +174,6 @@ class Animation:
             for name, values in props.items():
                 a, b = values
                 value = (a * (1. - t)) + (b * t)
-
-                if self._round_values:
-                    value = int(round(value, 0))
-
                 self._set_value(target, name, value)
 
         if hasattr(self, 'update_callback'):
@@ -247,10 +185,16 @@ class Animation:
     def finish(self):
         """Force the animation to finish
 
+        The callbck will be called here.
+        The update callback will also be called here.
+
         Final values will be applied
 
         :return: None
         """
+        if self._state is not ANIMATION_RUNNING:
+            raise RuntimeError
+
         if self.targets is not None:
             for target, props in self.targets:
                 for name, values in props.items():
@@ -261,26 +205,33 @@ class Animation:
             self.update_callback()
 
         self.targets = None
-        self.kill()
+        # self.kill()
         if hasattr(self, 'callback'):
             self.callback()
 
-    def start(self, sprite):
+        self._state = ANIMATION_FINISHED
+
+    def start(self, target):
         """Start the animation on a target sprite/object
 
         Target must have the attributes that were set when
         this animation was created.
 
-        :param sprite: Any valid python object
+        :param target: Any valid python object
         """
-        self.targets = [(sprite, dict())]
-        for target, props in self.targets:
+        if self._state is not ANIMATION_NOT_STARTED:
+            raise RuntimeError
+
+        self._state = ANIMATION_RUNNING
+        self.targets = [(target, dict())]
+        for target_, props in self.targets:
             for name, value in self.props.items():
-                initial = self._get_value(target, name)
+                initial = self._get_value(target_, name)
+                is_number(value)
                 props[name] = initial, value
 
 
-class AnimationTransition(object):
+class AnimationTransition:
     """Collection of animation functions to be used with the Animation object.
     Easing Functions ported from Kivy and the Clutter Project
     http://www.clutter-project.org/docs/clutter/stable/ClutterAlpha.html
