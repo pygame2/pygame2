@@ -39,6 +39,7 @@ class WindowBase(EventDispatcher):
 
     def __init__(self, **kwargs):
         super().__init__()
+        self.program_id = None
 
         # scan keyword arguments and set values in our instance
         # to match, but only if they are defined by WindowBase
@@ -100,7 +101,11 @@ class WindowBase(EventDispatcher):
     def create_renderer(self):
         """ Return a new renderer (sprite group) that draws to this window
         """
-        raise NotImplementedError
+        # TODO check this when multiple window support is added
+        if self.program_id is None:
+            self.program_id = pygame2.graphics.create_program()
+        renderer = pygame2.renderer.SpriteRenderer(self.program_id)
+        return renderer
 
     def flip(self):
         """flip, etc"""

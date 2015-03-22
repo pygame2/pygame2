@@ -5,6 +5,7 @@ work with the pyglet backend
 from collections import OrderedDict
 from pygame2.event import EventDispatcher
 from pygame2.graphics import *
+import pygame2
 from OpenGL.GL import *
 
 __all__ = (
@@ -191,6 +192,11 @@ class SpriteRenderer(SpriteGroupBase):
         attr_coord2d = self.attr['coord2d']
         self._attr[attr_texcoord] = generate_tex_coords()
         self._attr[attr_coord2d] = None
+
+    def create_sprite(self, *args, **kwargs):
+        sprite = pygame2.sprite.Sprite(*args, **kwargs)
+        self.add(sprite)
+        return sprite
 
     def bind_attribute(self, name):
         """bind attribute name and return value

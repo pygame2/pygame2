@@ -60,6 +60,8 @@ class Sprite(EventDispatcher):
         super().__init__()
         self._groups = set()
         self.rotation = 0
+        self.scale = 1.0, 1.0  # unused for now
+        self.shear = None      # unused for now
         self.vbo = None
         self.texture = texture
 
@@ -77,7 +79,6 @@ class Sprite(EventDispatcher):
         """ update VBO when affected by transforms or rotations
         :return: None
         """
-        # TODO: find a more elegant way to handle this
         self.vbo = new_quad_vbo(self.rect, self.rotation)
 
     def kill(self):

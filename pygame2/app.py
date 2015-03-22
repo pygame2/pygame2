@@ -6,6 +6,7 @@
 * manages audio
 * has clock/scheduler
 * handles screen/window/display updating
+* loads shaders, opengl programs, etc
 """
 import time
 
@@ -20,6 +21,11 @@ class App(EventDispatcher):
         super().__init__()
         self.clock = pygame2.clock.Clock()
         self.running = False
+        self.windows = list()
+
+    def start(self):
+        self.dispatch('app_start')
+        self.running = True
 
     def run(self, window):
         """
@@ -29,12 +35,13 @@ class App(EventDispatcher):
         send start event
         manage event loop
         """
+        self.start()
+
         queue = pygame2.core.platform.get_platform_event_queue()
         queue.start()
 
         window.bind('on_close', self.stop)
 
-        self.running = True
         while self.running:
             self.clock.tick()
 
@@ -52,3 +59,9 @@ class App(EventDispatcher):
 
     def stop(self):
         self.running = False
+
+    def create_window(self, *args, **kwargs):
+        window = pygame2.core.platform.create_window(**kwargs)
+        self.windows.append(window)
+        return window
+

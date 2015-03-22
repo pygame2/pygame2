@@ -7,7 +7,6 @@ into pygame2.
 """
 import os
 import pygame2
-from pygame2.graphics import *
 
 
 def on_key_press(*args):
@@ -21,9 +20,9 @@ def on_mouse_motion(*args):
 def main():
     size = 800, 800
 
-    window = pygame2.core.platform.create_window(size=size)
     app = pygame2.app.App()
-    program_id = create_program()
+    window = app.create_window(size=size)
+    renderer = window.create_renderer()
 
     path = os.path.join('resources', 'pygame2-nologo.png')
     texture0 = pygame2.core.image.load(path).create_texture()
@@ -31,16 +30,13 @@ def main():
     path = os.path.join('resources', 'pygame2.png')
     texture1 = pygame2.core.image.load(path).create_texture()
 
-    renderer = pygame2.renderer.SpriteRenderer(program_id)
-
     for i in range(4):
         if i % 2 == 0:
-            sprite = pygame2.sprite.Sprite(texture=texture0)
+            sprite = renderer.create_sprite(texture=texture0)
         else:
-            sprite = pygame2.sprite.Sprite(texture=texture1)
+            sprite = renderer.create_sprite(texture=texture1)
 
         sprite.rotation = i * (360 / 4)
-        renderer.add(sprite)
 
     def on_draw(*args, **kwargs):
         window.clear()

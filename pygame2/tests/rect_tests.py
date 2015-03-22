@@ -263,6 +263,11 @@ class RectTests(TestCase):
         self.assertEqual(r.center, self.r.center)
         self.assertEqual(r.size, (self.r.width + 5, self.r.height + 5))
 
+    def test_scale(self):
+        r = self.r.scale(2.0, 3.0)
+        self.assertEqual(r.center, self.r.center)
+        self.assertEqual(r.size, (self.r.width * 2.0, self.r.height * 3.0))
+
     def test_clip(self):
         # bigger
         r1 = Rect(0, 0, 125, 125)

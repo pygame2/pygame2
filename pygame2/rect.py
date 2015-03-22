@@ -323,6 +323,24 @@ class Rect:
     def h(self, value):
         self.height = value
 
+    def scale(self, x, y):
+        """
+        Returns a new rectangle with size changed by given scaling factor. The
+        rectangle remains centered around its current center. Negative values
+        will shrink the rectangle.
+        """
+        return Rect(self).scale_ip(x, y)
+
+    def scale_ip(self, x, y):
+        """
+        Same as ``Rect.scale()``, but mutates the instance
+        """
+        center = self.center
+        self.width *= x
+        self.height *= y
+        self.center = center
+        return self
+
     def copy(self):
         """
         Returns a new rectangle having the same position and size as
