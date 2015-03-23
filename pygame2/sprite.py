@@ -9,9 +9,10 @@ from math import cos, sin
 from math import radians
 import numpy
 
-from pygame2.rect import Rect
+from pygame2.animation import Animated
 from pygame2.event import EventDispatcher
 from pygame2.graphics import *
+from pygame2.rect import Rect
 
 from OpenGL.GL import *
 
@@ -46,7 +47,7 @@ def new_quad_vbo(rect, rotation=0):
     return vbo
 
 
-class Sprite(EventDispatcher):
+class Sprite(EventDispatcher, Animated):
     """simple base class for visible game objects
 
     When subclassing the Sprite, be sure to call the base initializer before

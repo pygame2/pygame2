@@ -61,8 +61,10 @@
    signature as Rect.
 """
 
+from pygame2.animation import Animated
 
-class Rect:
+
+class Rect(Animated):
     def __init__(self, *args):
         """
         Rect(left, top, width, height) -> Rect

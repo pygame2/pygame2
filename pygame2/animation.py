@@ -6,9 +6,10 @@ needs to connect with come clock, setting triggers/callbacks
 
 """
 
+from pygame2.event import EventDispatcher
 from math import sqrt, cos, sin, pi
 
-__all__ = ('Animation', 'AnimationTransition')
+__all__ = ('Animation', 'Animated', 'AnimationTransition')
 
 ANIMATION_NOT_STARTED = 0
 ANIMATION_RUNNING = 1
@@ -24,7 +25,14 @@ def is_number(value):
     return True
 
 
-class Animation:
+class Animated:
+    def animate(self, **kwargs):
+        ani = Animation(**kwargs)
+        ani.start(self)
+        return ani
+
+
+class Animation(EventDispatcher):
     """Change numeric values over time
 
     To animate a target sprite/object's position, simply specify
@@ -36,11 +44,11 @@ class Animation:
 
     You can also specify a callback that will be executed when the
     animation finishes:
-        ani.finish_callback = my_function
+        ani.bind('on_finish', post_finish_function)
 
     Another optional callback is available that is called after
     each update:
-        ani.update_callback = post_update_function
+        ani.bind('on_update', post_update_function)
 
     Animations must be added to a sprite group in order for them
     to be updated.  If the sprite group that contains them is
@@ -176,8 +184,7 @@ class Animation:
                 value = (a * (1. - t)) + (b * t)
                 self._set_value(target, name, value)
 
-        if hasattr(self, 'update_callback'):
-            self.update_callback()
+        self.dispatch('on_update')
 
         if p >= 1:
             self.finish()
@@ -201,14 +208,10 @@ class Animation:
                     a, b = values
                     self._set_value(target, name, b)
 
-        if hasattr(self, 'update_callback'):
-            self.update_callback()
-
+        self.dispatch('on_update')
         self.targets = None
-        if hasattr(self, 'finish_callback'):
-            self.finish_callback()
-
         self._state = ANIMATION_FINISHED
+        self.dispatch('on_finish')
 
     def start(self, target):
         """Start the animation on a target sprite/object
@@ -228,6 +231,8 @@ class Animation:
                 initial = self._get_value(target_, name)
                 is_number(value)
                 props[name] = initial, value
+
+        self.dispatch('on_start')
 
 
 class AnimationTransition:

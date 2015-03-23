@@ -10,6 +10,11 @@ import os
 import pygame2
 
 
+def load_texture(filename):
+    path = os.path.join('resources', filename)
+    return pygame2.core.image.load(path).create_texture()
+
+
 def on_key_press(*args):
     print('got a key press')
 
@@ -18,15 +23,38 @@ def on_mouse_motion(*args):
     print('got mouse motion')
 
 
+def offset(sprites):
+    for i, sprite in enumerate(sprites):
+        yield sprite.animate(rotation=i*(360/8), transition='in_out_quad')
+
+
+def grow(sprites):
+    for sprite in sprites:
+        yield sprite.rect.animate(width=3, duration=3, transition='in_out_quint')
+
+
+def shrink(sprites):
+    for sprite in sprites:
+        yield sprite.rect.animate(width=1, duration=1.5)
+
+
+def reset_rotation(sprites):
+    for sprite in sprites:
+        ani = sprite.animate(rotation=720, duration=1.5)
+        ani.bind('on_finish', partial(setattr, sprite, 'rotation', 0))
+        yield ani
+
+
 def main():
-    size = 800, 800
+    window_size = 800, 800
     animations = list()
 
     app = pygame2.app.App()
-    window = app.create_window(size=size)
-    renderer = window.create_renderer()
+    window = app.create_window(size=window_size)
 
     def on_draw(*args, **kwargs):
+        for sprite in renderer.sprites():
+            sprite.update_transform()
         window.clear()
         renderer.draw()
 
@@ -34,66 +62,29 @@ def main():
     window.bind('on_key_press', on_key_press)
     window.bind('on_mouse_motion', on_mouse_motion)
 
-    path = os.path.join('resources', 'pygame2-nologo.png')
-    texture0 = pygame2.core.image.load(path).create_texture()
+    texture0 = load_texture('pygame2-nologo.png')
+    texture1 = load_texture('pygame2.png')
 
-    path = os.path.join('resources', 'pygame2.png')
-    texture1 = pygame2.core.image.load(path).create_texture()
-
+    renderer = window.create_renderer()
     for i in range(8):
-        tex = texture0 if i % 2 == 0 else texture1
-        renderer.create_sprite(texture=tex)
+        texture = texture0 if i % 2 == 0 else texture1
+        renderer.create_sprite(texture=texture)
 
-    def offset(*args):
-        for i, sprite in enumerate(renderer.sprites()):
-            ani = pygame2.animation.Animation(rotation=i * (360 / 8),
-                                              transition='in_out_quad')
-            ani.update_callback = sprite.update_transform
-            ani.finish_callback = partial(animations.remove, ani)
-            ani.start(sprite)
+    def play_animation(func, dt):
+        for ani in func(renderer.sprites()):
+            ani.bind('on_finish', partial(animations.remove, ani))
             animations.append(ani)
-
-    def grow(*args):
-        for sprite in renderer.sprites():
-            ani = pygame2.animation.Animation(width=3, duration=4,
-                                              transition='in_out_quint')
-            ani.update_callback = sprite.update_transform
-            ani.finish_callback = partial(animations.remove, ani)
-            ani.start(sprite.rect)
-            animations.append(ani)
-
-    def shrink(*args):
-        for sprite in renderer.sprites():
-            ani = pygame2.animation.Animation(width=1, duration=1.5)
-            ani.update_callback = sprite.update_transform
-            ani.finish_callback = partial(animations.remove, ani)
-            ani.start(sprite.rect)
-            animations.append(ani)
-
-    def reset_rotation(*args):
-        def reset(ani, sprite):
-            sprite.rotation = 0
-            animations.remove(ani)
-
-        for sprite in renderer.sprites():
-            r = sprite.rotation
-            dr = 360 - r
-            ani = pygame2.animation.Animation(rotation=r + 360 + dr,
-                                              duration=1.5)
-            ani.update_callback = sprite.update_transform
-            ani.finish_callback = partial(reset, ani, sprite)
-            ani.start(sprite)
-            animations.append(ani)
-
-    def boo_ya_ka_sha(*args):
-        offset()
-        app.clock.schedule(grow, 1.5)
-        app.clock.schedule(shrink, 5)
-        app.clock.schedule(reset_rotation, 5)
 
     def update(dt):
         for ani in animations:
             ani.update(dt)
+
+    def boo_ya_ka_sha(*args):
+        sched = app.clock.schedule
+        sched(partial(play_animation, offset), 0)
+        sched(partial(play_animation, grow), 1)
+        sched(partial(play_animation, shrink), 5)
+        sched(partial(play_animation, reset_rotation), 5)
 
     boo_ya_ka_sha()
     app.clock.schedule(boo_ya_ka_sha, 8, repeat=True)
