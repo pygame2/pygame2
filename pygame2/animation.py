@@ -36,7 +36,7 @@ class Animation:
 
     You can also specify a callback that will be executed when the
     animation finishes:
-        ani.callback = my_function
+        ani.finish_callback = my_function
 
     Another optional callback is available that is called after
     each update:
@@ -205,9 +205,8 @@ class Animation:
             self.update_callback()
 
         self.targets = None
-        # self.kill()
-        if hasattr(self, 'callback'):
-            self.callback()
+        if hasattr(self, 'finish_callback'):
+            self.finish_callback()
 
         self._state = ANIMATION_FINISHED
 

@@ -42,24 +42,22 @@ def main():
     animations = list()
 
     for i in range(4):
-        if i % 2 == 0:
-            sprite = renderer.create_sprite(texture=texture0)
-        else:
-            sprite = renderer.create_sprite(texture=texture1)
+        tex = texture0 if i % 2 == 0 else texture1
+        renderer.create_sprite(texture=tex)
 
     def offset(*args):
         for i, sprite in enumerate(renderer.sprites()):
             ani = pygame2.animation.Animation(rotation=i * (360 / 8))
             ani.update_callback = sprite.update_transform
-            ani.callback = partial(animations.remove, ani)
+            ani.finish_callback = partial(animations.remove, ani)
             ani.start(sprite)
             animations.append(ani)
 
     def grow(*args):
         for sprite in renderer.sprites():
-            ani = pygame2.animation.Animation(width=2, duration=4)
+            ani = pygame2.animation.Animation(width=3, duration=4)
             ani.update_callback = sprite.update_transform
-            ani.callback = partial(animations.remove, ani)
+            ani.finish_callback = partial(animations.remove, ani)
             ani.start(sprite.rect)
             animations.append(ani)
 
@@ -67,27 +65,33 @@ def main():
         for sprite in renderer.sprites():
             ani = pygame2.animation.Animation(width=1, duration=1)
             ani.update_callback = sprite.update_transform
-            ani.callback = partial(animations.remove, ani)
+            ani.finish_callback = partial(animations.remove, ani)
             ani.start(sprite.rect)
             animations.append(ani)
 
     def reset_rotation(*args):
+        def reset(ani, sprite):
+            sprite.rotation = 0
+            animations.remove(ani)
+
         for sprite in renderer.sprites():
-            ani = pygame2.animation.Animation(rotation=0)
+            r = sprite.rotation
+            dr = 360 - r
+            ani = pygame2.animation.Animation(rotation=r + 360 + dr)
             ani.update_callback = sprite.update_transform
-            ani.callback = partial(animations.remove, ani)
+            ani.finish_callback = partial(reset, ani, sprite)
             ani.start(sprite)
             animations.append(ani)
-
-    def update(dt):
-        for ani in animations:
-            ani.update(dt)
 
     def boo_ya_ka_sha(*args):
         offset()
         app.clock.schedule(grow, 1.5)
         app.clock.schedule(shrink, 5.5)
         app.clock.schedule(reset_rotation, 5.5)
+
+    def update(dt):
+        for ani in animations:
+            ani.update(dt)
 
     boo_ya_ka_sha()
     app.clock.schedule(boo_ya_ka_sha, 7, repeat=True)

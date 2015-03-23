@@ -135,7 +135,7 @@ class AnimationTests(TestCase):
         """
         m = Mock()
         a = Animation(value=1)
-        a.callback = m
+        a.finish_callback = m
         a.start(self.m)
         self.simulate(a)
         self.assertTrue(m.called)
