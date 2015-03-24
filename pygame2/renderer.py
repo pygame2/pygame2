@@ -149,16 +149,13 @@ class SpriteGroupBase(SpriteGroupBase):
     def sprites(self):
         return self._members.keys()
 
-    def extend(self, sequence):
-        pass
-
     def add(self, sprite):
         if sprite not in self._members:
             self.add_internal(sprite)
             sprite.add_internal(self)
 
     def remove(self, sprite):
-        if sprite in self._members:
+        if sprite in self._members.keys():
             self.remove_internal(sprite)
             sprite.remove_internal(self)
 
@@ -166,6 +163,13 @@ class SpriteGroupBase(SpriteGroupBase):
         for sprite in self._members.keys():
             sprite.remove_internal(self)
             self.remove_internal(sprite)
+
+    # support render order operations
+    def move_sprite_to_back(self, sprite):
+        self._members.move_to_end(sprite, 1)
+
+    def move_sprite_to_front(self, sprite):
+        self._members.move_to_end(sprite, 0)
 
 
 class SpriteRenderer(SpriteGroupBase):

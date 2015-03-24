@@ -77,6 +77,10 @@ class Animation(EventDispatcher):
     default_transition = 'out_quad'
 
     def __init__(self, **kwargs):
+        # prevent bugs if developer reuses the kwargs dict when
+        # building a collection of animation
+        kwargs = kwargs.copy()
+
         super().__init__()
         self.targets = None
         self._state = ANIMATION_NOT_STARTED
@@ -221,6 +225,7 @@ class Animation(EventDispatcher):
 
         :param target: Any valid python object
         """
+        # TODO: weakref the targets
         if self._state is not ANIMATION_NOT_STARTED:
             raise RuntimeError
 

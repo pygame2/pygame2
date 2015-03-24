@@ -30,12 +30,13 @@ def offset(sprites):
 
 def grow(sprites):
     for sprite in sprites:
-        yield sprite.rect.animate(width=3, duration=3, transition='in_out_quint')
+        yield sprite.rect.animate(width=3, height=1.5, duration=3,
+                                  transition='in_out_quint')
 
 
 def shrink(sprites):
     for sprite in sprites:
-        yield sprite.rect.animate(width=1, duration=1.5)
+        yield sprite.rect.animate(width=1, height=1, duration=1.5)
 
 
 def reset_rotation(sprites):
