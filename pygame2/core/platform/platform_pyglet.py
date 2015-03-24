@@ -11,9 +11,10 @@ handles it will seem awkward:
    - catch events and queue them
 
 if we are to remove this queue/dequeue steps, then we'll have to
-fork pyglet and use pyglet's excellet ctypes-based OS interfaces and
+fork pyglet and use pyglet's excellent ctypes-based OS interfaces and
 then handle the queue directly.
 """
+from functools import partial
 import pyglet
 import pyglet.app
 
@@ -25,6 +26,21 @@ from pygame2.window import WindowBase
 
 
 __all__ = ('PlatformEventQueue', 'Window')
+
+
+def patch_pyglet_events(dispatcher, pyglet_dispatcher):
+    """Collect all events from the window class, bind them, then
+    set up a dispatcher for them.
+    """
+    # TDOD: firgure some way to reconcile pygame2's no argument dispatch
+    # and pyglets multuple argument/kwarg dispatch
+    def dispatch(name, *args, **kwargs):
+        dispatcher.dispatch(name)
+
+    for event_name in pyglet_dispatcher.event_types:
+        if not hasattr(dispatcher, event_name):
+            func = partial(dispatch, event_name)
+            setattr(pyglet_dispatcher, event_name, func)
 
 
 class PlatformEventQueue(PlatformEventQueueBase):
@@ -61,6 +77,9 @@ class Window(WindowBase):
 
         self._window = pyglet.window.Window(**kw)
 
+        # get pyglet window events
+        patch_pyglet_events(self, self._window)
+
         # temp setup
         self._window.switch_to()
         self._window.dispatch_pending_events()
@@ -77,11 +96,4 @@ class Window(WindowBase):
 
         :return: None
         """
-        queue = self._window._event_queue
-        while queue:
-            event = queue.pop(0)
-            if type(event[0]) is str:
-                self.dispatch(event[0])
-            else:
-                # win32 event
-                event[0](*event[1:])
+        self._window.dispatch_pending_events()

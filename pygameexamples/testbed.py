@@ -25,7 +25,7 @@ def on_mouse_motion(*args):
 
 def offset(sprites):
     for i, sprite in enumerate(sprites):
-        yield sprite.animate(rotation=i*(360/8), transition='in_out_quad')
+        yield sprite.animate(rotation=i * (360 / 8), transition='in_out_quad')
 
 
 def grow(sprites):
@@ -36,7 +36,7 @@ def grow(sprites):
 
 def shrink(sprites):
     for sprite in sprites:
-        yield sprite.rect.animate(width=1, height=1, duration=1.5)
+        yield sprite.rect.animate(width=1, height=1, duration=1.35)
 
 
 def reset_rotation(sprites):
@@ -89,7 +89,7 @@ def main():
 
     boo_ya_ka_sha()
     app.clock.schedule(boo_ya_ka_sha, 8, repeat=True)
-    app.clock.schedule(update, 1 / 70., repeat=True)
+    app.clock.schedule(update, 1 / 40., repeat=True)
 
     # this will start the application and will exit when window is closed
     app.run()

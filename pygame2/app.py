@@ -29,7 +29,7 @@ class App(EventDispatcher):
             raise RuntimeError
 
         self.running = True
-        self.dispatch('app_start')
+        self.dispatch('on_enter')
 
     def run(self):
         """
@@ -64,6 +64,8 @@ class App(EventDispatcher):
             # TODO: make sure we can sleep correctly on all systems
             # sleep_time = self.clock.get_idle_time()
             time.sleep(.015)
+
+        self.dispatch('on_exit')
 
     def stop(self):
         self.running = False
