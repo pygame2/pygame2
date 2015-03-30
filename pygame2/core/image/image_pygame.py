@@ -1,6 +1,8 @@
-from . import ImageLoaderBase, ImageData
+"""
+USE PILLOW
+"""
+from . import ImageLoaderBase
 # import pygame
-import os
 
 
 class ImageLoader(ImageLoaderBase):

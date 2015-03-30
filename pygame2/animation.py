@@ -1,11 +1,6 @@
 """
-
 WIP module, curently needs to be ported from pygame
-
-needs to connect with come clock, setting triggers/callbacks
-
 """
-
 from pygame2.event import EventDispatcher
 from math import sqrt, cos, sin, pi
 

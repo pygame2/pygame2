@@ -27,7 +27,7 @@ a newbie would want, such as directly controlling the event queue,
 so by catering to both groups, the library is more usable.
 
 Terms:
-Event:  basically jsut some data, probably a python dict or named tuple
+Event:  basically just some data, probably a python dict or named tuple
 Event Queue:  FIFO queue of events from pygame2 framework
 Event Loop: Manages the Event Queue.  Used by pygame2.app.App
 Platform Event Queue:  OS specific.  Collects events from OS.
@@ -74,7 +74,14 @@ class EventDispatcher:
     messages are distributed and consumers have the option of
     preventing other consumers from receiving the event.
 
-    Is this what we want?
+    Also, this is not a queue.  once events are dispatched, the
+    callbacks are called immediately.
+
+    TODO:
+       do we require event names to be registered first?
+       do we provide a list of event names to handle (related to #1)
+       how are errors handled?
+       implement unbind and unbind_internal
     """
 
     def __init__(self):
@@ -138,12 +145,8 @@ class EventDispatcher:
 
     def bind(self, *args, **kwargs):
         """Bind a callback to an event name
-        #
-        # self.bind(on_key_down=handle_key_down)
-        #
-        # these will do the same:
-        #     self.bind(on_mouse_move=self.on_mouse_move)
-        #     self.bind('on_mouse_move')
+
+        Do checks on name and callback, then bind it
 
         bind('event name', callback)
         """
@@ -191,6 +194,10 @@ class EventDispatcher:
 class PlatformEventQueueBase(EventDispatcher):
     """
     To be extended by each host layer
+
+    This could also be the monolithic queue for platform and user events
+
+    MODELED AFTER PYGAME
     """
 
     def __init__(self):
@@ -226,23 +233,25 @@ class PlatformEventQueueBase(EventDispatcher):
         """
         raise NotImplementedError
 
-    def wait(self):
-        """wait for a single event from the queue
-
-        wait() -> EventType instance
-
-        Returns a single event from the queue. If the queue is empty this
-        function will wait until one is created. The event is removed from the
-        queue once it has been returned. While the program is waiting it will
-        sleep in an idle state. This is important for programs that want to
-        share the system with other applications.
-
-        This can only be called from the thread that has set the video mode.
-
-        :return: event
-        :rtype: EventType
-        """
-        raise NotImplementedError
+    # This feature requires some though to be implemented correctly
+    #
+    # def wait(self):
+    #     """wait for a single event from the queue
+    #
+    #     wait() -> EventType instance
+    #
+    #     Returns a single event from the queue. If the queue is empty this
+    #     function will wait until one is created. The event is removed from the
+    #     queue once it has been returned. While the program is waiting it will
+    #     sleep in an idle state. This is important for programs that want to
+    #     share the system with other applications.
+    #
+    #     This can only be called from the thread that has set the video mode.
+    #
+    #     :return: event
+    #     :rtype: EventType
+    #     """
+    #     raise NotImplementedError
 
     def peek(self, types=None):
         """test if event types are waiting on the queue
@@ -306,6 +315,10 @@ class PlatformEventQueueBase(EventDispatcher):
 
 class EventLoop(EventDispatcher):
     """ the lovechild python's asyncio and pyglet's event loop
+
+    eventually will be integrated into pygame2.app.App
+
+    NOT CURRENTLY IN USE
     """
 
     def __init__(self):

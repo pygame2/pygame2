@@ -8,7 +8,7 @@ __all__ = (
 
 # declare our image providers
 # core_modules['image'] = ('image_pillow', 'image_pyglet', 'image_pygame')
-core_modules['image'] = ('image_pillow', 'image_pyglet')
+core_modules['image'] = ('image_pillow', )
 
 
 class ImageLoaderBase:

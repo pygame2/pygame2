@@ -38,8 +38,9 @@ class App(EventDispatcher):
         """
         self.start()
 
-        queue = pygame2.core.platform.get_platform_event_queue()
-        queue.start()
+        # get our events from the platform
+        platform_queue = pygame2.core.platform.get_platform_event_queue()
+        platform_queue.start()
 
         # TODO: address the run method when adding support for multiple windows
         try:
@@ -53,15 +54,19 @@ class App(EventDispatcher):
         while self.running:
             self.clock.tick()
 
-            # get our events from the platform
-            queue.get()
+            platform_queue.get()
 
             window.switch_to()
+
+            # TODO: aggrigate pyglet/window events into our monolithic queue
+
+            # pyglet windows maintain their own queue of events
+            # this method tells the window to dispatch any events in its queue
             window.dispatch_pending_events()
             window.dispatch('on_draw')
             window.flip()
 
-            # TODO: make sure we can sleep correctly on all systems
+            # TODO: make sure we can sleep correctly on all platforms
             # sleep_time = self.clock.get_idle_time()
             time.sleep(.015)
 

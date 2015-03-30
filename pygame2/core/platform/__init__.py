@@ -26,10 +26,6 @@ Abstract Hierarchy of Window Concepts:
 """
 from pygame2.core import core_modules
 
-# declare our platform providers
-# core_modules['platform'] = ('platform_pyglet', 'platform_pygame',
-# 'platform_pysdl2')
-
 
 __all__ = (
     'get_event_loop',

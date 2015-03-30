@@ -54,14 +54,14 @@ class Texture:
 
         self.unbind()
 
+    def __del__(self):
+        self.delete()
+
     def bind(self):
         glBindTexture(GL_TEXTURE_2D, self.id)
 
     def unbind(self):
         glBindTexture(GL_TEXTURE_2D, 0)
-
-    def __del__(self):
-        self.delete()
 
     def delete(self):
         glDeleteTextures([self.id])

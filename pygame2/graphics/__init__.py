@@ -1,9 +1,9 @@
 """
 OpenGL is very unstable right now.
 
-For cross platform support, version 3.3 will be the lowest supported version.
-Currently, it is the best choice for OS X, and is supported well on windows
-and linux.
+For cross platform support, version OpenGL 3.3 will be the lowest
+supported version.  Currently, it is the best choice for OS X, and
+is supported well on windows and linux.
 """
 import os
 
@@ -190,6 +190,9 @@ class VertexBufferObject(AbstractBuffer):
         self.id = glGenBuffers(1)
         self.set_data(data)
 
+    def __del__(self):
+        self.delete()
+
     def bind(self):
         glBindBuffer(self.target, self.id)
 
@@ -200,9 +203,6 @@ class VertexBufferObject(AbstractBuffer):
         self.bind()
         glBufferData(self.target, data, self.usage)
         self.unbind()
-
-    def __del__(self):
-        self.delete()
 
     def delete(self):
         glDeleteBuffers(1, [self.id])

@@ -1,12 +1,18 @@
 """
 Image loading from pyglet.
 
+
+USE PILLOW
+
+
 Pyglet has many pure-python based image loading functions,
 but tends to be slower than pygame or Pillow
 """
 
 import pyglet
+
 from . import ImageLoaderBase, ImageData
+
 
 __all__ = ('ImageLoader', )
 

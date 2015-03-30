@@ -4,11 +4,12 @@ do magic here to load the best available loaders for the pygame2 core
 core_modules = dict()
 core_providers = dict()
 
+import logging
+
 from . import audio
 from . import image
 from . import platform
 
-import logging
 
 logger = logging.getLogger('pygame2.core')
 

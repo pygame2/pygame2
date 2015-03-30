@@ -15,14 +15,12 @@ fork pyglet and use pyglet's excellent ctypes-based OS interfaces and
 then handle the queue directly.
 """
 from functools import partial
+
 import pyglet
 import pyglet.app
 
 from pygame2.event import PlatformEventQueueBase
 from pygame2.window import WindowBase
-
-# from pygame2.input.keyboard import KeyboardBase
-# from pygame2.input.mouse import MouseBase
 
 
 __all__ = ('PlatformEventQueue', 'Window')
@@ -32,8 +30,8 @@ def patch_pyglet_events(dispatcher, pyglet_dispatcher):
     """Collect all events from the window class, bind them, then
     set up a dispatcher for them.
     """
-    # TDOD: firgure some way to reconcile pygame2's no argument dispatch
-    # and pyglets multuple argument/kwarg dispatch
+    # TDOD: figure some way to reconcile pygame2's no argument dispatch
+    # and pyglets multiple argument/kwarg dispatch
     def dispatch(name, *args, **kwargs):
         dispatcher.dispatch(name)
 
@@ -52,7 +50,7 @@ class PlatformEventQueue(PlatformEventQueueBase):
         self.platform_event_loop.start()
 
     def get(self, event_filter=None):
-        timeout = .001
+        timeout = .01
         self.platform_event_loop.notify()
         self.platform_event_loop.step(timeout)
         # sleep isn't implemented on os x, yet
@@ -77,7 +75,9 @@ class Window(WindowBase):
 
         self._window = pyglet.window.Window(**kw)
 
-        # get pyglet window events
+        # connect pyglet dispatcher to pygame2 dispatcher
+        # an unpleasant side effect is that arguments passed
+        # to pyglet events are lost.  this will change.
         patch_pyglet_events(self, self._window)
 
         # temp setup
@@ -93,6 +93,8 @@ class Window(WindowBase):
 
     def dispatch_pending_events(self):
         """ Pyglet provides an event queue for each window
+
+        TODO: remove this once event queue is finalized
 
         :return: None
         """

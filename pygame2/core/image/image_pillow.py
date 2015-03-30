@@ -1,10 +1,14 @@
 """
 Image loading based on Pillow
 
+THIS IS OUR DEFAULT LOADER
+
 Please do not use PIL
 """
 from PIL import Image
+
 from . import ImageLoaderBase, ImageData
+
 
 __all__ = ('ImageLoader', )
 
