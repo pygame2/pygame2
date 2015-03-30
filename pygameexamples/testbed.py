@@ -15,14 +15,6 @@ def load_texture(filename):
     return pygame2.core.image.load(path).create_texture()
 
 
-def on_key_press(*args):
-    print('got a key press')
-
-
-def on_mouse_motion(*args):
-    print('got mouse motion')
-
-
 def offset(sprites):
     for i, sprite in enumerate(sprites):
         yield sprite.animate(rotation=i * (360 / 8), transition='in_out_quad')
@@ -60,8 +52,6 @@ def main():
         renderer.draw()
 
     window.bind('on_draw', on_draw)
-    window.bind('on_key_press', on_key_press)
-    window.bind('on_mouse_motion', on_mouse_motion)
 
     texture0 = load_texture('pygame2-nologo.png')
     texture1 = load_texture('pygame2.png')
