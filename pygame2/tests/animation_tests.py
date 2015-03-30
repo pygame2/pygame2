@@ -130,7 +130,7 @@ class AnimationTests(TestCase):
         # 101 = 100 iterations of update + 1 iteration during the finalizer
         self.assertEqual(m.call_count, 101)
 
-    def test_final_callback_called(self):
+    def test_final_callback_called_when_finished(self):
         """ verify that callback is called during the finalizer
         """
         m = Mock()
@@ -140,6 +140,31 @@ class AnimationTests(TestCase):
         self.simulate(a)
         self.assertTrue(m.called)
         self.assertEqual(m.call_count, 1)
+
+    def test_final_callback_called_when_aborted(self):
+        """ verify that callback is called during the finalizer
+        """
+        m = Mock()
+        a = Animation(value=1)
+        a.bind('on_finish', m)
+        a.start(self.m)
+        a.abort()
+        self.assertTrue(m.called)
+        self.assertEqual(m.call_count, 1)
+
+    def test_update_callback_not_called_when_aborted(self):
+        m = Mock()
+        a = Animation(value=1)
+        a.bind('on_update', m)
+        a.start(self.m)
+        a.abort()
+        self.assertFalse(m.called)
+
+    def test_values_not_applied_when_aborted(self):
+        a = Animation(value=1)
+        a.start(self.m)
+        a.abort()
+        self.assertEqual(self.m.value, 0)
 
     def test_non_number_target_raises_valueerror(self):
         a = Animation(value=self.m.illegal_value)
@@ -162,6 +187,12 @@ class AnimationTests(TestCase):
     def test_no_targets_raises_valueerror(self):
         with self.assertRaises(ValueError):
             Animation()
+
+    def test_abort_before_start_raises_runtimeerror(self):
+        a = Animation(value=1)
+
+        with self.assertRaises(RuntimeError):
+            a.abort()
 
     def test_finish_before_start_raises_runtimeerror(self):
         a = Animation(value=1)

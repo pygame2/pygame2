@@ -213,7 +213,22 @@ class Animation(EventDispatcher):
                     self._set_value(target, name, b)
 
         self.dispatch('on_update')
-        self.targets = None
+        self._state = ANIMATION_FINISHED
+        self.dispatch('on_finish')
+
+    def abort(self):
+        """Force animation state to finish
+
+        Callbacks will not be handled and final values will not
+        be applied.  It is totally fine to not call abort() if
+        an animation is stopped, but if game logic requires
+        animation callbacks, then this should be used.
+
+        :return: None
+        """
+        if self._state is not ANIMATION_RUNNING:
+            raise RuntimeError
+
         self._state = ANIMATION_FINISHED
         self.dispatch('on_finish')
 
