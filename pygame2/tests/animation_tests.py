@@ -122,7 +122,7 @@ class AnimationTests(TestCase):
         """
         m = Mock()
         a = Animation(value=1)
-        a.bind('on_update', m)
+        a.subscribe_by_name("on-update", m)
         a.start(self.m)
         self.simulate(a)
         self.assertTrue(m.called)
@@ -135,7 +135,7 @@ class AnimationTests(TestCase):
         """
         m = Mock()
         a = Animation(value=1)
-        a.bind('on_finish', m)
+        a.subscribe_by_name("on-finish", m)
         a.start(self.m)
         self.simulate(a)
         self.assertTrue(m.called)
@@ -146,7 +146,7 @@ class AnimationTests(TestCase):
         """
         m = Mock()
         a = Animation(value=1)
-        a.bind('on_finish', m)
+        a.subscribe_by_name("on-finish", m)
         a.start(self.m)
         a.abort()
         self.assertTrue(m.called)
@@ -155,7 +155,7 @@ class AnimationTests(TestCase):
     def test_update_callback_not_called_when_aborted(self):
         m = Mock()
         a = Animation(value=1)
-        a.bind('on_update', m)
+        a.subscribe_by_name("on-update", m)
         a.start(self.m)
         a.abort()
         self.assertFalse(m.called)
