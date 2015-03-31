@@ -32,8 +32,11 @@ Event Queue:  FIFO queue of events from pygame2 framework
 Event Loop: Manages the Event Queue.  Used by pygame2.app.App
 Platform Event Queue:  OS specific.  Collects events from OS.
 """
+from weakref import proxy
+from abc import ABCMeta, abstractmethod
 import queue
 import logging
+
 import pygame2
 
 
@@ -44,22 +47,6 @@ __all__ = (
     "NoHandlerException")
 
 logger = logging.getLogger("pygame2.event")
-
-
-def verify_name(name):
-    """Event names must begin with "on_"
-
-    :param name: Name of event
-    :type name: str
-    :return: None
-    :rtype: None
-    """
-    if not name.startswith('on_'):
-        raise ValueError('Event names must begin with "on_"')
-
-
-class NoHandlerException(Exception):
-    pass
 
 
 class EventDispatcher:
@@ -84,114 +71,90 @@ class EventDispatcher:
        implement unbind and unbind_internal
     """
 
-    def __init__(self):
-        self._event_handlers = dict()
-
-    # def register_event_type(self, name):
-    # """register new event type
-    #
-    # :param name:
-    #     :type name:
-    #     :return:
-    #     :rtype:
-    #     """
-    #     # verify_name(name)
-    #     self._event_handlers[name] = list()
-    #
-    # def unregister_event_type(self, name):
-    #     """Unregister the event
-    #
-    #     No error will be raised if the event type does not exist
-    #
-    #     :param name:
-    #     :type name:
-    #     :return:
-    #     :rtype:
-    #     """
-    #     try:
-    #         del self._event_handlers[name]
-    #     except KeyError:
-    #         pass
-
-    def dispatch(self, name):
-        """Dispatch a single event
-
-        :param name:
-        :type name:
-        :return:
-        :rtype:
-        """
-        # TODO: check if event_type is valid for this instance
-        # TODO: if not valid raise NoHandlerException
-        try:
-            observers = self._event_handlers[name]
-        except KeyError:
-            return
-
-        for handler in observers:
-            # handler = other.get(name, None)
-            # if handler is None:
-            #     raise NoHandlerException
-            handler()
-
-    @property
-    def events(self):
-        """Return list of all events this object responds to
-
-        :return:
-        :rtype: list
-        """
-        return self._event_handlers.keys()
-
-    def bind(self, *args, **kwargs):
-        """Bind a callback to an event name
-
-        Do checks on name and callback, then bind it
-
-        bind('event name', callback)
-        """
-
-        # def bind(name, callback):
-        #     verify_name(name)
-        #     assert callable(callback), '{!r} is not callable'.format(callback)
-        #     # TODO: search for a previous handler
-        #     wm = weakref.WeakMethod(callback)
-        #     self.bind_internal(name, wm)
-        #
-        # for name in args:
-        #     callback = getattr(self, name, None)
-        #     if callback is None:
-        #         raise NoHandlerException(
-        #             'missing handler of event: {}'.format(name))
-        #     bind(name, callback)
-        #
-        # for name, callback in kwargs.items():
-        #     bind(name, callback)
-
-        # TODO: finalize our API
-        name, callback = args
-        self.bind_internal(name, callback)
-
-    def bind_internal(self, name, callback):
-        """Bind one event.
-
-        To be used internally by pygame2.
-        has basically zero checks on the parameters,
-        so use with caution!
-        """
-        try:
-            observers = self._event_handlers[name]
-        except KeyError:
-            observers = list()
-            self._event_handlers[name] = observers
-        observers.append(callback)
-
-    def unbind(self, name, callback):
-        """ use weakmethods """
+    class DuplicateEventName(Exception):
         pass
 
+    class NoQueueSetException(Exception):
+        pass
 
-class PlatformEventQueueBase(EventDispatcher):
+    def __init__(self):
+        self._event_types = list()
+        self._event_lookup = dict()
+        self._subscriptions = list()
+        self._queue = None
+
+    def set_queue(self, queue):
+        self._queue = queue
+
+    def register(self, event_name, *args):
+        self._assert_not_duplicate_name(event_name)
+        id = len(self._event_types)
+        self._event_types.append((event_name, ) + tuple([proxy(a) for a in args]))
+        self._event_lookup[event_name] = id
+        self._subscriptions.append([])
+        return id
+
+    def _assert_not_duplicate_name(self, event_name):
+        if event_name in self._event_lookup:
+            raise self.DuplicateEventName()
+
+    def subscribe(self, event_name, callback, *default_args):
+        """Least safe, most convenient"""
+        if event_name not in self._event_lookup:
+            self.register(event_name, *default_args)
+        self.subscribe_by_name(event_name, callback)
+
+    def subscribe_by_name(self, event_name, callback):
+        """Safe and convenient"""
+        id = self._event_lookup[event_name]
+        self.subscribe_by_id(id, callback)
+
+    def subscribe_by_id(self, event_id, callback):
+        """Safe and fast"""
+        self._subscriptions[event_id].append(callback)
+
+    def broadcast(self, event_name, **kwargs):
+        """Least performant, most convenient, flexible"""
+        if event_name not in self._event_lookup:
+            return
+
+        id = self._event_lookup[event_name]
+        if self._queue is None:
+            subscribers = self._subscriptions[id]
+            event_type = self._event_types[id]
+            for subscriber in subscribers:
+                subscriber(*event_type, **kwargs)
+        else:
+            self._queue.append((id, kwargs))
+
+    def broadcast_by_name(self, event_name):
+        """Good performance, Reasonable Convenience"""
+        id = self._event_lookup[event_name]
+        self.broadcast_by_id(id)
+
+    def broadcast_by_id(self, id):
+        """Best performance, Least Convenient"""
+        if self._queue is None:
+            event_type = self._event_types[id]
+            for subscriber in self._subscriptions[id]:
+                subscriber(*event_type)
+        else:
+            self._queue.append((id, None))
+
+    def flush(self):
+        if self._queue is None:
+            raise self.NoQueueSetException()
+        while len(self._queue) > 0:
+            id, kwargs = self._queue.popleft()
+            event_type = self._event_types[id]
+            for subscriber in self._subscriptions[id]:
+                if kwargs is not None:
+                    subscriber(*event_type, **kwargs)
+                else:
+                    subscriber(*event_type)
+
+
+class PlatformEventQueueBase(EventDispatcher, metaclass=ABCMeta):
     """
     To be extended by each host layer
 
@@ -214,11 +177,13 @@ class PlatformEventQueueBase(EventDispatcher):
         self.event_queue = queue.Queue()
         # TODO: clear out events already in the platform queue
 
+    @abstractmethod
     def get(self, event_filter=None):
         """Get events from the queue
         """
         raise NotImplementedError
 
+    @abstractmethod
     def poll(self):
         """get a single event from the queue
 
@@ -233,7 +198,7 @@ class PlatformEventQueueBase(EventDispatcher):
         """
         raise NotImplementedError
 
-    # This feature requires some though to be implemented correctly
+    # This feature requires some thought to be implemented correctly
     #
     # def wait(self):
     #     """wait for a single event from the queue
@@ -253,6 +218,7 @@ class PlatformEventQueueBase(EventDispatcher):
     #     """
     #     raise NotImplementedError
 
+    @abstractmethod
     def peek(self, types=None):
         """test if event types are waiting on the queue
 
@@ -270,6 +236,7 @@ class PlatformEventQueueBase(EventDispatcher):
         """
         raise NotImplementedError
 
+    @abstractmethod
     def post(self, event):
         """place a new event on the queue
 
@@ -292,6 +259,7 @@ class PlatformEventQueueBase(EventDispatcher):
         """
         raise NotImplementedError
 
+    @abstractmethod
     def clear(self, event_filter=None):
         """remove all events from the queue
 
@@ -307,6 +275,7 @@ class PlatformEventQueueBase(EventDispatcher):
         """
         raise NotImplementedError
 
+    @abstractmethod
     def stop(self):
         """Stop platform dependant event queue
         """

@@ -72,11 +72,16 @@ class Animation(EventDispatcher):
     default_transition = 'out_quad'
 
     def __init__(self, **kwargs):
+        super().__init__()
         # prevent bugs if developer reuses the kwargs dict when
         # building a collection of animation
+
+        self.register("on-start")
+        self.register("on-update")
+        self.register("on-finish")
+
         kwargs = kwargs.copy()
 
-        super().__init__()
         self.targets = None
         self._state = ANIMATION_NOT_STARTED
         self._elapsed = 0.
@@ -183,8 +188,7 @@ class Animation(EventDispatcher):
                 value = (a * (1. - t)) + (b * t)
                 self._set_value(target, name, value)
 
-        self.dispatch('on_update')
-
+        self.broadcast_by_name("on-update")
         if p >= 1:
             self.finish()
 
@@ -207,9 +211,9 @@ class Animation(EventDispatcher):
                     a, b = values
                     self._set_value(target, name, b)
 
-        self.dispatch('on_update')
+        self.broadcast_by_name("on-update")
         self._state = ANIMATION_FINISHED
-        self.dispatch('on_finish')
+        self.broadcast_by_name("on-finish")
 
     def abort(self):
         """Force animation state to finish
@@ -225,7 +229,7 @@ class Animation(EventDispatcher):
             raise RuntimeError
 
         self._state = ANIMATION_FINISHED
-        self.dispatch('on_finish')
+        self.broadcast_by_name("on-finish")
 
     def start(self, target):
         """Start the animation on a target sprite/object
@@ -247,7 +251,7 @@ class Animation(EventDispatcher):
                 is_number(value)
                 props[name] = initial, value
 
-        self.dispatch('on_start')
+        self.broadcast_by_name("on-start")
 
 
 class AnimationTransition:
