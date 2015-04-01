@@ -53,8 +53,6 @@ logger = logging.getLogger("pygame2.event")
 class EventDispatcher:
     """
     All classes that send or receive events must inherit from this class
-    event callbacks do not accept positional or keyword arguments
-    if you want to pass arguments, use functools.partial
 
     This is not the publish subscribe pattern.  The pub/sub pattern
     dictates that all subscribes will receive messages they are
@@ -62,30 +60,30 @@ class EventDispatcher:
     messages are distributed and consumers have the option of
     preventing other consumers from receiving the event.
 
-    API Hints:
-        foo.subscribe('on_bar', foo.on_bar)
-        bar.broadcast('on_bar')
-        bar.broadcast('on_bar', False)
-        bar.broadcast('on_bar', is_it_foobar=True)
-
     TODO:
-       do we require event names to be registered first?
-       do we provide a list of event names to handle (related to #1)
-       how are errors handled?
-       implement unbind and unbind_internal
+        implement unschedule (for internal use only?)
+        allow consumers to halt propagation of event
+        allow arguments to be passed to broadcast (or not)
 
     names:
         eventually, this psuedo pub/sub will be more like the observer
         pattern, with the queue shoehorned in.  i'd like to keep the names
         'bind and 'dispatch' since they are already in use in popular
         python frameworks and are closer in meaning to the intended function
-        (when you disregard the current state of it)
+
+        event names should follow normal python naming rules
+        this will allow for a decorator in the future to decorate
+        functions and derive the event name from the function name:
+
+        @window.event
+        def on_draw():
+            pass
+
+        is the same as, but available in a decorator:
+        window.subscribe('on_draw', on_draw)
 
     concerns:
-        why are event names being sent back to the subscribers?
-        let's simplify sub/broad to 'slow+safe or fast+unsafe' instead of 3 choices (9 combinations!)
         how useful is 'setting default arguments when subscribing events'?
-        implement weakref into subscriptions, as we don't want stale refs
     """
     class EventNotRegistered(Exception):
         pass
@@ -96,15 +94,20 @@ class EventDispatcher:
     class NoQueueSetException(Exception):
         pass
 
+    # change to a list or tuple of event names to have them
+    # automatically registered when instance is created
+    __event_names__ = None
+
     def __init__(self):
         self._event_types = list()
         self._event_lookup = dict()
         self._subscriptions = list()
         self.queue = None
 
-        event_names = getattr(self, '__events__', list())
-        for event_name in event_names:
-            self.register(event_name)
+        event_names = getattr(self, '__events__', None)
+        if event_names is not None:
+            for event_name in event_names:
+                self.register(event_name)
 
     def enable_queue(self, queue=None):
         if queue is None:
@@ -122,11 +125,20 @@ class EventDispatcher:
         if event_name in self._event_lookup:
             raise self.DuplicateEventName()
 
+        # TODO: verify that event name follows standard python rules
+
         id = len(self._event_types)
         self._event_types.append(tuple([proxy(a) for a in args]))
         self._event_lookup[event_name] = id
         self._subscriptions.append(list())
         return id
+
+    def get_handled_events(self):
+        """Return a list of event names that is handled
+
+        :return: list of event names
+        """
+        return self._event_lookup.keys()
 
     def subscribe(self, event_name, callback):
         """Safer and more convenient
@@ -155,14 +167,17 @@ class EventDispatcher:
         except IndexError:
             raise self.EventNotRegistered(self, event_id)
 
-    # def subscribe_internal(self, id, callback):
-    #     """Do not use unless you know what you are doing
-    #
-    #     :param id:
-    #     :param callback:
-    #     :return:
-    #     """
-    #     pass
+    def subscribe_internal(self, id, callback):
+        """Do not use unless you know what you are doing
+
+        Eventually, this will be used internally to provide
+        subscribing without slow checks, useful for automation.
+
+        :param id:
+        :param callback:
+        :return:
+        """
+        pass
 
     def broadcast(self, event_name, **kwargs):
         """Least performant, most convenient, flexible

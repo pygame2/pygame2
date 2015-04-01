@@ -37,6 +37,10 @@ class Animation(EventDispatcher):
         ani = Animation(x=100, y=100, duration=1000)
         ani.start(sprite)
 
+    If you would rather specify relative values, then pass the
+    relative keyword, and the values will be adjusted for you:
+        ani = Animation(x=100, y=100, duration=1000, relative=True)
+
     You can also specify a callback that will be executed when the
     animation finishes:
         ani.bind('on_finish', post_finish_function)
@@ -70,13 +74,10 @@ class Animation(EventDispatcher):
           limitation won't be resolved for a while.
     """
     default_transition = 'out_quad'
+    __events__= ('on_start', 'on_update', 'on_finish')
 
     def __init__(self, **kwargs):
         super().__init__()
-        self.register('on_start')
-        self.register('on_update')
-        self.register('on_finish')
-
         # prevent bugs if developer reuses the kwargs dict when
         # building a collection of animations
         kwargs = kwargs.copy()
@@ -89,6 +90,8 @@ class Animation(EventDispatcher):
         self._initial = kwargs.get('initial', None)
         self._round_values = kwargs.get('round_values', False)
         self._transition = kwargs.get('transition', self.default_transition)
+        if kwargs.get('relative', False):
+            kwargs['_relative'] = True
         if isinstance(self._transition, str):
             self._transition = getattr(AnimationTransition, self._transition)
         for key in ('duration', 'transition', 'round_values', 'delay',
@@ -238,6 +241,7 @@ class Animation(EventDispatcher):
 
         :param target: Any valid python object
         """
+        # TODO: multiple targets
         # TODO: weakref the targets
         if self._state is not ANIMATION_NOT_STARTED:
             raise RuntimeError
@@ -245,9 +249,13 @@ class Animation(EventDispatcher):
         self._state = ANIMATION_RUNNING
         self.targets = [(target, dict())]
         for target_, props in self.targets:
+            relative = props.get('_relative', False)
             for name, value in self.props.items():
                 initial = self._get_value(target_, name)
+                is_number(initial)
                 is_number(value)
+                if relative:
+                    value += initial
                 props[name] = initial, value
 
         self.broadcast('on_start')
