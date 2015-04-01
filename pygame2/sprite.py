@@ -55,6 +55,19 @@ class Sprite(EventDispatcher, Animated):
 
     When making game objects (players, missiles, etc), it is advisable to
     follow the composite pattern, rather than subclassing this.
+
+    One important concept to think about is that there are no
+    "animated sprites".  Sprites can be thought of as simply
+    'just enough' data to show a texture somewhere on the screen,
+    and are not enough to be game objects.
+
+    To make an abstraction of game objects whose graphical representation
+    will change over time (animate), then sprites should be treated like
+    individiual frames of the animation.
+
+    the exception to the above statement would be when each animation frame
+    is the same size as the rest.  in this case, it would be acceptable
+    to simply change the texture that the sprite refers to.
     """
 
     def __init__(self, texture=None):

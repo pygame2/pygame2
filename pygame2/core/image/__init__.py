@@ -103,11 +103,6 @@ class ImageData:
     def convert(self):
         return self._data.get_data('RGBA', self._data.pitch)
 
-    def create_texture(self):
-        """Create a texture containing this image.
-        """
-        return Texture(self._width, self._height, self._data)
-
     def blit_to_texture(self, target, level, x, y, z, internalformat=None):
         """Draw this image to to the currently bound texture at `target`.
 

@@ -40,6 +40,13 @@ class SpriteRenderer(SpriteGroupBase):
         self.add(sprite)
         return sprite
 
+    def create_texture(self, surface):
+        """Create a texture containing this image.
+        """
+        # TODO: textures made here since format is dependant on renderer
+        width, height = surface.size
+        return Texture(width, height, surface._data)
+
     def bind_attribute(self, name):
         """bind attribute name and return value
         """

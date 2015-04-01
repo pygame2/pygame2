@@ -10,9 +10,9 @@ import os
 import pygame2
 
 
-def load_texture(*args):
+def load_texture(renderer, *args):
     path = os.path.join('..', '..', 'resources', *args)
-    return pygame2.core.image.load(path).create_texture()
+    return renderer.create_texture(pygame2.core.image.load(path))
 
 
 def main():
@@ -82,17 +82,17 @@ def main():
         window.clear()
         renderer.draw()
 
-    print(window._event_lookup.keys())
     window.subscribe('on_draw', on_draw)
     window.subscribe('on_key_press', on_key_press)
 
     renderer = window.create_renderer()
+    loader = partial(load_texture, renderer)
 
-    texture = load_texture('backgrounds', 'colored_grass.png')
+    texture = loader('backgrounds', 'colored_grass.png')
     background_sprite = renderer.create_sprite(texture=texture)
     background_sprite.rect = pygame2.Rect(0, 0, 2, 2)
 
-    texture = load_texture('players', 'Green', 'alienGreen_walk1.png')
+    texture = loader('players', 'Green', 'alienGreen_walk1.png')
     player_sprite = renderer.create_sprite(texture=texture)
     player_sprite.rect = pygame2.Rect(0, 0, .25, .5)
 

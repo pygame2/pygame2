@@ -10,9 +10,9 @@ import os
 import pygame2
 
 
-def load_texture(filename):
+def load_texture(renderer, filename):
     path = os.path.join('resources', filename)
-    return pygame2.core.image.load(path).create_texture()
+    return renderer.create_texture(pygame2.core.image.load(path))
 
 
 def offset(sprites):
@@ -44,6 +44,7 @@ def main():
 
     app = pygame2.app.App()
     window = app.create_window(size=window_size)
+    renderer = window.create_renderer()
 
     def on_draw(*args, **kwargs):
         for sprite in renderer.sprites():
@@ -53,10 +54,10 @@ def main():
 
     window.subscribe('on_draw', on_draw)
 
-    texture0 = load_texture('pygame2-nologo.png')
-    texture1 = load_texture('pygame2.png')
+    loader = partial(load_texture, renderer)
+    texture0 = loader('pygame2-nologo.png')
+    texture1 = loader('pygame2.png')
 
-    renderer = window.create_renderer()
     for i in range(8):
         texture = texture0 if i % 2 == 0 else texture1
         renderer.create_sprite(texture=texture)
