@@ -33,7 +33,7 @@ class Control(EventDispatcher):
     def value(self, value):
         if not value == self._value:
             self._value = value
-            self.dispatch('on_change')
+            self.broadcast('on_change')
 
 
 class RelativeAxis(Control):

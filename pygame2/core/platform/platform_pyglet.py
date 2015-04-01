@@ -33,10 +33,15 @@ def patch_pyglet_events(dispatcher, pyglet_dispatcher):
     # TDOD: figure some way to reconcile pygame2's no argument dispatch
     # and pyglets multiple argument/kwarg dispatch
     def dispatch(name, *args, **kwargs):
-        dispatcher.dispatch(name)
+        kwargs['args'] = args
+        dispatcher.broadcast(name, **kwargs)
 
     for event_name in pyglet_dispatcher.event_types:
         if not hasattr(dispatcher, event_name):
+            try:
+                dispatcher.register(event_name)
+            except dispatcher.DuplicateEventName:
+                continue
             func = partial(dispatch, event_name)
             setattr(pyglet_dispatcher, event_name, func)
 
@@ -56,8 +61,26 @@ class PlatformEventQueue(PlatformEventQueueBase):
         # sleep isn't implemented on os x, yet
         # self.platform_event_loop.sleep(30)
 
+    def post(self, event):
+        pass
+
+    def stop(self):
+        pass
+
+    def poll(self):
+        pass
+
+    def clear(self, event_filter=None):
+        pass
+
+    def peek(self, types=None):
+        pass
+
 
 class Window(WindowBase):
+    def activate(self):
+        pass
+
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
 

@@ -17,6 +17,9 @@ __all__ = ('App', )
 
 
 class App(EventDispatcher):
+
+    __events__ = ('on_enter', 'on_close', 'on_exit')
+
     def __init__(self):
         super().__init__()
         self.clock = pygame2.clock.Clock()
@@ -29,7 +32,7 @@ class App(EventDispatcher):
             raise RuntimeError
 
         self.running = True
-        self.dispatch('on_enter')
+        self.broadcast('on_enter')
 
     def run(self):
         """
@@ -49,7 +52,7 @@ class App(EventDispatcher):
             print('create a window before calling App.run')
             raise RuntimeError
 
-        window.bind('on_close', self.stop)
+        window.subscribe('on_close', self.stop)
 
         while self.running:
             self.clock.tick()
@@ -63,14 +66,14 @@ class App(EventDispatcher):
             # pyglet windows maintain their own queue of events
             # this method tells the window to dispatch any events in its queue
             window.dispatch_pending_events()
-            window.dispatch('on_draw')
+            window.broadcast('on_draw')
             window.flip()
 
             # TODO: make sure we can sleep correctly on all platforms
             # sleep_time = self.clock.get_idle_time()
             time.sleep(.015)
 
-        self.dispatch('on_exit')
+        self.broadcast('on_exit')
 
     def stop(self):
         self.running = False

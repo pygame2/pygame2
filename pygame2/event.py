@@ -36,6 +36,7 @@ from weakref import proxy
 from abc import ABCMeta, abstractmethod
 import queue
 import logging
+from collections import deque
 
 import pygame2
 
@@ -61,15 +62,33 @@ class EventDispatcher:
     messages are distributed and consumers have the option of
     preventing other consumers from receiving the event.
 
-    Also, this is not a queue.  once events are dispatched, the
-    callbacks are called immediately.
+    API Hints:
+        foo.subscribe('on_bar', foo.on_bar)
+        bar.broadcast('on_bar')
+        bar.broadcast('on_bar', False)
+        bar.broadcast('on_bar', is_it_foobar=True)
 
     TODO:
        do we require event names to be registered first?
        do we provide a list of event names to handle (related to #1)
        how are errors handled?
        implement unbind and unbind_internal
+
+    names:
+        eventually, this psuedo pub/sub will be more like the observer
+        pattern, with the queue shoehorned in.  i'd like to keep the names
+        'bind and 'dispatch' since they are already in use in popular
+        python frameworks and are closer in meaning to the intended function
+        (when you disregard the current state of it)
+
+    concerns:
+        why are event names being sent back to the subscribers?
+        let's simplify sub/broad to 'slow+safe or fast+unsafe' instead of 3 choices (9 combinations!)
+        how useful is 'setting default arguments when subscribing events'?
+        implement weakref into subscriptions, as we don't want stale refs
     """
+    class EventNotRegistered(Exception):
+        pass
 
     class DuplicateEventName(Exception):
         pass
@@ -81,77 +100,124 @@ class EventDispatcher:
         self._event_types = list()
         self._event_lookup = dict()
         self._subscriptions = list()
-        self._queue = None
+        self.queue = None
 
-    def set_queue(self, queue):
-        self._queue = queue
+        event_names = getattr(self, '__events__', list())
+        for event_name in event_names:
+            self.register(event_name)
+
+    def enable_queue(self, queue=None):
+        if queue is None:
+            self.queue = deque()
+        else:
+            self.queue = queue
 
     def register(self, event_name, *args):
-        self._assert_not_duplicate_name(event_name)
-        id = len(self._event_types)
-        self._event_types.append((event_name, ) + tuple([proxy(a) for a in args]))
-        self._event_lookup[event_name] = id
-        self._subscriptions.append([])
-        return id
+        """Register an event name for use
 
-    def _assert_not_duplicate_name(self, event_name):
+        :param event_name:
+        :param args:
+        :return:
+        """
         if event_name in self._event_lookup:
             raise self.DuplicateEventName()
 
-    def subscribe(self, event_name, callback, *default_args):
-        """Least safe, most convenient"""
-        if event_name not in self._event_lookup:
-            self.register(event_name, *default_args)
-        self.subscribe_by_name(event_name, callback)
+        id = len(self._event_types)
+        self._event_types.append(tuple([proxy(a) for a in args]))
+        self._event_lookup[event_name] = id
+        self._subscriptions.append(list())
+        return id
 
-    def subscribe_by_name(self, event_name, callback):
-        """Safe and convenient"""
-        id = self._event_lookup[event_name]
-        self.subscribe_by_id(id, callback)
+    def subscribe(self, event_name, callback):
+        """Safer and more convenient
+
+        :param event_name:
+        :param callback:
+        :return: id of subscribed event
+        """
+        try:
+            id = self._event_lookup[event_name]
+        except KeyError:
+            raise self.EventNotRegistered(self, event_name)
+        else:
+            self.subscribe_by_id(id, callback)
+            return id
 
     def subscribe_by_id(self, event_id, callback):
-        """Safe and fast"""
-        self._subscriptions[event_id].append(callback)
+        """Safe and fast
+
+        :param event_id:
+        :param callback:
+        :return: None
+        """
+        try:
+            self._subscriptions[event_id].append(callback)
+        except IndexError:
+            raise self.EventNotRegistered(self, event_id)
+
+    # def subscribe_internal(self, id, callback):
+    #     """Do not use unless you know what you are doing
+    #
+    #     :param id:
+    #     :param callback:
+    #     :return:
+    #     """
+    #     pass
 
     def broadcast(self, event_name, **kwargs):
-        """Least performant, most convenient, flexible"""
-        if event_name not in self._event_lookup:
-            return
+        """Least performant, most convenient, flexible
 
-        id = self._event_lookup[event_name]
-        if self._queue is None:
-            subscribers = self._subscriptions[id]
-            event_type = self._event_types[id]
-            for subscriber in subscribers:
+        :param event_name:
+        :param kwargs:
+        :return:
+        """
+        try:
+            id = self._event_lookup[event_name]
+        except KeyError:
+            raise self.EventNotRegistered(self, event_name)
+        else:
+            self.broadcast_by_id(id, **kwargs)
+
+    def broadcast_by_id(self, id, **kwargs):
+        """Best performance, least convenient
+
+        :param id:
+        :param kwargs:
+        :return:
+        """
+        if self.queue is None:
+            self.broadcast_internal(id, **kwargs)
+        else:
+            self.queue.append((id, kwargs))
+
+    def broadcast_internal(self, event_id, **kwargs):
+        """Do not use this directly unless you are absolutely sure you need to
+
+        :param event_id:
+        :param kwargs:
+        :return:
+        """
+        try:
+            subscriptions = self._subscriptions[event_id]
+        except IndexError:
+            raise self.EventNotRegistered(self, event_id)
+        else:
+            event_type = self._event_types[event_id]
+            for subscriber in subscriptions:
                 subscriber(*event_type, **kwargs)
-        else:
-            self._queue.append((id, kwargs))
-
-    def broadcast_by_name(self, event_name):
-        """Good performance, Reasonable Convenience"""
-        id = self._event_lookup[event_name]
-        self.broadcast_by_id(id)
-
-    def broadcast_by_id(self, id):
-        """Best performance, Least Convenient"""
-        if self._queue is None:
-            event_type = self._event_types[id]
-            for subscriber in self._subscriptions[id]:
-                subscriber(*event_type)
-        else:
-            self._queue.append((id, None))
 
     def flush(self):
-        if self._queue is None:
+        """Empty out any queued events
+        """
+        if self.queue is None:
             raise self.NoQueueSetException()
-        while len(self._queue) > 0:
-            id, kwargs = self._queue.popleft()
-            event_type = self._event_types[id]
-            for subscriber in self._subscriptions[id]:
-                if kwargs is not None:
-                    subscriber(*event_type, **kwargs)
-                else:
-                    subscriber(*event_type)
+
+        while len(self.queue) > 0:
+            id, kwargs = self.queue.popleft()
+            if kwargs is None:
+                self.broadcast_internal(id)
+            else:
+                self.broadcast_internal(id, **kwargs)
 
 
 class PlatformEventQueueBase(EventDispatcher, metaclass=ABCMeta):

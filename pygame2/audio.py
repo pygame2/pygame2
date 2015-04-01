@@ -65,12 +65,12 @@ class SoundBase(EventDispatcher):
     def play(self):
         """Play the file."""
         self.state = 'play'
-        self.dispatch('on_play')
+        self.broadcast('on_play')
 
     def stop(self):
         """Stop playback."""
         self.state = 'stop'
-        self.dispatch('on_stop')
+        self.broadcast('on_stop')
 
     def seek(self, position):
         """Go to the <position> (in seconds)."""

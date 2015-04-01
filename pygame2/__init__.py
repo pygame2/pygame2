@@ -10,6 +10,7 @@ from . import core
 from . import display
 from . import event
 from . import graphics
+from . import group
 from . import renderer
 from . import screen
 from . import sprite
