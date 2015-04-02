@@ -566,8 +566,9 @@ class Rect(Animated):
         dictionary, only as values.
         """
         for key, value in other_rects.items():
-            if self.colliderect(value):
-                return key, value
+            if id(self) != id(value):
+                if self.colliderect(value):
+                    return key, value
 
     def collidedictall(self, other_rects):
         """
