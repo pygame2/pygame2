@@ -216,22 +216,22 @@ class Rect(Animated):
         """
         Returns the center x value of the rect
         """
-        return self.left + self.width // 2
+        return self.left + self.width / 2
 
     @centerx.setter
     def centerx(self, value):
-        self.left = value - self.width // 2
+        self.left = value - self.width / 2
 
     @property
     def centery(self):
         """
         Returns the center y value of the rect
         """
-        return self.top + self.height // 2
+        return self.top + self.height / 2
 
     @centery.setter
     def centery(self, value):
-        self.top = value - self.height // 2
+        self.top = value - self.height / 2
 
     @property
     def center(self):
@@ -566,8 +566,9 @@ class Rect(Animated):
         dictionary, only as values.
         """
         for key, value in other_rects.items():
-            if self.colliderect(value):
-                return key, value
+            if id(self) != id(value):
+                if self.colliderect(value):
+                    return key, value
 
     def collidedictall(self, other_rects):
         """
