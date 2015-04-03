@@ -166,6 +166,18 @@ class RectTests(TestCase):
         self.r.center = (18, 20)
         self.assertEqual((18, 20), self.r.center)
 
+    def test_center_after_scale(self):
+        self.r = Rect(0, 0, 1, 1)
+        center = self.r.center
+        new_center = self.r.scale(2, 2).center
+        self.assertEqual((.5, .5), center, new_center)
+
+    def test_center_after_inflate(self):
+        self.r = Rect(0, 0, 1, 1)
+        center = self.r.center
+        new_center = self.r.inflate(2, 2).center
+        self.assertEqual((.5, .5), center, new_center)
+
     def test_set_midtop(self):
         self.r.midtop = (18, 19)
         self.assertEqual((18, 19), self.r.midtop)
