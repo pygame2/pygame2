@@ -56,7 +56,7 @@ def main():
 
         # space
         elif key == 32:
-            ani = player_sprite.animate(rotation=360, duration=.75,
+            ani = player_sprite.animate(rotation=-360, duration=.55,
                                         transition='out_quint')
             ani.subscribe('on_finish', partial(setattr, player_sprite, 'rotation', 0))
             axis = 'z'
@@ -90,7 +90,7 @@ def main():
 
     texture = loader('backgrounds', 'colored_grass.png')
     background_sprite = renderer.create_sprite(texture=texture)
-    background_sprite.rect = pygame2.Rect(0, 0, 2, 2)
+    background_sprite.rect = pygame2.Rect(-1, -1, 2, 2)
 
     texture = loader('players', 'Green', 'alienGreen_walk1.png')
     player_sprite = renderer.create_sprite(texture=texture)

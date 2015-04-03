@@ -60,7 +60,8 @@ def main():
 
     for i in range(8):
         texture = texture0 if i % 2 == 0 else texture1
-        renderer.create_sprite(texture=texture)
+        sprite = renderer.create_sprite(texture=texture)
+        sprite.rect = pygame2.Rect(-.5, -.5, 1, 1)
 
     def play_animation(func, dt):
         for ani in func(renderer.sprites()):

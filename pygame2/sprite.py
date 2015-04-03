@@ -22,13 +22,11 @@ __all__ = ('Sprite', )
 def new_quad_vbo(rect, rotation=0):
     x, y, width, height = rect
 
-    width /= 2.0
-    height /= 2.0
-
-    x1 = x - width
-    y1 = y - height
-    x2 = x + width
-    y2 = y + height
+    # TODO: get anchor of rect
+    x1 = 0
+    y1 = 0
+    x2 = x1 + width
+    y2 = y1 + height
 
     r = -radians(rotation)
     cr = cos(r)
