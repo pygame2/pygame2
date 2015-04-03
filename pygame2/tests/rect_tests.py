@@ -93,22 +93,22 @@ class RectTests(TestCase):
         self.assertEqual((24, 26), self.r.bottomright)
 
     def test_get_centerx(self):
-        self.assertEqual(17, self.r.centerx)
+        self.assertEqual(17.5, self.r.centerx)
 
     def test_get_centery(self):
         self.assertEqual(19, self.r.centery)
 
     def test_get_center(self):
-        self.assertEqual((17, 19), self.r.center)
+        self.assertEqual((17.5, 19), self.r.center)
 
     def test_get_midtop(self):
-        self.assertEqual((17, 12), self.r.midtop)
+        self.assertEqual((17.5, 12), self.r.midtop)
 
     def test_get_midleft(self):
         self.assertEqual((11, 19), self.r.midleft)
 
     def test_get_midbottom(self):
-        self.assertEqual((17, 26), self.r.midbottom)
+        self.assertEqual((17.5, 26), self.r.midbottom)
 
     def test_get_midright(self):
         self.assertEqual((24, 19), self.r.midright)
@@ -173,9 +173,9 @@ class RectTests(TestCase):
         self.assertEqual((.5, .5), center, new_center)
 
     def test_center_after_inflate(self):
-        self.r = Rect(0, 0, 1, 1)
+        self.r = Rect(0.0, 0.0, 1.0, 1.0)
         center = self.r.center
-        new_center = self.r.inflate(2, 2).center
+        new_center = self.r.inflate(2.0, 2.0).center
         self.assertEqual((.5, .5), center, new_center)
 
     def test_set_midtop(self):
