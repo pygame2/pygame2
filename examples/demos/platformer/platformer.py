@@ -35,22 +35,22 @@ def main():
         axis = None
         duration = .6
         if key == 65362:
-            ani = player_sprite.rect.animate(y=player_sprite.rect.y + .1,
+            ani = player_sprite.rect.animate(y=player_sprite.rect.y + .5,
                                              duration=duration)
             axis = 'y'
         # right
         elif key == 65363:
-            ani = player_sprite.rect.animate(x=player_sprite.rect.x + .1,
+            ani = player_sprite.rect.animate(x=player_sprite.rect.x + .5,
                                              duration=duration)
             axis = 'x'
         # down
         elif key == 65364:
-            ani = player_sprite.rect.animate(y=player_sprite.rect.y - .1,
+            ani = player_sprite.rect.animate(y=player_sprite.rect.y - .5,
                                              duration=duration)
             axis = 'y'
         # left
         elif key == 65361:
-            ani = player_sprite.rect.animate(x=player_sprite.rect.x - .1,
+            ani = player_sprite.rect.animate(x=player_sprite.rect.x - .5,
                                              duration=duration)
             axis = 'x'
 

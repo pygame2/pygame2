@@ -26,20 +26,17 @@ class App(EventDispatcher):
         self.running = False
         self.windows = list()
 
-    def start(self):
+    def run(self):
+        """
+        send start event
+        manage event loop
+        """
         if self.running:
             print('App.start called twice')
             raise RuntimeError
 
         self.running = True
         self.broadcast('on_enter')
-
-    def run(self):
-        """
-        send start event
-        manage event loop
-        """
-        self.start()
 
         # get our events from the platform
         platform_queue = pygame2.core.platform.get_platform_event_queue()
@@ -59,19 +56,18 @@ class App(EventDispatcher):
 
             platform_queue.get()
 
-            window.switch_to()
-
-            # TODO: aggrigate pyglet/window events into our monolithic queue
-
-            # pyglet windows maintain their own queue of events
-            # this method tells the window to dispatch any events in its queue
-            window.dispatch_pending_events()
-            window.broadcast('on_draw')
-            window.flip()
+            for window in self.windows:
+                # TODO: aggrigate pyglet/window events into our monolithic queue
+                window.switch_to()
+                window.dispatch_pending_events()
+                window.broadcast('on_draw')
+                window.flip()
 
             # TODO: make sure we can sleep correctly on all platforms
             # sleep_time = self.clock.get_idle_time()
-            time.sleep(.015)
+
+            # this hack might let the OS do other things on some platforms
+            time.sleep(0)
 
         self.broadcast('on_exit')
 
@@ -82,4 +78,3 @@ class App(EventDispatcher):
         window = pygame2.core.platform.create_window(**kwargs)
         self.windows.append(window)
         return window
-

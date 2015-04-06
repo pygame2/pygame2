@@ -362,54 +362,6 @@ class PlatformEventQueueBase(EventDispatcher, metaclass=ABCMeta):
         """
         raise NotImplementedError
 
-
-class EventLoop(EventDispatcher):
-    """ the lovechild python's asyncio and pyglet's event loop
-
-    eventually will be integrated into pygame2.app.App
-
-    NOT CURRENTLY IN USE
-    """
-
-    def __init__(self):
-        super().__init__()
-        self.clock = None
-        self.platform_queue = None
-
-    def run_forever(self):
-        self.clock = pygame2.clock.Clock()
-
-        # check if already running
-        # raise runtimeerror if already running
-        try:
-            while 1:
-                try:
-                    self.step()
-                    # timeout = self.clock.get_idle_time()
-                    # self.platform_queue.sleep(timeout)
-
-                except:
-                    # this exception should be stoperror or something
-                    # meaning the loop is done
-                    break
-        finally:
-            # cleanup
-            pass
-
-    def step(self):
-        """Do one iteration of event loop
-
-        * lets OS sleep app until next scheduled event
-        :return:
-        :rtype:
-        """
-        self.clock.tick()
-
-    def stop(self):
-        """stop the event loop
-        """
-        raise NotImplementedError
-
     def enter_blocking(self):
         """Called by pyglet internal processes when the operating system
         is about to block due to a user interaction.  For example, this

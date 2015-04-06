@@ -358,19 +358,19 @@ class Scheduler:
             heapify(self._scheduled_items)
 
 
-class Clock(Scheduler):
-    """Schedules stuff like a Scheduler, and includes time limiting functions
+class TimeEstimator:
+    def __init__(self):
+        self.predictor = self._least_squares()
+        # self.gradient, self.offset = next(self.predictor)
 
-    WIP
-    """
+    def step(self):
+        return next(self.predictor)
+
+    def update(self, args):
+        return self.predictor.send(args)
+
     @staticmethod
     def _least_squares(gradient=1, offset=0):
-        """ source: pyglet.app.App
-
-        :param gradient:
-        :param offset:
-        :return:
-        """
         X = 0
         Y = 0
         XX = 0
@@ -396,6 +396,48 @@ class Clock(Scheduler):
                 gradient = (n * XY - X * Y) / (n * XX - X * X)
                 offset = (Y - gradient * X) / n
             except ZeroDivisionError:
-                # Can happen in pathalogical case; keep current
+                # Can happen in pathological case; keep current
                 # gradient/offset for now.
                 pass
+
+class Clock(Scheduler):
+    """Schedules stuff like a Scheduler, and includes time limiting functions
+
+    WIP
+    """
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.estimator = TimeEstimator()
+
+    # def tick(self):
+    #     """Cause clock to update and call scheduled functions.
+    #
+    #     framerate will be limited.  (60fps)
+    #
+    #     This updates the clock's internal measure of time and returns
+    #     the difference since the last update (or since the clock was created).
+    #
+    #     Will call any scheduled functions that have elapsed.
+    #
+    #     :rtype: float
+    #     :return: The number of time units since the last "tick", or 0 if this
+    #              was the first tick.
+    #     """
+    #     # TODO: allow change framerate
+    #
+    #     gradient, offset = self.estimator.step()
+    #
+    #     timeout = super().tick()
+    #     if timeout is 0.0:
+    #         estimate = timeout
+    #     else:
+    #         estimate = max(gradient * timeout + offset, 0.0)
+    #
+    #     now = self._time()
+    #     dt = self._time() - now
+    #     x, y = self.estimator.update((dt, estimate))
+    #
+    #     # platform_event_loop.step will return True if it timed out
+    #     # meaning, given time 'estimate', it never had any events
+    #     # if not platform_event_loop.step(estimate) and estimate != 0.0 and \
+    #     #         estimate is not None:
