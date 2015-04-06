@@ -7,7 +7,7 @@ __all__ = (
     'load')
 
 # declare our image providers
-# core_modules['image'] = ('image_pillow', 'image_pyglet', 'image_pygame')
+# core_modules['image'] = ('image_pillow', 'image_pyglet', 'image_pysdl2')
 core_modules['image'] = ('image_pillow', )
 
 

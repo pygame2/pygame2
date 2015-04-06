@@ -2,7 +2,6 @@
 USE PILLOW
 """
 from . import ImageLoaderBase
-# import pygame
 
 
 class ImageLoader(ImageLoaderBase):

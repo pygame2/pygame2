@@ -363,3 +363,39 @@ class Clock(Scheduler):
 
     WIP
     """
+    @staticmethod
+    def _least_squares(gradient=1, offset=0):
+        """ source: pyglet.app.App
+
+        :param gradient:
+        :param offset:
+        :return:
+        """
+        X = 0
+        Y = 0
+        XX = 0
+        XY = 0
+        n = 0
+
+        x, y = yield gradient, offset
+        X += x
+        Y += y
+        XX += x * x
+        XY += x * y
+        n += 1
+
+        while True:
+            x, y = yield gradient, offset
+            X += x
+            Y += y
+            XX += x * x
+            XY += x * y
+            n += 1
+
+            try:
+                gradient = (n * XY - X * Y) / (n * XX - X * X)
+                offset = (Y - gradient * X) / n
+            except ZeroDivisionError:
+                # Can happen in pathalogical case; keep current
+                # gradient/offset for now.
+                pass

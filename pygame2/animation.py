@@ -74,7 +74,7 @@ class Animation(EventDispatcher):
           limitation won't be resolved for a while.
     """
     default_transition = 'out_quad'
-    __events__= ('on_start', 'on_update', 'on_finish')
+    __events__ = ('on_start', 'on_update', 'on_finish')
 
     def __init__(self, **kwargs):
         super().__init__()

@@ -4,7 +4,7 @@ __all__ = ('load', )
 
 
 # declare audio providers
-core_modules['audio'] = ('audio_pygame', )
+core_modules['audio'] = ('audio_pysdl2', )
 
 
 def load(filename):
