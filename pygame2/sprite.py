@@ -61,7 +61,7 @@ class Sprite(EventDispatcher, Animated):
 
     To make an abstraction of game objects whose graphical representation
     will change over time (animate), then sprites should be treated like
-    individiual frames of the animation.
+    individual frames of the animation.
 
     the exception to the above statement would be when each animation frame
     is the same size as the rest.  in this case, it would be acceptable
