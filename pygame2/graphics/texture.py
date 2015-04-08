@@ -12,7 +12,7 @@ streaming texture overview:
     textures must use mipmaps
     all pygame2 textures (not data) are laoded at runtime
     when pygame2 textures are to be drawn, que message for loading thread
-    render thread will use a dummy texture, or low resoultion mipmap (32x32?)
+    render thread will use a dummy texture, or low resoultion mipmap (16x16?)
     loader thread will load texture, and make it available for draw thread
     draw thread will use the newly loaded texture
     occasionally, render thread will mark un used textures for destruction
@@ -44,11 +44,32 @@ compromises:
 
 
 class Texture:
+    """ Textures
+
+    pygame2 textures contain:
+    - reference to a texture in opengl
+    - code to upload texture data to gpu
+    - code to set/unset opengl state for texturing primitives
+
+    pygame2 textures do not store any texture data (that role is for Surfaces)
+    textures only accept textures in this format: 32-bit RGBA, unsigned byte
+
+    planned features
+    - mipmaps
+    - streaming
+    - more formats
+    """
     streamed = False
     target = GL_TEXTURE_2D
 
-
     def __init__(self, width, height, data):
+        """Create new pygame2 texture
+
+        :param width: width of image
+        :param height: height of image
+        :param data: bytes, image data
+        :return:
+        """
         self.id = None
         self.id = glGenTextures(1)
 
