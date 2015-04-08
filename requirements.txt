@@ -14,6 +14,7 @@ Sphinx==1.2.3
 # -e hg+http://bitbucket.org/pygame/pygame#egg=pygame
 # -e git+https://github.com/bitcraft/pyglet.git#egg=pyglet
 pyglet
+pysdl2
 pillow==2.7.0
 
 # below are experimental deps while i find the best opengl
