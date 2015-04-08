@@ -17,10 +17,12 @@ class SpriteRenderer(SpriteGroupBase):
     for better performance.
     """
     mode = GL_TRIANGLE_STRIP
+    shaders=[('vertex_shader.glsl', GL_VERTEX_SHADER),
+             ('fragment_shader.glsl', GL_FRAGMENT_SHADER)]
 
-    def __init__(self, program):
+    def __init__(self):
         super().__init__()
-        self.program = program
+        self.program = create_program(self.shaders)
 
         self.attr = dict()
         for name in 'coord2d texcoord'.split():

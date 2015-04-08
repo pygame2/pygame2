@@ -6,6 +6,7 @@ Abstract Hierarchy of Window Concepts:
 'window', as is
 'canvas', drawing context for graphics.
 """
+from abc import ABCMeta, abstractclassmethod
 import pygame2
 from pygame2.event import EventDispatcher
 from OpenGL.GL import *
@@ -13,7 +14,7 @@ from OpenGL.GL import *
 __all__ = ('WindowBase', )
 
 
-class WindowBase(EventDispatcher):
+class WindowBase(EventDispatcher, metaclass=ABCMeta):
     """Platform independent window
     """
     _resolution = None
@@ -39,7 +40,7 @@ class WindowBase(EventDispatcher):
 
     def __init__(self, **kwargs):
         super().__init__()
-        self.program_id = None
+        self.renderer = None
 
         # scan keyword arguments and set values in our instance
         # to match, but only if they are defined by WindowBase
@@ -55,6 +56,16 @@ class WindowBase(EventDispatcher):
 
     def get_size(self):
         return self._resolution
+
+    def get_rect(self):
+        return pygame2.Rect((0, 0), self._resolution)
+
+    def create_renderer(self):
+        """ Return a new renderer (sprite group) that draws to this window
+        """
+        # TODO check this when multiple window support is added
+        self.renderer = pygame2.renderer.SpriteRenderer()
+        return self.renderer
 
     @property
     def fullscreen(self):
@@ -82,6 +93,7 @@ class WindowBase(EventDispatcher):
         if not value == self._caption:
             self._caption = value
 
+    @abstractclassmethod
     def activate(self):
         """Force window to get/steal focus.
 
@@ -89,30 +101,30 @@ class WindowBase(EventDispatcher):
         """
         raise NotImplementedError
 
-    def get_rect(self):
-        return pygame2.Rect((0, 0), self._resolution)
-
-    def create_renderer(self):
-        """ Return a new renderer (sprite group) that draws to this window
-        """
-        # TODO check this when multiple window support is added
-        if self.program_id is None:
-            self.program_id = pygame2.graphics.create_program()
-        renderer = pygame2.renderer.SpriteRenderer(self.program_id)
-        return renderer
-
+    @abstractclassmethod
     def flip(self):
         """flip, etc"""
         raise NotImplementedError
 
+    @abstractclassmethod
     def switch_to(self):
         """Make window current OpenGL rendering context
         """
         raise NotImplementedError
 
     def clear(self):
+        # TODO: move to graphics package
         glClearColor(1., 1., 1., 1.)
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
 
+    @abstractclassmethod
     def close(self):
+        raise NotImplementedError
+
+    @abstractclassmethod
+    def minimize(self):
+        raise NotImplementedError
+
+    @abstractclassmethod
+    def maximize(self):
         raise NotImplementedError

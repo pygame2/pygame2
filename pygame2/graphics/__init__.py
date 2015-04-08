@@ -58,6 +58,8 @@ def get_opengl_version():
 
 def upload_shader(filename, shader_type):
     """Upload shader from file and return shader id
+
+    shader must be in pygame2/graphics folder
     """
     path = os.path.join(os.path.dirname(pygame2.__file__), 'graphics', filename)
     with open(path) as fp:
@@ -69,121 +71,34 @@ def upload_shader(filename, shader_type):
 
     result = glGetShaderiv(shader_id, GL_COMPILE_STATUS)
     if result == GL_FALSE:
-        print('failed', filename)
+        print('failed shader compile', filename)
         info = glGetShaderInfoLog(shader_id)
         print(info)
 
     return shader_id
 
 
-def create_program():
+def create_program(shaders):
     """create program and link shaders
-    """
-    vtex = upload_shader('vertex_shader.glsl', GL_VERTEX_SHADER)
-    frag = upload_shader('fragment_shader.glsl', GL_FRAGMENT_SHADER)
 
+    :param shaders: list, (filename, type) tuples
+    """
     program_id = glCreateProgram()
-    glAttachShader(program_id, vtex)
-    glAttachShader(program_id, frag)
+    shaders = (upload_shader(*args) for args in shaders)
+    for shader_id in shaders:
+        glAttachShader(program_id, shader_id)
     glLinkProgram(program_id)
 
     result = glGetProgramiv(program_id, GL_LINK_STATUS)
     if result == GL_FALSE:
-        print('failed program')
+        print('failed program linking')
         info = glGetProgramInfoLog(program_id)
         print(info)
 
     return program_id
 
 
-class AbstractBuffer:
-    """Abstract buffer of byte data.
-
-    :Ivariables:
-        `size` : int
-            Size of buffer, in bytes
-        `ptr` : int
-            Memory offset of the buffer, as used by the ``glVertexPointer``
-            family of functions
-        `target` : int
-            OpenGL buffer target, for example ``GL_ARRAY_BUFFER``
-        `usage` : int
-            OpenGL buffer usage, for example ``GL_DYNAMIC_DRAW``
-
-    """
-
-    def bind(self):
-        """Bind this buffer to its OpenGL target."""
-        raise NotImplementedError('abstract')
-
-    def unbind(self):
-        """Reset the buffer's OpenGL target."""
-        raise NotImplementedError('abstract')
-
-    def set_data(self, data):
-        """Set the entire contents of the buffer.
-
-        :Parameters:
-            `data` : sequence of int or ctypes pointer
-                The byte array to set.
-
-        """
-        raise NotImplementedError('abstract')
-
-    def set_data_region(self, data, start, length):
-        """Set part of the buffer contents.
-
-        :Parameters:
-            `data` : sequence of int or ctypes pointer
-                The byte array of data to set
-            `start` : int
-                Offset to start replacing data
-            `length` : int
-                Length of region to replace
-
-        """
-        raise NotImplementedError('abstract')
-
-    def map(self, invalidate=False):
-        """Map the entire buffer into system memory.
-
-        The mapped region must be subsequently unmapped with `unmap` before
-        performing any other operations on the buffer.
-
-        :Parameters:
-            `invalidate` : bool
-                If True, the initial contents of the mapped block need not
-                reflect the actual contents of the buffer.
-
-        :rtype: ``POINTER(ctypes.c_ubyte)``
-        :return: Pointer to the mapped block in memory
-        """
-        raise NotImplementedError('abstract')
-
-    def unmap(self):
-        """Unmap a previously mapped memory block."""
-        raise NotImplementedError('abstract')
-
-    def resize(self, size):
-        """Resize the buffer to a new size.
-
-        :Parameters:
-            `size` : int
-                New size of the buffer, in bytes
-
-        """
-
-    def delete(self):
-        """Delete this buffer, reducing system resource usage."""
-        raise NotImplementedError('abstract')
-
-
-class AbstractMappable:
-    def get_region(self, start, size, ptr_type):
-        raise NotImplementedError('abstract')
-
-
-class VertexArrayObject(AbstractBuffer):
+class VertexArrayObject:
     """WIP"""
     def __init__(self):
         self.id = None
@@ -202,7 +117,7 @@ class VertexArrayObject(AbstractBuffer):
         glBindVertexArray(0)
 
 
-class VertexBufferObject(AbstractBuffer):
+class VertexBufferObject:
     """Lightweight representation of an OpenGL VBO.
 
     The data in the buffer is not replicated in any system memory (unless it
@@ -211,7 +126,6 @@ class VertexBufferObject(AbstractBuffer):
 
     VBOs are uses for vertexes.
     """
-
     def __init__(self, data, target, usage):
         self.id = None
         self.target = target

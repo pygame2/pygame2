@@ -50,6 +50,15 @@ class PlatformEventQueue(PlatformEventQueueBase):
     """ Pyglet based event queue
     """
 
+    def exit_blocking(self):
+        pass
+
+    def _blocking_timer(self):
+        pass
+
+    def enter_blocking(self):
+        pass
+
     def start(self):
         self.platform_event_loop = pyglet.app.platform_event_loop
         self.platform_event_loop.start()
@@ -78,9 +87,6 @@ class PlatformEventQueue(PlatformEventQueueBase):
 
 
 class Window(WindowBase):
-    def activate(self):
-        pass
-
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
 
@@ -108,6 +114,12 @@ class Window(WindowBase):
         self._window.dispatch_pending_events()
         self._window.dispatch_events()
 
+    def close(self):
+        pass
+
+    def activate(self):
+        pass
+
     def flip(self):
         self._window.flip()
 
@@ -122,3 +134,9 @@ class Window(WindowBase):
         :return: None
         """
         self._window.dispatch_pending_events()
+
+    def minimize(self):
+        pass
+
+    def maximize(self):
+        pass

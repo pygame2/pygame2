@@ -23,6 +23,15 @@ class PlatformEventQueue(PlatformEventQueueBase):
     """ pysdl2 based event queue
     """
 
+    def exit_blocking(self):
+        pass
+
+    def _blocking_timer(self):
+        pass
+
+    def enter_blocking(self):
+        pass
+
     def start(self):
         sdl2.ext.init()
 
@@ -49,9 +58,6 @@ class Window(WindowBase):
 
     __events__ = ('on_draw', 'on_close')
 
-    def activate(self):
-        pass
-
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
 
@@ -67,8 +73,11 @@ class Window(WindowBase):
             'vsync': self._vsync,
         }
 
-        window = sdl2.ext.Window(kw['caption'], size=(width, height),
-                                 flags=sdl2.SDL_WINDOW_OPENGL)
+        window = sdl2.SDL_CreateWindow(b"OpenGL demo",
+                                       sdl2.SDL_WINDOWPOS_UNDEFINED,
+                                       sdl2.SDL_WINDOWPOS_UNDEFINED, 800, 600,
+                                       sdl2.SDL_WINDOW_OPENGL)
+
 
         # set opengl context to 3.3, our defined minimum
         # must be done before creating the context
@@ -80,24 +89,22 @@ class Window(WindowBase):
         # Double buffering is on
         sdl2.SDL_GL_SetAttribute(sdl2.SDL_GL_DOUBLEBUFFER, 1)
 
-        context = sdl2.SDL_GL_CreateContext(window.window)
+        context = sdl2.SDL_GL_CreateContext(window)
 
         # vsync is on
         sdl2.SDL_GL_SetSwapInterval(1)
 
-        print(glGetString(GL_VERSION))
-
-        window.show()
-
         self._window = window
         self._context = context
+
+    def activate(self):
+        pass
 
     def flip(self):
         sdl2.SDL_GL_SwapWindow(self._window)
 
     def switch_to(self):
-        # self._window.switch_to()
-        pass
+        sdl2.SDL_GL_MakeCurrent(self._window, self._context)
 
     def dispatch_pending_events(self):
         pass
@@ -106,3 +113,10 @@ class Window(WindowBase):
         sdl2.SDL_GL_DeleteContext(self._context)
         # sdl2.SDL_DestroyWindow(window)
         self._window = None
+
+    def minimize(self):
+        pass
+
+    def maximize(self):
+        pass
+
