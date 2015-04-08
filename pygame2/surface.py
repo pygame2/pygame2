@@ -5,7 +5,7 @@ ImageData => data that represents image in variety of formats
              able to be converted into other formats
 Surface   => contains ImageData, able to be 'drawn' onto screen
              will include some warnings if manually manipulated
-Sprite    => contains Surface, able to be manipulated easily
+Sprite    => contains Texture, able to be manipulated easily
              able to live in groups and batches
 Animation => contains Several surfaces, operated like Sprite
 

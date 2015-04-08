@@ -119,7 +119,6 @@ class Texture:
         # id may not be set if binding/generation fails
         if self.id is not None:
             glDeleteTextures([self.id])
-            self.id = None
 
     def bind(self):
         glBindTexture(GL_TEXTURE_2D, self.id)

@@ -68,7 +68,6 @@ class Sprite(EventDispatcher, Animated):
     to simply change the texture that the sprite refers to.
 
     Right now, sprites are very inefficient:
-        1 vao per object
         1 vbo per object
 
     sprites and sprite objects should share a vao

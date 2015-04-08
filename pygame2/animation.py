@@ -220,7 +220,8 @@ class Animation(EventDispatcher):
     def abort(self):
         """Force animation state to finish
 
-        Callbacks will not be handled and final values will not
+        on_update event is not fired
+        on_finish event is fired and final values will not
         be applied.  It is totally fine to not call abort() if
         an animation is stopped, but if game logic requires
         animation callbacks, then this should be used.

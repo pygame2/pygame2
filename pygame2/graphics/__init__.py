@@ -4,6 +4,13 @@ OpenGL is very unstable right now.
 For cross platform support, version OpenGL 3.3 will be the lowest
 supported version.  Currently, it is the best choice for OS X, and
 is supported well on windows and linux.
+
+this module contains basic classes to support opengl.  the pygame2
+graphics api exists to remove any direct calling of opengl functions
+from our normal framework.
+
+in the future, when other APIs are explored (webgl, vulkan), then it
+will only be necessary to change the graphics module.
 """
 import os
 import platform
@@ -201,6 +208,8 @@ class VertexBufferObject(AbstractBuffer):
     The data in the buffer is not replicated in any system memory (unless it
     is done so by the video driver).  While this can improve memory usage and
     possibly performance, updates to the buffer are relatively slow.
+
+    VBOs are uses for vertexes.
     """
 
     def __init__(self, data, target, usage):
