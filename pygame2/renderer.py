@@ -35,6 +35,15 @@ class SpriteRenderer(SpriteGroupBase):
         self._attr[attr_texcoord] = generate_tex_coords()
         self._attr[attr_coord2d] = None
 
+    # def __del__(self):
+    #     glDetachShader(self.program, vertexshader)
+    #     glDetachShader(self.program, fragmentshader)
+    #     glDeleteProgram(self.program)
+    #     glDeleteShader(vertexshader)
+    #     glDeleteShader(fragmentshader)
+    #     glDeleteBuffers(2, vbo)
+    #     glDeleteVertexArrays(1, &vao)
+
     def create_sprite(self, *args, **kwargs):
         sprite = Sprite(*args, **kwargs)
         self.add(sprite)
@@ -65,9 +74,7 @@ class SpriteRenderer(SpriteGroupBase):
         for sprite in self.sprites():
             self.set_texture(sprite.texture)
 
-            # bind the vbo and render the group's texture to these coords
             sprite.vbo.bind()
-            glVertexAttribPointer(attr, 2, GL_FLOAT, GL_FALSE, 0, None)
 
             # draw
             glDrawArrays(self.mode, 0, 4)
@@ -107,7 +114,6 @@ class SpriteRenderer(SpriteGroupBase):
 
         glEnable(GL_BLEND)
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA)
-
         glActiveTexture(GL_TEXTURE0)
         texture.bind()
 
@@ -119,3 +125,6 @@ class SpriteRenderer(SpriteGroupBase):
 
         for attrib in self.attr.values():
             glDisableVertexAttribArray(attrib)
+
+        glUseProgram(0)
+        glBindVertexArray(0)

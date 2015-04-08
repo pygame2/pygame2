@@ -18,7 +18,7 @@ class WindowBase(EventDispatcher):
     """
     _resolution = None
     _fullscreen = False
-    _caption = None
+    _caption = 'pygame2'
     _resizable = False
     _borderless = False
     _minimized = False
@@ -49,12 +49,6 @@ class WindowBase(EventDispatcher):
 
         if self._resolution is None:
             self._resolution = WindowBase._default_size
-
-            # TODO: keep a list of active windows somewhere
-
-            # self.switch_to()
-            # if self._visible:
-            # self.activate
 
     def get_resolution(self):
         return self._resolution
@@ -117,5 +111,8 @@ class WindowBase(EventDispatcher):
         raise NotImplementedError
 
     def clear(self):
-        glClearColor(.98, .98, .98, 1.)
-        glClear(GL_COLOR_BUFFER_BIT)
+        glClearColor(1., 1., 1., 1.)
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
+
+    def close(self):
+        raise NotImplementedError

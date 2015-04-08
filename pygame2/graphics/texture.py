@@ -3,14 +3,54 @@ from OpenGL.GL import *
 mipmaps = 0
 
 # TODO: MIPMAPS.  there is some code to support is, but isn't complete
+# TODO: after mipmaps, implement texture streaming
+
+"""
+streaming texture overview:
+    implement multiple opengl contexts
+    implement context sharing between threads
+    textures must use mipmaps
+    all pygame2 textures (not data) are laoded at runtime
+    when pygame2 textures are to be drawn, que message for loading thread
+    render thread will use a dummy texture, or low resoultion mipmap (32x32?)
+    loader thread will load texture, and make it available for draw thread
+    draw thread will use the newly loaded texture
+    occasionally, render thread will mark un used textures for destruction
+
+why use streaming textures?
+    everyone is doing it
+    simplify state management
+    easier for programmer/designer
+    if done with threads, will provide stutter free texture use
+    don't pause game while textures are loaded
+
+why not:
+    because it is complicated
+    will require emulation of streaming textures
+    streaming textures might be distracting
+    doesn't work without shared context
+    will not work on some hardware configurations
+
+compromises:
+    textures that are deemed too important for streaming have a flag attached
+    render thread will watch queue
+    if there are non-streamable textures, then pause main thread
+    this is done assuming that game has 'loading screen'
+        - mark GUI elements, player elements as important
+        - mark background objects, particles, and clutter as not
+        - game pauses while loading important things, then others will stream
+        - best of both worlds
+"""
 
 
 class Texture:
-    def __init__(self, width, height, data):
-        self.target = GL_TEXTURE_2D
+    streamed = False
+    target = GL_TEXTURE_2D
 
-        id = glGenTextures(1)
-        self.id = id
+
+    def __init__(self, width, height, data):
+        self.id = None
+        self.id = glGenTextures(1)
 
         # TODO: check for NPOT limitations
 
@@ -55,14 +95,13 @@ class Texture:
         self.unbind()
 
     def __del__(self):
-        self.delete()
+        # id may not be set if binding/generation fails
+        if self.id is not None:
+            glDeleteTextures([self.id])
+            self.id = None
 
     def bind(self):
         glBindTexture(GL_TEXTURE_2D, self.id)
 
     def unbind(self):
         glBindTexture(GL_TEXTURE_2D, 0)
-
-    def delete(self):
-        glDeleteTextures([self.id])
-        self.id = None

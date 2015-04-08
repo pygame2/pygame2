@@ -32,7 +32,7 @@ __all__ = (
     'get_platform_event_queue',
     'create_window')
 
-core_modules['platform'] = ('platform_pyglet', )
+core_modules['platform'] = ('platform_pyglet', 'platform_pysdl2')
 
 
 def get_event_loop():

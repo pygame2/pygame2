@@ -6,18 +6,19 @@ supported version.  Currently, it is the best choice for OS X, and
 is supported well on windows and linux.
 """
 import os
+import platform
 
 import numpy
 import pygame2
-import OpenGL
 
-OpenGL.ERROR_CHECKING = True
 from OpenGL.GL import *
+from OpenGL.GL.ARB import *
 
 from .texture import Texture
 
 
 __all__ = [
+    'VertexArrayObject',
     'VertexBufferObject',
     'Texture',
     'create_program',
@@ -175,6 +176,25 @@ class AbstractMappable:
         raise NotImplementedError('abstract')
 
 
+class VertexArrayObject(AbstractBuffer):
+    """WIP"""
+    def __init__(self):
+        self.id = None
+        self.id = glGenVertexArrays(1)
+
+    def __del__(self):
+        # id may not be set if binding/generation fails
+        if self.id is not None:
+            glDeleteVertexArrays(self.id)
+            self.id = None
+
+    def bind(self):
+        glBindVertexArray(self.id)
+
+    def unbind(self):
+        glBindVertexArray(0)
+
+
 class VertexBufferObject(AbstractBuffer):
     """Lightweight representation of an OpenGL VBO.
 
@@ -184,14 +204,17 @@ class VertexBufferObject(AbstractBuffer):
     """
 
     def __init__(self, data, target, usage):
+        self.id = None
         self.target = target
         self.usage = usage
-
         self.id = glGenBuffers(1)
         self.set_data(data)
 
     def __del__(self):
-        self.delete()
+        # id may not be set if binding/generation fails
+        if self.id is not None:
+            glDeleteBuffers(1, [self.id])
+            self.id = None
 
     def bind(self):
         glBindBuffer(self.target, self.id)
@@ -203,11 +226,3 @@ class VertexBufferObject(AbstractBuffer):
         self.bind()
         glBufferData(self.target, data, self.usage)
         self.unbind()
-
-    def delete(self):
-        glDeleteBuffers(1, [self.id])
-        self.id = None
-
-
-class AttribArray:
-    pass

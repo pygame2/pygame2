@@ -66,6 +66,12 @@ class Sprite(EventDispatcher, Animated):
     the exception to the above statement would be when each animation frame
     is the same size as the rest.  in this case, it would be acceptable
     to simply change the texture that the sprite refers to.
+
+    Right now, sprites are very inefficient:
+        1 vao per object
+        1 vbo per object
+
+    sprites and sprite objects should share a vao
     """
 
     def __init__(self, texture=None):
@@ -75,11 +81,12 @@ class Sprite(EventDispatcher, Animated):
         self.scale = 1.0, 1.0  # unused for now
         self.shear = None      # unused for now
         self.vbo = None
+        self.vao = None
         self.texture = texture
 
         # TODO: fix the rect stuff below
         self.rect = Rect(0, 0, 1, 1)
-        self.update_transform()
+        # self.update_transform()
 
     def add_internal(self, group):
         self._groups.add(group)
@@ -91,7 +98,11 @@ class Sprite(EventDispatcher, Animated):
         """ update VBO when affected by transforms or rotations
         :return: None
         """
+        # self.vao = VertexArrayObject()
+        # self.vao.bind()
         self.vbo = new_quad_vbo(self.rect, self.rotation)
+        # glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 0, None)
+        # glEnableVertexAttribArray(0)
 
     def kill(self):
         """remove the Sprite from all Groups
