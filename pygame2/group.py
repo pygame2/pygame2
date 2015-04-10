@@ -115,7 +115,6 @@ class OrderedGroup(AbstractGroup):
             member.remove_internal(self)
             self.remove_internal(member)
 
-    # support render order operations
     def move_to_back(self, member):
         self._members.move_to_end(member, 1)
 

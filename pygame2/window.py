@@ -14,7 +14,7 @@ from OpenGL.GL import *
 __all__ = ('WindowBase', )
 
 
-# TODO: unit testing fails when instanceing widow because of ABCMeta
+# TODO: unit testing fails when instancing widow because of ABCMeta
 # class WindowBase(EventDispatcher, metaclass=ABCMeta):
 class WindowBase(EventDispatcher):
     """Platform independent window
@@ -114,6 +114,7 @@ class WindowBase(EventDispatcher):
         """
         raise NotImplementedError
 
+    @staticmethod
     def clear(self):
         # TODO: enable graphics plugins, currently stuck at opengl
         # TODO: move to graphics package

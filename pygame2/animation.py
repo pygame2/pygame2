@@ -1,5 +1,7 @@
 """
-WIP module, currently needs to be ported from pygame
+Animation class is used to change numeric object attributes over time
+Includes the 'Animated' class, meant to be used as a shortcut to
+animation aware classes.
 """
 from pygame2.event import EventDispatcher
 from math import sqrt, cos, sin, pi
