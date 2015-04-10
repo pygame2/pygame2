@@ -14,8 +14,6 @@ import sdl2
 from sdl2 import video
 import sdl2.ext
 
-from OpenGL.GL import *
-
 __all__ = ('PlatformEventQueue', 'Window')
 
 
@@ -55,7 +53,6 @@ class PlatformEventQueue(PlatformEventQueueBase):
 
 
 class Window(WindowBase):
-
     __events__ = ('on_draw', 'on_close')
 
     def __init__(self, **kwargs):

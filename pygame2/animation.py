@@ -1,5 +1,5 @@
 """
-WIP module, curently needs to be ported from pygame
+WIP module, currently needs to be ported from pygame
 """
 from pygame2.event import EventDispatcher
 from math import sqrt, cos, sin, pi

@@ -1,5 +1,4 @@
 from pygame2.core import core_modules
-from pygame2.graphics import Texture
 
 __all__ = (
     'ImageLoaderBase',

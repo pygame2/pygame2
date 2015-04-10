@@ -7,7 +7,9 @@ core_providers = dict()
 import logging
 
 from . import audio
+from . import graphics
 from . import image
+from . import input
 from . import platform
 
 

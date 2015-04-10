@@ -38,8 +38,6 @@ import queue
 import logging
 from collections import deque
 
-import pygame2
-
 
 __all__ = (
     "EventLoop",

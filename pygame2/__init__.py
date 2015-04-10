@@ -9,18 +9,11 @@ from . import clock
 from . import core
 from . import display
 from . import event
-from . import graphics
 from . import group
 from . import renderer
 from . import screen
 from . import sprite
 from . import surface
-
-
-# This section below disables error checking for better performance
-import OpenGL
-
-OpenGL.ERROR_CHECKING = True
 
 
 # TODO: MAKE SURE THIS STUFF ISN'T CALLED A BUNCH OF TIMES
