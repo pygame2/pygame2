@@ -14,7 +14,9 @@ from OpenGL.GL import *
 __all__ = ('WindowBase', )
 
 
-class WindowBase(EventDispatcher, metaclass=ABCMeta):
+# TODO: unit testing fails when instanceing widow because of ABCMeta
+# class WindowBase(EventDispatcher, metaclass=ABCMeta):
+class WindowBase(EventDispatcher):
     """Platform independent window
     """
     _resolution = None
