@@ -22,6 +22,9 @@ scramble to "get it right" if and when the time comes that pygame2
 catches on. We'll have documentation, test coverage and continuous
 integration from day one.
 
+.. automodule:: pygame2
+
+
 TODO
 ====
 
