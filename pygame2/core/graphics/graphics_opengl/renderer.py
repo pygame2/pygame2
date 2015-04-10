@@ -8,7 +8,7 @@ import numpy
 from pygame2.renderer import SpriteRendererBase
 from .sprite import Sprite
 from .texture import Texture
-from .misc import create_program
+from .program import create_program
 from .vbo import VertexBufferObject
 
 
