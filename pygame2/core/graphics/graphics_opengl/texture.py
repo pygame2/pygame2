@@ -1,5 +1,7 @@
 from OpenGL.GL import *
 
+__all__ = ('Texture', )
+
 mipmaps = 0
 
 # TODO: MIPMAPS.  there is some code to support is, but isn't complete

@@ -64,7 +64,7 @@ class PlatformEventQueue(PlatformEventQueueBase):
         self.platform_event_loop.start()
 
     def get(self, event_filter=None):
-        timeout = .01
+        timeout = .005
         self.platform_event_loop.notify()
         self.platform_event_loop.step(timeout)
         # sleep isn't implemented on os x, yet

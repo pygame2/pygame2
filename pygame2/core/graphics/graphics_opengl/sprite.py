@@ -14,6 +14,7 @@ from OpenGL.GL import *
 from pygame2.animation import Animated
 from pygame2.event import EventDispatcher
 from pygame2.rect import Rect
+from .vbo import VertexBufferObject
 
 
 __all__ = ('Sprite', )

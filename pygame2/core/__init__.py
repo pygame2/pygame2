@@ -27,9 +27,10 @@ def load_modules():
                 yield importlib.import_module(path)
                 logger.warn("imported: %s", path)
             except ImportError:
-                # import traceback
+                import traceback
+
                 logger.warn('cannot import %s', path)
-                # traceback.print_exc()
+                traceback.print_exc()
 
     for name in list(core_modules.keys()):
         providers = core_modules[name]

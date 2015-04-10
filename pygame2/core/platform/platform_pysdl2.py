@@ -1,14 +1,33 @@
 """
 PySDL2 based platform
 """
+import pygame2
 from pygame2.event import PlatformEventQueueBase
 from pygame2.window import WindowBase
 
 # inform pysdl2 to look for the shared lib in the folder
 # where this platform plugin is located
 import os
+import platform
 
-os.environ['PYSDL2_DLL_PATH'] = os.path.dirname(__file__)
+
+def load_sdl2_dll():
+    import struct
+
+    def is_python_64bit():
+        return struct.calcsize("P") == 8
+
+    if is_python_64bit():
+        sdl2_library_folder = "win64"
+    else:
+        sdl2_library_folder = "win32"
+
+    os.environ['PYSDL2_DLL_PATH'] = os.path.join(
+        pygame2.__file__, 'libs', 'sdl2', sdl2_library_folder)
+
+
+if platform.system() == "Windows":
+    load_sdl2_dll()
 
 import sdl2
 from sdl2 import video

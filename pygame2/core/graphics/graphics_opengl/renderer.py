@@ -3,14 +3,34 @@ As is, this sprite/group implementation will only
 work with the pyglet backend
 """
 from OpenGL.GL import *
+import numpy
 
 from pygame2.renderer import SpriteRendererBase
 from .sprite import Sprite
 from .texture import Texture
-from . import create_program
+from .misc import create_program
+from .vbo import VertexBufferObject
 
 
 __all__ = ('SpriteRenderer', )
+
+
+def generate_tex_coords():
+    """ Generate a VBO that describes texture coordinates.
+
+    This VBO shouldn't need to be changed.  Automatically flips images.
+
+    :return: VBO
+    """
+    quad_texcoords = numpy.array([
+        0.0, 0.0,
+        1.0, 0.0,
+        0.0, 1.0,
+        1.0, 1.0,
+    ], dtype='float32')
+
+    vbo = VertexBufferObject(quad_texcoords, GL_ARRAY_BUFFER, GL_STATIC_DRAW)
+    return vbo
 
 
 class SpriteRenderer(SpriteRendererBase):
