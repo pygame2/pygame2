@@ -1,7 +1,6 @@
 from OpenGL.GL import *
 
 
-
 # TODO: move into gl.info?
 def get_opengl_version():
     return glGetInteger(GL_MAJOR_VERSION), glGetInteger(GL_MINOR_VERSION)

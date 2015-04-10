@@ -17,7 +17,7 @@ will only be necessary to change the graphics module.
 # declare our graphics provider
 from pygame2.core import core_modules
 
-core_modules['graphics'] = ('graphics_opengl', )
+core_modules['graphics'] = ('graphics_pyopengl', )
 
 import OpenGL
 

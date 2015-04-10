@@ -4,7 +4,7 @@ __all__ = ['create_renderer', 'NoGraphicsBackend']
 
 
 # declare audio providers
-core_modules['graphics'] = ('graphics_opengl', )
+core_modules['graphics'] = ('graphics_pyopengl', )
 
 
 class NoGraphicsBackend(Exception):
