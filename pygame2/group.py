@@ -1,10 +1,12 @@
 from collections import OrderedDict
+
 from pygame2.event import EventDispatcher
+
 
 __all__ = ('SpriteGroupBase', 'SpriteGroupSetList')
 
 
-class SpriteGroupBase(EventDispatcher):
+class AbstractGroup(EventDispatcher):
     """ AKA "renderer"
     """
 
@@ -17,10 +19,10 @@ class SpriteGroupBase(EventDispatcher):
     def __iter__(self):
         raise NotImplementedError
 
-    def add_internal(self, sprite):
+    def add_internal(self, member):
         raise NotImplementedError
 
-    def remove_internal(self, sprite):
+    def remove_internal(self, member):
         raise NotImplementedError
 
     def sprites(self):
@@ -38,18 +40,18 @@ class SpriteGroupBase(EventDispatcher):
         """
         raise NotImplementedError
 
-    def add(self, sprite):
-        """Add one sprite to the group
+    def add(self, member):
+        """Add one member to the group
 
-        :param sprite: Sprite
+        :param member: Member
         :return: None
         """
         raise NotImplementedError
 
-    def remove(self, sprite):
-        """Remove one sprite from the group
+    def remove(self, member):
+        """Remove one member from the group
 
-        :param sprite: Sprite
+        :param member: Member
         :return: None
         """
         raise NotImplementedError
@@ -66,55 +68,8 @@ class SpriteGroupBase(EventDispatcher):
         pass
 
 
-class SpriteGroupSetList(SpriteGroupBase):
-    """ Mix list and set
-
-    AKA "renderer"
-    """
-
-    def __init__(self):
-        super().__init__()
-        self._members = set()
-        self._order = list()
-
-    def __contains__(self, item):
-        return item in self._members
-
-    def __len__(self):
-        return len(self._members)
-
-    def __iter__(self):
-        return list(self._order)
-
-    def add_internal(self, sprite):
-        self._members.add(sprite)
-        self._order.append(sprite)
-
-    def remove_internal(self, sprite):
-        self._members.remove(sprite)
-        self._order.remove(sprite)
-
-    def sprites(self):
-        return list(self._members)
-
-    def add(self, sprite):
-        if sprite not in self._members:
-            self.add_internal(sprite)
-            sprite.add_internal(self)
-
-    def remove(self, sprite):
-        if sprite in self._members:
-            self.remove_internal(sprite)
-            sprite.remove_internal(self)
-
-    def clear(self):
-        for sprite in list(self._members):
-            sprite.remove_internal(self)
-            self.remove_internal(sprite)
-
-
-class SpriteGroupBase(SpriteGroupBase):
-    """OrderedDict
+class OrderedGroup(AbstractGroup):
+    """ Ordered container object optimized for speed and ease of use
     """
 
     def __init__(self):
@@ -130,33 +85,75 @@ class SpriteGroupBase(SpriteGroupBase):
     def __iter__(self):
         return self._members.keys()
 
-    def add_internal(self, sprite):
-        self._members[sprite] = 0
+    def add_internal(self, member):
+        self._members[member] = 0
 
-    def remove_internal(self, sprite):
-        del self._members[sprite]
+    def remove_internal(self, member):
+        del self._members[member]
 
     def sprites(self):
         return self._members.keys()
 
-    def add(self, sprite):
-        if sprite not in self._members:
-            self.add_internal(sprite)
-            sprite.add_internal(self)
+    def add(self, member):
+        if member not in self._members:
+            self.add_internal(member)
+            member.add_internal(self)
 
-    def remove(self, sprite):
-        if sprite in self._members.keys():
-            self.remove_internal(sprite)
-            sprite.remove_internal(self)
+    def extend(self, sequence):
+        for member in sequence:
+            if member not in self._members:
+                self.add_internal(member)
+                member.add_internal(self)
+
+    def remove(self, member):
+        if member in self._members.keys():
+            self.remove_internal(member)
+            member.remove_internal(self)
 
     def clear(self):
-        for sprite in self._members.keys():
-            sprite.remove_internal(self)
-            self.remove_internal(sprite)
+        for member in self._members.keys():
+            member.remove_internal(self)
+            self.remove_internal(member)
 
     # support render order operations
-    def move_sprite_to_back(self, sprite):
-        self._members.move_to_end(sprite, 1)
+    def move_to_back(self, member):
+        self._members.move_to_end(member, 1)
 
-    def move_sprite_to_front(self, sprite):
-        self._members.move_to_end(sprite, 0)
+    def move_to_front(self, member):
+        self._members.move_to_end(member, 0)
+
+
+class GroupMember:
+    """ class to be added to groups.  adds nice api for insertion and deletion
+    """
+
+    def __init__(self):
+        self._groups = set()
+
+    def add_internal(self, group):
+        self._groups.add(group)
+
+    def remove_internal(self, group):
+        self._groups.remove(group)
+
+    def kill(self):
+        """remove the Member from all Groups
+        Member.kill(): return None
+
+        The Member is removed from all the Groups that contain it. This won't
+        change anything about the state of the Member. It is possible to
+        continue
+        to use the Member after this method has been called, including adding it
+        to Groups.
+        """
+        for g in list(self._groups):
+            g.remove_internal(self)
+        self._groups.clear()
+
+    def groups(self):
+        """list of Groups that contain this Member
+        Member.groups(): return group_list
+
+        Return a list of all the Groups that contain this Member.
+        """
+        return list(self._groups)

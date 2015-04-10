@@ -1,9 +1,12 @@
 """
-TODO: make some base class for the renderer
+Mostly, it will be the graphics backend that implements rendering
 """
-from pygame2.group import SpriteGroupBase
+from pygame2.group import OrderedGroup
 from abc import ABCMeta, abstractclassmethod
 
 
-class SpriteRendererBase(SpriteGroupBase, metaclass=ABCMeta):
-    pass
+class SpriteRendererBase(OrderedGroup, metaclass=ABCMeta):
+
+    @abstractclassmethod
+    def draw(self):
+        raise NotImplementedError

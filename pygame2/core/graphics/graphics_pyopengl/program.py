@@ -7,6 +7,7 @@ __all__ = ('create_program', )
 
 def create_program(shaders):
     """create program and link shaders
+
     :param shaders: list, (filename, type) tuples
     """
     program_id = glCreateProgram()
