@@ -1,0 +1,22 @@
+Pygame2 App Layout v1.1
+
+* GameName
+* README.md
+* LICENSE
+* ATTRIBUTIONS
+* requirements.txt <-- use specifically for managing pygame2 components, but also useful for bootstrapping a dev environment from pypi with 3rd party deps.
+* setup.py  <-- may not stick, depends on our deployment strategy
+* setup.cfg  <-- may not stick, depends on the test runner we choose
+** tests
+*** test_gamename.py  <-- One @skipped unit test as an example.
+** gamename
+*** __init__.py
+*** __main__.py  <-- Main entry point for the game is here
+*** cli.py  <-- Standard implementation of entry point using argparse. Includes code for reading your configuration files.
+** assets
+*** images
+*** sounds
+*** music <-- optional
+*** data
+*** misc
+**** defaults.ini <-- we need to pick a conf format. I like INI, but XML is better for certain things. This requires debate
