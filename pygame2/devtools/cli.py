@@ -1,4 +1,14 @@
 
+from os import makedirs, utime
+from os.path import join, exists
+
+
+def touch(fname):
+    if exists(fname):
+        utime(fname, None)
+    else:
+        open(fname, 'a').close()
+
 
 class CommandLineInterface(object):
 
@@ -20,10 +30,60 @@ class CommandLineInterface(object):
 
 class Command(object):
 
-    def add_command(self, arg_parser):
+    def add_command(self, arg_parser):  # pragma: no cover
+        pass
+
+    def execute(self, args):  # pragma: no cover
+        pass
+
+    def should_execute(self, args):  # pragma: no cover
         pass
 
     
-class InitCommand(object):
-    pass
+class InitCommand(Command):
 
+    INIT_HELP_TEXT = "Create a new pygame2 game skeleton project."
+    PROJECT_NAME_HELP_TEXT = "The name of your new project. It should use Pascal case. ex. RemoteLawnmowerUltra."
+
+    DIRS = [("{{PROJECT_NAME}}", "{{project_name}}"),
+            ("{{PROJECT_NAME}}", "tests"),
+            ("{{PROJECT_NAME}}", "assets", "images"),
+            ("{{PROJECT_NAME}}", "assets", "sounds"),
+            ("{{PROJECT_NAME}}", "assets", "music"),
+            ("{{PROJECT_NAME}}", "assets", "data"),
+            ("{{PROJECT_NAME}}", "assets", "misc")]
+
+    FILES = [("{{PROJECT_NAME}}", "README.md"),
+             ("{{PROJECT_NAME}}", "LICENSE"),
+             ("{{PROJECT_NAME}}", "ATTRIBUTIONS"),
+             ("{{PROJECT_NAME}}", "requirements.txt"),
+             ("{{PROJECT_NAME}}", "setup.py"),
+             ("{{PROJECT_NAME}}", "setup.cfg"),
+             ("{{PROJECT_NAME}}", "test", "test_{{project_name}}.py"),
+             ("{{PROJECT_NAME}}", "{{project_name}}", "__init__.py"),
+             ("{{PROJECT_NAME}}", "{{project_name}}", "__main__.py"),
+             ("{{PROJECT_NAME}}", "{{project_name}}", "cli.py") ]
+    
+    def add_command(self, arg_parser):
+        arg_parser.add_argument("init", action="store_true", help=self.INIT_HELP_TEXT)
+        arg_parser.add_argument("project-name", help=self.PROJECT_NAME_HELP_TEXT)
+    
+    def should_execute(self, args):
+        return args.init
+
+    def execute(self, args):
+        for d in self.DIRS:
+            templated = self.replace_tokens(d, args)
+            makedirs(join(*templated))
+
+        for f in self.FILES:
+            templated = self.replace_tokens(f, args)
+            touch(join(*templated))
+
+    def replace_tokens(self, segments, args):
+        output = list()
+        for s in segments:
+            s = s.replace("{{PROJECT_NAME}}", args.project_name)
+            s = s.replace("{{project_name}}", args.project_name.lower())
+            output.append(s)
+        return tuple(output)
