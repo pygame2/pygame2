@@ -7,6 +7,7 @@ def touch(fname):
     if exists(fname):
         utime(fname, None)
     else:
+        print("Creating %s" % fname)
         open(fname, 'a').close()
 
 
@@ -79,13 +80,16 @@ class InitCommand(Command):
         return args.init
 
     def execute(self, args):
+        print("Generating pygame project %s" % args.project_name)
         self.create_directories(args)
         self.create_files(args)
 
     def create_directories(self, args):
         for d in self.DIRS:
             templated = self.replace_tokens(d, args)
-            makedirs(join(*templated))
+            path = join(*templated)
+            print("Creating %s" % path)
+            makedirs(path)
 
     def create_files(self, args):
         for f in self.FILES:
