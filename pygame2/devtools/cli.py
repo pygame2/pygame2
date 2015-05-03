@@ -10,6 +10,12 @@ def touch(fname):
         open(fname, 'a').close()
 
 
+def create_command_line_interface(arg_parser):
+    cli = CommandLineInterface(arg_parser)
+    cli.add_command(InitCommand())
+    return cli
+
+
 class CommandLineInterface(object):
 
     def __init__(self, arg_parser):
@@ -59,23 +65,29 @@ class InitCommand(Command):
              ("{{PROJECT_NAME}}", "requirements.txt"),
              ("{{PROJECT_NAME}}", "setup.py"),
              ("{{PROJECT_NAME}}", "setup.cfg"),
-             ("{{PROJECT_NAME}}", "test", "test_{{project_name}}.py"),
+             ("{{PROJECT_NAME}}", "tests", "test_{{project_name}}.py"),
              ("{{PROJECT_NAME}}", "{{project_name}}", "__init__.py"),
              ("{{PROJECT_NAME}}", "{{project_name}}", "__main__.py"),
              ("{{PROJECT_NAME}}", "{{project_name}}", "cli.py") ]
     
     def add_command(self, arg_parser):
-        arg_parser.add_argument("init", action="store_true", help=self.INIT_HELP_TEXT)
-        arg_parser.add_argument("project-name", help=self.PROJECT_NAME_HELP_TEXT)
+        subparsers = arg_parser.add_subparsers(help="init", dest="init")
+        subparser = subparsers.add_parser("init", help=self.INIT_HELP_TEXT)
+        subparser.add_argument("project_name", help=self.PROJECT_NAME_HELP_TEXT)
     
     def should_execute(self, args):
         return args.init
 
     def execute(self, args):
+        self.create_directories(args)
+        self.create_files(args)
+
+    def create_directories(self, args):
         for d in self.DIRS:
             templated = self.replace_tokens(d, args)
             makedirs(join(*templated))
 
+    def create_files(self, args):
         for f in self.FILES:
             templated = self.replace_tokens(f, args)
             touch(join(*templated))

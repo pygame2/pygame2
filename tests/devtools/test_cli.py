@@ -5,7 +5,7 @@ from mock import Mock, call, patch
 from argparse import ArgumentParser
 from collections import namedtuple
 
-from pygame2.devtools.cli import CommandLineInterface, Command, InitCommand
+from pygame2.devtools.cli import CommandLineInterface, Command, InitCommand, create_command_line_interface
 
 
 class CommandLineInterfaceTestCase(TestCase):
@@ -75,18 +75,16 @@ class InitCommandTestCase(TestCase):
     def setUp(self):
         self.command = InitCommand()
 
-    def test_when_added_should_add_init_arg(self):
+    def test_when_added_should_add_init_subparser(self):
         parser = Mock(spec=ArgumentParser)
         self.command.add_command(parser)
-        expected = call("init", action="store_true", help=InitCommand.INIT_HELP_TEXT)
-        parser.add_argument.assert_has_calls(expected)
+        parser.add_subparsers.assert_called_with(help="init", dest="init")
 
     def test_when_added_should_add_project_name_arg(self):
         parser = Mock(spec=ArgumentParser)
         self.command.add_command(parser)
-        expected = call("project-name",
-                        help=InitCommand.PROJECT_NAME_HELP_TEXT)
-        parser.add_argument.assert_has_calls(expected)
+        parser.add_subparsers.return_value.add_parser.assert_called_with(
+            "init", help=InitCommand.INIT_HELP_TEXT)
 
     def test_when_init_is_true_in_args_should_execute(self):
         args = namedtuple("Args", ["init"])(True)
@@ -122,8 +120,24 @@ class InitCommandTestCase(TestCase):
             call(join("FooBar", "requirements.txt")),
             call(join("FooBar", "setup.py")),
             call(join("FooBar", "setup.cfg")),
-            call(join("FooBar", "test", "test_foobar.py")),
+            call(join("FooBar", "tests", "test_foobar.py")),
             call(join("FooBar", "foobar", "__init__.py")),
             call(join("FooBar", "foobar", "__main__.py")),
             call(join("FooBar", "foobar", "cli.py"))
         ])
+
+
+class create_command_line_interface_TestCase(TestCase):
+
+    def setUp(self):
+        self.cli = create_command_line_interface(Mock(spec=ArgumentParser))
+
+    def assertAddedCommand(self, expected):
+        for command in self.cli.commands:
+            if isinstance(command, expected):
+                return
+        self.fail("Failed to add" + expected.__class__)        
+
+    def test_should_add_init_command(self):
+        self.assertAddedCommand(InitCommand)
+
