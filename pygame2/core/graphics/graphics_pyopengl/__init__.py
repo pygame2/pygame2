@@ -1,5 +1,5 @@
 """
-The end result of this work will be a grpahics system that works
+The end result of this work will be a graphics system that works
 with modular backends.  OpenGL is in development, other will follow
 OpenGL is very unstable right now.
 

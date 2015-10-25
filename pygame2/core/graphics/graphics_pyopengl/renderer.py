@@ -103,7 +103,9 @@ class SpriteRenderer(SpriteRendererBase):
         for sprite in self.sprites():
             self.set_texture(sprite.texture)
 
+            # bind the vbo and render the group's texture to these coords
             sprite.vbo.bind()
+            glVertexAttribPointer(attr, 2, GL_FLOAT, GL_FALSE, 0, None)
 
             # draw
             glDrawArrays(self.mode, 0, 4)
@@ -118,8 +120,8 @@ class SpriteRenderer(SpriteRendererBase):
         glUniform1i(uniform_id, 0)
 
         # for attr, vbo in self._attr.items():
-        # glEnableVertexAttribArray(attr)
-        # vbo.bind()
+        #     glEnableVertexAttribArray(attr)
+        #     vbo.bind()
         #     glVertexAttribPointer(attr, 3, GL_FLOAT, GL_FALSE, 0, None)
 
         # set the texture coordinates
@@ -132,15 +134,6 @@ class SpriteRenderer(SpriteRendererBase):
     def set_texture(self, texture):
         target = texture.target
         glEnable(target)
-
-        # linear filters, not sure if needed here, since it
-        # is already set in the texture
-        # glTexParameterf(target, GL_TEXTURE_MIN_FILTER, GL_LINEAR)
-
-        # uncomment below for pixelated look
-        # glTexParameterf(target, GL_TEXTURE_MIN_FILTER, GL_NEAREST)
-        # glTexParameteri(target, GL_TEXTURE_MAG_FILTER, GL_NEAREST)
-
         glEnable(GL_BLEND)
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA)
         glActiveTexture(GL_TEXTURE0)

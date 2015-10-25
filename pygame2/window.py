@@ -114,7 +114,6 @@ class WindowBase(EventDispatcher):
         """
         raise NotImplementedError
 
-    @staticmethod
     def clear(self):
         # TODO: enable graphics plugins, currently stuck at opengl
         # TODO: move to graphics package

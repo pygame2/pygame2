@@ -40,7 +40,7 @@ class Animation(EventDispatcher):
         ani.start(sprite)
 
     If you would rather specify relative values, then pass the
-    relative keyword, and the values will be adjusted for you:
+    relative keyword and the values will be adjusted for you:
         ani = Animation(x=100, y=100, duration=1000, relative=True)
 
     You can also specify a callback that will be executed when the
@@ -75,6 +75,7 @@ class Animation(EventDispatcher):
           for all target names in the constructor.  This
           limitation won't be resolved for a while.
     """
+    default_duration = 1.
     default_transition = 'out_quad'
     __events__ = ('on_start', 'on_update', 'on_finish')
 
@@ -88,10 +89,10 @@ class Animation(EventDispatcher):
         self._state = ANIMATION_NOT_STARTED
         self._elapsed = 0.
         self._delay = kwargs.get('delay', 0.)
-        self._duration = float(kwargs.get('duration', 1.))
-        self._initial = kwargs.get('initial', None)
         self._round_values = kwargs.get('round_values', False)
+        self._duration = float(kwargs.get('duration', self.default_duration))
         self._transition = kwargs.get('transition', self.default_transition)
+        self._initial = kwargs.get('initial', None)
         if kwargs.get('relative', False):
             kwargs['_relative'] = True
         if isinstance(self._transition, str):
@@ -198,9 +199,6 @@ class Animation(EventDispatcher):
 
     def finish(self):
         """Force the animation to finish
-
-        The callbck will be called here.
-        The update callback will also be called here.
 
         Final values will be applied
 

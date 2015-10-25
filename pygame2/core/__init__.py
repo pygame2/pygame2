@@ -5,13 +5,13 @@ core_modules = dict()
 core_providers = dict()
 
 import logging
+import traceback
 
 from . import audio
 from . import graphics
 from . import image
 from . import input
 from . import platform
-
 
 logger = logging.getLogger('pygame2.core')
 
@@ -27,8 +27,6 @@ def load_modules():
                 yield importlib.import_module(path)
                 logger.warn("imported: %s", path)
             except ImportError:
-                import traceback
-
                 logger.warn('cannot import %s', path)
                 traceback.print_exc()
 

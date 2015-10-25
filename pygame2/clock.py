@@ -1,5 +1,6 @@
 import collections
 import time
+from operator import attrgetter
 from heapq import heappush, heapify, heappop, heappushpop
 
 __all__ = (
@@ -48,7 +49,7 @@ class Scheduler:
         self._last_ts = -1
         self._times = collections.deque(maxlen=10)
         self._scheduled_items = list()
-        self._next_tick_items = list()
+        self._every_tick_items = list()
         self.cumulative_time = 0.0
 
     def _get_nearest_ts(self):
@@ -59,7 +60,7 @@ class Scheduler:
         last_ts = self._last_ts
         ts = self._time()
         if ts - last_ts > 0.2:
-            last_ts = ts
+            return ts
         return last_ts
 
     def _get_soft_next_ts(self, last_ts, interval):
@@ -67,14 +68,35 @@ class Scheduler:
             """Return True if the given time has already got an item
             scheduled nearby.
             """
-            for item in self._scheduled_items:
-                if item.next_ts is None:
-                    continue
-                elif abs(item.next_ts - ts) <= e:
+            # TODO this function is slow and called very often.  optimise it, maybe?
+            for item in sorted_items:
+                if abs(item.next_ts - ts) <= e:
                     return True
                 elif item.next_ts > ts + e:
                     return False
+
             return False
+
+        # sorted list is required required to produce expected results
+        # taken() will iterate through the heap, expecting it to be sorted
+        # and will not always catch smallest value, so create a sorted variant here
+        # NOTE: do not rewrite as popping from heap, as that is super slow!
+        sorted_items = sorted(self._scheduled_items, key=attrgetter('next_ts'))
+
+        # Binary division over interval:
+        #
+        # 0                          interval
+        # |--------------------------|
+        #   5  3   6   2   7  4  8   1          Order of search
+        #
+        # i.e., first scheduled at interval,
+        #       then at            interval/2
+        #       then at            interval/4
+        #       then at            interval*3/4
+        #       then at            ...
+        #
+        # Schedule is hopefully then evenly distributed for any interval,
+        # and any number of scheduled functions.
 
         next_ts = last_ts + interval
         if not taken(next_ts, interval / 4):
@@ -155,8 +177,8 @@ class Scheduler:
 
         item = ScheduledItem(func, last_ts, next_ts, interval)
         if next_ts == 0.0:
-            self._next_tick_items.append(item)
-            if len(self._next_tick_items) > 10:
+            self._every_tick_items.append(item)
+            if len(self._every_tick_items) > 10:
                 raise RuntimeError
         else:
             heappush(self._scheduled_items, item)
@@ -230,90 +252,83 @@ class Scheduler:
         :rtype: bool
         :return: True if any functions were called, otherwise False.
         """
-        scheduled_items = self._scheduled_items
         now = self._last_ts
-        result = False
+        result = False  # flag indicates if any function was called
 
-        # handle items scheduled for next tick
-        if self._next_tick_items:
+        # handle items scheduled for every tick
+        if self._every_tick_items:
             result = True
-            for item in list(self._next_tick_items):
-                retval = item.func(dt)
-                # do not change the following line to "if not retval"!
-                # some items will return None, but False is a special value
-                if retval == False:
-                    self._next_tick_items.remove(item)
+            # duplicate list in case event unschedules itself
+            for item in list(self._every_tick_items):
+                if item.func(dt) is False:
+                    self._every_tick_items.remove(item)
 
         # check the next scheduled item that is not called each tick
         # if it is scheduled in the future, then exit
+        interval_items = self._scheduled_items
         try:
-            item = scheduled_items[0]
-            if item.next_ts > now:
+            if interval_items[0].next_ts > now:
                 return result
+
+        # raised when the interval_items list is empty
         except IndexError:
             return result
 
-        # we have at least one item that is due to be called
-        result = True
+        # NOTE: there is no special handling required to manage things
+        #       that are scheduled during this loop, due to the heap
+        item = None
         get_soft_next_ts = self._get_soft_next_ts
-
-        # wherever this value is true the current item will be pushed
-        # into the heap.  it essentially means that the current
-        # scheduled item is important and needs stay scheduled.
-        replace = False
-
-        while scheduled_items:
-
-            # get the next item to be called
-            head = scheduled_items[0]
-
-            # if next item is scheduled in the future then exit while
-            # taking care of the heap
-            if head.next_ts > now:
-                if replace:
-                    heappush(scheduled_items, item)
-                replace = False
-                break
+        while interval_items:
 
             # the scheduler will hold onto a reference to an item in
             # case it needs to be rescheduled.  it is more efficient
-            # to push and pop the heap in one call than to make two
-            # calls.
-            if replace:
-                item = heappushpop(scheduled_items, item)
+            # to push and pop the heap at once rather than two operations
+            if item is None:
+                item = heappop(interval_items)
             else:
-                item = heappop(scheduled_items)
+                item = heappushpop(interval_items, item)
 
-            # call the function associated with the scheduled item
+            # if next item is scheduled in the future then break
+            if item.next_ts > now:
+                break
+
+            # execute the callback
             retval = item.func(now - item.last_ts)
 
             if item.interval:
-                # callbacks can unschedule themselves by returning false
-                replace = not retval == False
+                # Try to keep timing regular, even if overslept this time;
+                # but don't schedule in the past (which could lead to
+                # infinitely-worsening error).
                 item.next_ts = item.last_ts + item.interval
                 item.last_ts = now
 
-                # the execution time of this item has already passed
-                # so it must be rescheduled
+                # test the schedule for the next execution
                 if item.next_ts <= now:
+                    # the scheduled time of this item has already passed
+                    # so it must be rescheduled
                     if now - item.next_ts < 0.05:
+                        # missed execution time by 'reasonable' amount, so
+                        # reschedule at normal interval
                         item.next_ts = now + item.interval
                     else:
-                        # missed by significant amount, do a soft reschedule
-                        # to avoid lumping everything together
+                        # missed by significant amount, now many events have
+                        # likely missed execution. do a soft reschedule to
+                        # avoid lumping many events together.
                         # in this case, the next dt will not be accurate
                         item.next_ts = get_soft_next_ts(now, item.interval)
                         item.last_ts = item.next_ts - item.interval
+
+                # allow callback to unschedule itself by returning False
+                if retval is False:
+                    item = None
             else:
-                # replace is False, so this item will not be rescheduled
-                replace = False
+                # not an interval, so this item will not be rescheduled
+                item = None
 
-        # it is possible that the loop exited while an important item
-        # was waiting to be pushed into the heap.
-        if replace:
-            heappush(scheduled_items, item)
+        if item is not None:
+            heappush(interval_items, item)
 
-        return result
+        return True
 
     def get_idle_time(self):
         """Get the time until the next item is scheduled.
@@ -322,7 +337,7 @@ class Scheduler:
         :return: Time until the next scheduled event in time units, or ``None``
                  if there is no event scheduled.
         """
-        if self._next_tick_items:
+        if self._every_tick_items:
             return 0.0
 
         try:
@@ -343,18 +358,15 @@ class Scheduler:
 
         :return: None
         """
-
         def remove(list_):
-            resort = False
-            remove_ = list_.remove
-            for i in list(i for i in list_ if i.func is func):
-                remove_(i)
-                resort = True
-            return resort
+            to_remove = list(i for i in list_ if i.func is func)
+            if to_remove:
+                [list_.remove(i) for i in to_remove]
+                return True
+            return False
 
-        remove(self._next_tick_items)
+        remove(self._every_tick_items)
         if remove(self._scheduled_items):
-            # this will restructure the heap
             heapify(self._scheduled_items)
 
 
@@ -399,6 +411,7 @@ class TimeEstimator:
                 # Can happen in pathological case; keep current
                 # gradient/offset for now.
                 pass
+
 
 class Clock(Scheduler):
     """Schedules stuff like a Scheduler, and includes time limiting functions

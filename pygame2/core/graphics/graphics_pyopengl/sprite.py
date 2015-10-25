@@ -22,8 +22,11 @@ def new_quad_vbo(rect, rotation=0):
     x, y, width, height = rect
 
     # TODO: get anchor of rect
-    x1 = 0
-    y1 = 0
+    anchor_x = width / 2.0
+    anchor_y = height / 2.0
+
+    x1 = 0 - anchor_x
+    y1 = 0 - anchor_y
     x2 = x1 + width
     y2 = y1 + height
 
